@@ -274,7 +274,18 @@ nav{position:sticky;top:0;z-index:300;background:var(--dark);height:60px;display
 .prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
 .prod-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .25s;display:flex;flex-direction:column}
 .prod-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.09);transform:translateY(-3px)}
-.prod-img{height:185px;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;font-size:3.2rem;position:relative}
+.prod-img{height:185px;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;font-size:3.2rem;position:relative;overflow:hidden}
+.prod-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.prod-img .prod-emoji{position:relative;z-index:1}
+.img-upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);margin-bottom:.75rem}
+.img-upload-zone:hover{border-color:var(--gold);background:var(--gold-pale)}
+.img-upload-zone input[type=file]{display:none}
+.img-preview{width:100%;height:120px;object-fit:cover;border-radius:var(--radius);margin-bottom:.5rem;display:none}
+.img-preview.visible{display:block}
+.img-upload-label{font-size:.78rem;color:var(--muted);line-height:1.5}
+.img-upload-label strong{color:var(--gold);font-weight:500}
+.apl-thumb{width:36px;height:36px;border-radius:var(--radius);object-fit:cover;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;overflow:hidden}
+.apl-thumb img{width:100%;height:100%;object-fit:cover}
 .prod-badge{position:absolute;top:10px;left:10px;font-size:.63rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;padding:.22rem .6rem;border-radius:2px}
 .badge-hot{background:var(--red);color:#fff}
 .badge-new{background:var(--green);color:#fff}
@@ -648,7 +659,7 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
                   <option value="construction">Construction</option>
                 </select>
               </div>
-              <div class="fg"><label>Icône (emoji)</label><input type="text" id="ap-icon" placeholder="🔌" maxlength="4"></div>
+              <div class="fg"><label>Emoji (si pas de photo)</label><input type="text" id="ap-icon" placeholder="🔌" maxlength="4"></div>
             </div>
             <div class="admin-grid2">
               <div class="fg"><label>Prix (FC) *</label><input type="number" id="ap-price" placeholder="45000" min="1"></div>
@@ -671,6 +682,14 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
               </div>
             </div>
             <div class="fg"><label>Description *</label><textarea id="ap-desc" placeholder="Description courte du produit..."></textarea></div>
+            <div class="fg">
+              <label>Photo du produit</label>
+              <div class="img-upload-zone" onclick="document.getElementById('ap-img-input').click()">
+                <img id="ap-img-preview" class="img-preview" alt="Aperçu">
+                <input type="file" id="ap-img-input" accept="image/*" onchange="previewProductImg(this)">
+                <div class="img-upload-label">📸 Cliquez pour choisir une photo<br><strong>JPG, PNG, WEBP</strong> — max 2 Mo</div>
+              </div>
+            </div>
             <button class="admin-submit" onclick="addProduct()">Ajouter au catalogue</button>
           </div>
         </div>
@@ -742,6 +761,12 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
             <div class="fg"><label>Numéro WhatsApp</label><input type="text" id="cfg-wa" placeholder="243XXXXXXXXX"></div>
             <div class="fg"><label>Taux FC/USD</label><input type="number" id="cfg-rate" placeholder="2800"></div>
             <div class="fg"><label>ID Formspree</label><input type="text" id="cfg-form" placeholder="xpzgvkjr"></div>
+            <div style="border-top:1px solid var(--border);margin:.75rem 0;padding-top:.75rem">
+              <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">☁️ Cloudinary — Stockage images</div>
+              <div class="fg"><label>Cloud Name *</label><input type="text" id="cfg-cld-name" placeholder="ex: dxyz1234"></div>
+              <div class="fg"><label>Upload Preset *</label><input type="text" id="cfg-cld-preset" placeholder="ex: sinocongo_products"></div>
+              <div id="cld-status" style="font-size:.72rem;color:var(--muted);margin-bottom:.5rem;line-height:1.5"></div>
+            </div>
             <button class="admin-submit" onclick="saveConfig()">Enregistrer</button>
           </div>
         </div>
@@ -1040,6 +1065,10 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ══ CONFIG ══
 let WA_NUMBER = '243XXXXXXXXX';
+let CLOUDINARY_NAME = localStorage.getItem('cld_name') || '';
+let CLOUDINARY_PRESET = localStorage.getItem('cld_preset') || '';
+// Restore WA from storage if saved
+try{ const s=localStorage.getItem('wa_number'); if(s) WA_NUMBER=s; }catch(e){}
 let FORMSPREE_ID = 'YOUR_FORM_ID';
 let RATE = 2800;
 let devise = 'FC';
@@ -1170,7 +1199,10 @@ function renderProducts() {
   document.getElementById('prod-count').textContent = list.length+' produit'+(list.length>1?'s':'');
   document.getElementById('prod-grid').innerHTML = list.map(p=>`
     <div class="prod-card">
-      <div class="prod-img">${p.icon}<div class="prod-badge ${p.bClass}">${p.badge}</div></div>
+      <div class="prod-img">
+        ${p.img ? `<img src="${p.img}" alt="${p.name}" loading="lazy">` : `<span class="prod-emoji">${p.icon}</span>`}
+        <div class="prod-badge ${p.bClass}">${p.badge}</div>
+      </div>
       <div class="prod-body">
         <div class="prod-cat-label">${p.cat}</div>
         <div class="prod-name">${p.name}</div>
@@ -1489,13 +1521,14 @@ function checkAdminPwd(){
 function renderAdminProducts(){
   document.getElementById('admin-prod-list').innerHTML=allProducts.slice(0,12).map((p,i)=>`
     <div class="admin-prod-row">
-      <div class="apl-icon">${p.icon}</div>
+      <div class="apl-thumb">${p.img ? `<img src="${p.img}" alt="${p.name}">` : p.icon}</div>
       <div class="apl-info">
         <div class="apl-name">${p.name}</div>
         <div class="apl-meta">${p.cat} · ${formatPrice(p.priceFC)}</div>
       </div>
       <div class="apl-actions">
-        <button class="apl-btn" onclick="editProduct(0)">✏️</button>
+        <button class="apl-btn" title="Changer la photo" onclick="triggerImgUpload(${i})">📸</button>
+        <input type="file" id="img-up-${i}" accept="image/*" style="display:none" onchange="uploadProductImg(this,${i})">
         <button class="apl-btn del" onclick="deleteProduct(${i})">🗑️</button>
       </div>
     </div>`).join('');
@@ -1524,9 +1557,14 @@ function addProduct(){
   const desc=document.getElementById('ap-desc').value.trim();
   if(!name||!price||!desc){showToast('⚠️ Remplissez tous les champs obligatoires.');return;}
   const bClass=badge==='Nouveau'?'badge-new':badge==='Promo'?'badge-promo':'badge-hot';
-  allProducts.push({cat,icon,badge,bClass,name,desc,priceFC:price,isNew});
+  const imgData = window._pendingImg || null;
+  allProducts.push({cat,icon,badge,bClass,name,desc,priceFC:price,isNew,img:imgData});
+  window._pendingImg = null;
   renderProducts(); renderAdminProducts();
   ['ap-name','ap-icon','ap-price','ap-unit','ap-desc'].forEach(id=>document.getElementById(id).value='');
+  const prev = document.getElementById('ap-img-preview');
+  if(prev){ prev.src=''; prev.classList.remove('visible'); }
+  document.querySelector('.img-upload-label').innerHTML = '📸 Cliquez pour choisir une photo<br><strong>JPG, PNG, WEBP</strong> — max 2 Mo';
   showToast('✅ "'+name+'" ajouté au catalogue !');
   switchAdmin('produits',document.querySelectorAll('.admin-menu-item')[0]);
 }
@@ -1534,9 +1572,23 @@ function saveConfig(){
   const wa=document.getElementById('cfg-wa').value.trim();
   const rate=parseInt(document.getElementById('cfg-rate').value);
   const form=document.getElementById('cfg-form').value.trim();
+  const cldName=document.getElementById('cfg-cld-name').value.trim();
+  const cldPreset=document.getElementById('cfg-cld-preset').value.trim();
   if(wa) WA_NUMBER=wa;
   if(rate>0){RATE=rate;renderProducts();renderCart();}
   if(form) FORMSPREE_ID=form;
+  if(cldName) CLOUDINARY_NAME=cldName;
+  if(cldPreset) CLOUDINARY_PRESET=cldPreset;
+  // persist to localStorage so creds survive reload
+  try{
+    if(cldName) localStorage.setItem('cld_name',cldName);
+    if(cldPreset) localStorage.setItem('cld_preset',cldPreset);
+    if(wa) localStorage.setItem('wa_number',wa);
+  }catch(e){}
+  const status=document.getElementById('cld-status');
+  if(status) status.innerHTML = CLOUDINARY_NAME && CLOUDINARY_PRESET
+    ? '✅ Cloudinary configuré — les uploads utiliseront votre compte'
+    : '⚠️ Entrez Cloud Name + Upload Preset pour activer';
   showToast('✅ Configuration enregistrée !');
 }
 
@@ -1552,7 +1604,7 @@ function handleSearch(val){
     dd.innerHTML=results.length===0
       ?`<div class="search-no-result">Aucun résultat pour "${val}"</div>`
       :results.map(p=>`<div class="search-result-item" onclick="selectSearchResult('${p.cat}','${esc(p.name)}')">
-          <div class="sri-icon">${p.icon}</div>
+          <div class="sri-icon" style="overflow:hidden;border-radius:2px">${p.img ? `<img src="${p.img}" style="width:28px;height:28px;object-fit:cover;border-radius:2px">` : p.icon}</div>
           <div class="sri-info"><div class="sri-name">${p.name}</div><div class="sri-cat">${p.cat}</div></div>
           <div class="sri-price">${formatPrice(p.priceFC)}</div>
         </div>`).join('');
@@ -2135,6 +2187,68 @@ async function sendChatMsg(text){
   }
 }
 
+
+
+// ══ IMAGE UPLOAD — CLOUDINARY ══
+async function uploadToCloudinary(file){
+  if(!CLOUDINARY_NAME || !CLOUDINARY_PRESET){
+    // Fallback: base64 local (temp) with warning
+    return new Promise(resolve=>{
+      const reader=new FileReader();
+      reader.onload=e=>resolve({url:e.target.result,local:true});
+      reader.readAsDataURL(file);
+    });
+  }
+  const fd=new FormData();
+  fd.append('file',file);
+  fd.append('upload_preset',CLOUDINARY_PRESET);
+  fd.append('folder','sinocongo');
+  try{
+    const res=await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`,{method:'POST',body:fd});
+    const data=await res.json();
+    if(data.secure_url) return {url:data.secure_url,local:false};
+    throw new Error(data.error?.message||'Upload failed');
+  }catch(err){
+    showToast('❌ Erreur Cloudinary : '+err.message);
+    return null;
+  }
+}
+
+async function previewProductImg(input){
+  if(!input.files||!input.files[0]) return;
+  const file=input.files[0];
+  if(file.size>5*1024*1024){showToast('⚠️ Image trop lourde (max 5 Mo).');return;}
+  const label=document.querySelector('.img-upload-label');
+  const prev=document.getElementById('ap-img-preview');
+  // Show local preview immediately
+  const localUrl=URL.createObjectURL(file);
+  prev.src=localUrl; prev.classList.add('visible');
+  label.innerHTML='⏳ Envoi vers Cloudinary...';
+  const result=await uploadToCloudinary(file);
+  if(!result){label.innerHTML='❌ Échec — réessayez';return;}
+  window._pendingImg=result.url;
+  if(result.local){
+    label.innerHTML='⚠️ Cloudinary non configuré — image temporaire.<br><strong>Configurez Cloudinary dans ⚙️ Config pour la rendre permanente.</strong>';
+  } else {
+    label.innerHTML='✅ Photo uploadée sur Cloudinary — <strong>permanente</strong>';
+  }
+}
+
+function triggerImgUpload(idx){
+  document.getElementById('img-up-'+idx).click();
+}
+
+async function uploadProductImg(input,idx){
+  if(!input.files||!input.files[0]) return;
+  const file=input.files[0];
+  if(file.size>5*1024*1024){showToast('⚠️ Image trop lourde (max 5 Mo).');return;}
+  showToast('⏳ Upload en cours...');
+  const result=await uploadToCloudinary(file);
+  if(!result) return;
+  allProducts[idx].img=result.url;
+  renderProducts(); renderAdminProducts();
+  showToast(result.local?'⚠️ Photo enregistrée localement (temporaire)':'✅ Photo uploadée sur Cloudinary !');
+}
 
 // ══ INIT ══
 renderProducts();
