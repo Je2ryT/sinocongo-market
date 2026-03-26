@@ -1477,18 +1477,15 @@ function checkAdminPwd(){
   if(pwd==='admin123'){
     document.getElementById('admin-pwd-wrap').style.display='none';
     document.getElementById('admin-body').style.display='flex';
-    renderAdminProducts(); renderAdminOrders();
+    // Activate default tab properly through consolidated switchAdmin
+    const firstTab = document.querySelectorAll('.admin-menu-item')[0];
+    switchAdmin('produits', firstTab);
   } else {
     showToast('⚠️ Mot de passe incorrect.');
     document.getElementById('admin-pwd').value='';
   }
 }
-function switchAdmin(section,btn){
-  document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.admin-menu-item').forEach(b=>b.classList.remove('active'));
-  document.getElementById('admin-'+section).classList.add('active');
-  btn.classList.add('active');
-}
+// switchAdmin consolidated below in Phase 3+ section
 function renderAdminProducts(){
   document.getElementById('admin-prod-list').innerHTML=allProducts.slice(0,12).map((p,i)=>`
     <div class="admin-prod-row">
@@ -1510,22 +1507,7 @@ function deleteProduct(i){
     showToast('🗑️ Produit supprimé.');
   }
 }
-function renderAdminOrders(){
-  const statusClass={Reçue:'status-recue',Commandée:'status-commande',Expédiée:'status-expediee',Livrée:'status-livree'};
-  const statuses=['Reçue','Commandée','Expédiée','Livrée'];
-  document.getElementById('admin-order-list').innerHTML=adminOrders.map((o,oi)=>`
-    <div class="order-row">
-      <div class="or-head">
-        <span class="or-id">${o.id}</span>
-        <span class="or-status ${statusClass[o.status]||''}">${o.status}</span>
-      </div>
-      <div class="or-name">${o.name}</div>
-      <div class="or-meta">${o.client} · ${o.ville} · ${o.date}</div>
-      <div class="or-actions">
-        ${statuses.map(s=>`<button class="status-btn ${o.status===s?'active-status':''}" onclick="setOrderStatus(${oi},'${s}')">${s}</button>`).join('')}
-      </div>
-    </div>`).join('');
-}
+// renderAdminOrders consolidated below in Phase 3+ section
 function setOrderStatus(i,status){
   adminOrders[i].status=status;
   renderAdminOrders();
@@ -1904,38 +1886,56 @@ function renderAdminClients(){
     </div>`).join('');
 }
 
-// ── UPGRADE switchAdmin to init tabs ──
-const _origSwitchAdmin = switchAdmin;
+// ── CONSOLIDATED switchAdmin — single definition, handles all tabs ──
+// Replaces the original + all phase overrides
 function switchAdmin(section, btn){
-  _origSwitchAdmin(section, btn);
-  if(section==='notifs'){renderNotifTemplates();}
-  if(section==='dashboard'){renderDashboard();}
-  if(section==='clients'){renderAdminClients();}
+  document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.admin-menu-item').forEach(b=>b.classList.remove('active'));
+  const sec = document.getElementById('admin-'+section);
+  if(sec) sec.classList.add('active');
+  if(btn) btn.classList.add('active');
+  // Tab-specific init
+  if(section==='commandes')  renderAdminOrders();
+  if(section==='produits')   renderAdminProducts();
+  if(section==='notifs')     renderNotifTemplates();
+  if(section==='dashboard')  renderDashboard();
+  if(section==='clients')    renderAdminClients();
+  if(section==='fournisseurs') renderAdminSuppliers();
 }
 
-// ── UPGRADE renderAdminOrders to add notify button ──
-const _origRenderAdminOrders = renderAdminOrders;
+// ── CONSOLIDATED renderAdminOrders — with notify buttons built in ──
 function renderAdminOrders(){
-  _origRenderAdminOrders();
-  // Patch notify buttons onto each order row
-  document.querySelectorAll('.or-actions').forEach((el, i)=>{
-    const notifBtn = document.createElement('button');
-    notifBtn.className = 'status-btn';
-    notifBtn.textContent = '📲 Notifier';
-    notifBtn.style.background = '#e8f9f0';
-    notifBtn.style.borderColor = '#b7e4c7';
-    notifBtn.onclick = ()=>{
-      switchAdmin('notifs', document.querySelectorAll('.admin-menu-item')[3]);
-      setTimeout(()=>{
-        const sel = document.getElementById('notif-order-select');
-        if(sel){ sel.value = i; updateNotifOrder(); }
-      }, 50);
-    };
-    el.appendChild(notifBtn);
-  });
+  const statusClass={Reçue:'status-recue',Commandée:'status-commande',Expédiée:'status-expediee',Livrée:'status-livree'};
+  const statuses=['Reçue','Commandée','Expédiée','Livrée'];
+  const el = document.getElementById('admin-order-list');
+  if(!el) return;
+  el.innerHTML = adminOrders.map((o,oi)=>`
+    <div class="order-row">
+      <div class="or-head">
+        <span class="or-id">${o.id}</span>
+        <span class="or-status ${statusClass[o.status]||''}">${o.status}</span>
+      </div>
+      <div class="or-name">${o.name}</div>
+      <div class="or-meta">${o.client} · ${o.ville} · ${o.date}</div>
+      <div class="or-actions">
+        ${statuses.map(s=>`<button class="status-btn ${o.status===s?'active-status':''}" onclick="setOrderStatus(${oi},'${s}')">${s}</button>`).join('')}
+        <button class="status-btn" style="background:#e8f9f0;border-color:#b7e4c7" onclick="notifyOrder(${oi})">📲 Notifier</button>
+      </div>
+    </div>`).join('');
+}
+function notifyOrder(i){
+  const tabs = document.querySelectorAll('.admin-menu-item');
+  // find the Notifs tab
+  let notifTab = null;
+  tabs.forEach(t=>{ if(t.textContent.includes('Notifs')) notifTab=t; });
+  switchAdmin('notifs', notifTab);
+  setTimeout(()=>{
+    const sel=document.getElementById('notif-order-select');
+    if(sel){ sel.value=i; updateNotifOrder(); }
+  }, 50);
 }
 
-function editProductToast(){showToast('✏️ Édition produit disponible en Phase 4');}
+function editProductToast(){showToast('✏️ Édition produit disponible prochainement.');}
 
 
 
