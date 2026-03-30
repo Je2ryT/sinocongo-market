@@ -370,19 +370,136 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
   .nav-center{max-width:260px}
   .reviews-grid{grid-template-columns:repeat(2,1fr)}
 }
+
+/* ── MOBILE NAV HAMBURGER ── */
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:.4rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);flex-shrink:0}
+.nav-hamburger span{display:block;width:20px;height:2px;background:#ccc;transition:all .3s;border-radius:1px}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{position:fixed;top:60px;left:0;right:0;background:var(--dark);border-bottom:2px solid var(--gold);z-index:299;padding:1rem 1.5rem;display:none;flex-direction:column;gap:.6rem;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.mobile-menu.open{display:flex}
+.mobile-menu-search{position:relative;margin-bottom:.4rem}
+.mobile-menu-search input{width:100%;padding:.55rem 1rem .55rem 2.2rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:#fff;font-family:'DM Sans',sans-serif;font-size:.85rem;border-radius:var(--radius);outline:none}
+.mobile-menu-search input:focus{border-color:var(--gold)}
+.mobile-menu-search .search-icon{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);font-size:.85rem;pointer-events:none}
+.mobile-menu-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.mobile-menu-divider{height:1px;background:rgba(255,255,255,.08);margin:.2rem 0}
+.mobile-nav-btn{flex:1;min-width:calc(50% - .25rem);padding:.6rem .75rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#ccc;font-family:'DM Sans',sans-serif;font-size:.8rem;cursor:pointer;border-radius:var(--radius);text-align:center;transition:all .2s}
+.mobile-nav-btn:hover,.mobile-nav-btn.active-btn{border-color:var(--gold);color:var(--gold)}
+.mobile-nav-btn.gold{background:var(--gold);color:var(--dark);border-color:var(--gold);font-weight:500}
+.mobile-lang-row{display:flex;gap:.4rem;align-items:center}
+.mobile-lang-label{font-size:.68rem;color:#666;letter-spacing:.1em;text-transform:uppercase}
+
 @media(max-width:700px){
-  .section{padding:3rem 1.5rem}
-  .prod-grid{grid-template-columns:1fr}
-  .steps{grid-template-columns:repeat(2,1fr)}.steps::before{display:none}
-  .form-row2{grid-template-columns:1fr}
-  .stats-bar{flex-wrap:wrap}.stat-item{min-width:50%}
-  footer{padding:2rem 1.5rem}
-  .hero-text{padding:3rem 1.5rem}
+  /* Layout */
+  .section{padding:2.5rem 1.25rem}
+  .hero-text{padding:2.5rem 1.25rem}
+  footer{padding:1.75rem 1.25rem;flex-direction:column;align-items:flex-start;gap:.75rem}
+
+  /* Nav — show hamburger, hide most right items */
+  nav{padding:0 1rem;height:56px}
   .nav-center{display:none}
+  .nav-hamburger{display:flex}
   .cart-label{display:none}
+  .devise-toggle{display:none}
+  .user-nav-btn{display:none}
+  .nav-btn{display:none}
+  /* Only show logo, cart icon, hamburger on mobile */
+
+  /* Products */
+  .prod-grid{grid-template-columns:1fr}
+  .prod-card{flex-direction:row;height:auto}
+  .prod-img{width:110px;min-width:110px;height:auto;min-height:110px;border-radius:0;flex-shrink:0}
+  .prod-body{padding:.85rem}
+  .prod-name{font-size:.88rem}
+  .prod-desc{font-size:.75rem;margin-bottom:.6rem;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
+
+  /* Steps */
+  .steps{grid-template-columns:1fr 1fr}.steps::before{display:none}
+  .step{padding:.5rem}
+
+  /* Form */
+  .form-row2{grid-template-columns:1fr}
+  .form-box{padding:1.5rem 1.25rem}
+
+  /* Stats */
+  .stats-bar{flex-wrap:wrap}.stat-item{min-width:50%;border-right:none;border-bottom:1px solid rgba(26,26,26,.1)}
+
+  /* Reviews */
   .reviews-grid{grid-template-columns:1fr}
-  .admin-sidebar{width:130px}
+  .reviews-summary{gap:.75rem}
+  .rating-big{font-size:2.2rem}
+
+  /* Admin */
+  .admin-modal{max-height:100vh;border-radius:0}
+  .admin-sidebar{display:none}
+  .admin-body{flex-direction:column}
+  .admin-mobile-tabs{display:flex;overflow-x:auto;border-bottom:1px solid var(--border);padding:0 .75rem;gap:0;flex-shrink:0;scrollbar-width:none}
+  .admin-mobile-tabs::-webkit-scrollbar{display:none}
+  .admin-mobile-tab{padding:.6rem .85rem;font-size:.75rem;white-space:nowrap;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'DM Sans',sans-serif;transition:all .15s;flex-shrink:0}
+  .admin-mobile-tab.active{color:var(--dark);border-bottom-color:var(--gold)}
   .admin-grid2{grid-template-columns:1fr}
+  .dash-stats{grid-template-columns:1fr 1fr}
+  .admin-content{padding:1rem}
+
+  /* Modals */
+  .modal{max-height:95vh;border-radius:4px 4px 0 0;margin-top:auto}
+  .modal-overlay{align-items:flex-end;padding:0}
+  .pay-modal{border-radius:4px 4px 0 0}
+  .pay-methods{grid-template-columns:1fr 1fr 1fr}
+  .mfg-modal{max-height:95vh;border-radius:4px 4px 0 0;margin-top:auto}
+  .mfg-overlay{align-items:flex-end;padding:0}
+
+  /* Cart */
+  .cart-drawer{width:100vw}
+
+  /* Chat */
+  .chat-window{right:.5rem;left:.5rem;width:auto;bottom:7.5rem}
+  .chat-fab{bottom:4.5rem;right:1rem}
+
+  /* PWA */
+  .pwa-banner{flex-direction:column;align-items:flex-start;gap:.65rem}
+  .pwa-banner-actions{width:100%;justify-content:flex-end}
+
+  /* Manufacturer portal */
+  .mfg-body{padding:1.25rem}
+
+  /* Hero */
+  .hero{min-height:auto}
+  .hero h1{font-size:clamp(1.9rem,7vw,2.5rem)}
+  .hero-pill{font-size:.65rem}
+  .hero-actions{gap:.6rem}
+  .btn-gold,.btn-ghost{padding:.7rem 1.3rem;font-size:.82rem}
+
+  /* Cat tabs scroll */
+  .cat-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+  .cat-tabs::-webkit-scrollbar{display:none}
+  .cat-tab{padding:.75rem 1rem;font-size:.78rem}
+
+  /* Trust pills wrap */
+  .trust-row{gap:.4rem}
+  .trust-pill{font-size:.68rem;padding:.35rem .65rem}
+
+  /* Order section */
+  .order-wrap{gap:1.75rem}
+  .order-left p{font-size:.83rem}
+
+  /* Supplier rows */
+  .supp-row{flex-wrap:wrap;gap:.5rem}
+  .supp-actions{width:100%;justify-content:flex-end}
+
+  /* MFG grid */
+  .mfg-form [style*="grid-template-columns:1fr 1fr"]{display:block !important}
+  .mfg-form [style*="grid-template-columns:1fr 1fr"] .fg{margin-bottom:.85rem}
+}
+
+@media(max-width:400px){
+  .prod-img{width:90px;min-width:90px}
+  .pay-methods{grid-template-columns:1fr 1fr 1fr;gap:.4rem}
+  .pay-method-btn{padding:.65rem .3rem}
+  .pm-icon{font-size:1.1rem}
+  .pm-name{font-size:.65rem}
 }
 
 /* ══ PHASE 3 — COMPTES CLIENTS / PAIEMENT / NOTIFS / DASHBOARD ══ */
@@ -539,6 +656,58 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
   .pwa-banner{flex-direction:column;align-items:flex-start}
   .pwa-banner-actions{width:100%;justify-content:flex-end}
 }
+
+/* ══ MANUFACTURER PORTAL ══ */
+.mfg-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:600;display:none;align-items:center;justify-content:center;padding:1rem}
+.mfg-overlay.open{display:flex}
+.mfg-modal{background:var(--white);border-radius:4px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;display:flex;flex-direction:column}
+.mfg-head{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);background:var(--dark);flex-shrink:0}
+.mfg-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--gold)}
+.mfg-body{padding:1.75rem}
+.mfg-screen{display:none}
+.mfg-screen.active{display:block}
+.mfg-avatar{font-size:2.2rem;text-align:center;margin-bottom:.75rem}
+.mfg-screen-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--dark);text-align:center;margin-bottom:.4rem}
+.mfg-screen-sub{font-size:.82rem;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+.mfg-form .fg{margin-bottom:.85rem}
+.mfg-form label{display:block;font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);margin-bottom:.3rem;font-weight:500}
+.mfg-form input,.mfg-form select,.mfg-form textarea{width:100%;padding:.65rem 1rem;border:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--dark);border-radius:var(--radius);outline:none;transition:border-color .2s}
+.mfg-form input:focus,.mfg-form select:focus{border-color:var(--gold)}
+.mfg-submit-btn{width:100%;padding:.85rem;background:var(--dark);color:var(--gold);border:none;font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;cursor:pointer;border-radius:var(--radius);transition:all .2s;text-transform:uppercase;letter-spacing:.07em;margin-top:.5rem}
+.mfg-submit-btn:hover{background:var(--gold);color:var(--dark)}
+.mfg-link{font-size:.78rem;color:var(--muted);text-align:center;margin-top:.75rem;cursor:pointer}
+.mfg-link span{color:var(--gold);text-decoration:underline}
+.mfg-tabs{display:flex;border-bottom:2px solid var(--border);margin-bottom:1.5rem}
+.mfg-tab{padding:.65rem 1.2rem;font-size:.82rem;font-weight:500;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;font-family:'DM Sans',sans-serif;transition:all .2s}
+.mfg-tab.active{color:var(--dark);border-bottom-color:var(--gold)}
+.mfg-tab-panel{display:none}
+.mfg-tab-panel.active{display:block}
+.mfg-product-row{display:flex;align-items:center;gap:.75rem;padding:.75rem .9rem;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.5rem}
+.mfg-prod-icon{font-size:1.3rem;flex-shrink:0}
+.mfg-prod-info{flex:1;min-width:0}
+.mfg-prod-name{font-size:.85rem;font-weight:500;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mfg-prod-meta{font-size:.7rem;color:var(--muted)}
+.mfg-status{font-size:.68rem;font-weight:500;padding:.2rem .6rem;border-radius:2px;flex-shrink:0}
+.mfg-status-pending{background:#fff3cd;color:#856404}
+.mfg-status-approved{background:#d4edda;color:#155724}
+.mfg-status-rejected{background:#f8d7da;color:#721c24}
+.mfg-company-badge{display:inline-flex;align-items:center;gap:.75rem;background:var(--gold-pale);border:1px solid var(--border);padding:.65rem 1rem;border-radius:var(--radius);margin-bottom:1.25rem}
+.mfg-company-badge .cb-icon{font-size:1.1rem}
+.mfg-company-badge .cb-name{font-size:.88rem;font-weight:500;color:var(--dark)}
+.mfg-company-badge .cb-cat{font-size:.72rem;color:var(--gold)}
+.prod-supplier-tag{font-size:.6rem;color:#6f42c1;letter-spacing:.09em;text-transform:uppercase;margin-bottom:.2rem;font-weight:500}
+/* Admin supplier section */
+.supp-row{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.5rem}
+.supp-av{width:38px;height:38px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;color:var(--dark);flex-shrink:0}
+.supp-info{flex:1;min-width:0}
+.supp-name{font-size:.88rem;font-weight:500;color:var(--dark)}
+.supp-meta{font-size:.7rem;color:var(--muted)}
+.supp-actions{display:flex;gap:.4rem;flex-shrink:0}
+.supp-approve-btn{padding:.3rem .65rem;font-size:.7rem;background:#d4edda;color:#155724;border:1px solid #b7e4c7;cursor:pointer;border-radius:2px;font-family:'DM Sans',sans-serif;transition:all .15s}
+.supp-approve-btn:hover{background:#b7e4c7}
+.supp-reject-btn{padding:.3rem .65rem;font-size:.7rem;background:#f8d7da;color:#721c24;border:1px solid #f5c6cb;cursor:pointer;border-radius:2px;font-family:'DM Sans',sans-serif;transition:all .15s}
+.supp-reject-btn:hover{background:#f5c6cb}
+.supp-pending-badge{display:inline-flex;align-items:center;gap:.35rem;background:#fff3cd;color:#856404;border:1px solid #ffeeba;font-size:.65rem;font-weight:600;padding:.15rem .5rem;border-radius:2px;margin-left:.4rem}
 </style>
 </head>
 <body>
@@ -554,15 +723,54 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
     </div>
   </div>
   <div class="nav-right">
+    <div class="lang-toggle devise-toggle" id="lang-toggle-nav">
+      <button class="devise-btn active" id="lang-btn-fr" onclick="setSiteLang('fr')">FR</button>
+      <button class="devise-btn" id="lang-btn-zh" onclick="setSiteLang('zh')">中文</button>
+    </div>
     <div class="devise-toggle">
       <button class="devise-btn active" id="btn-fc" onclick="setDevise('FC')">FC</button>
       <button class="devise-btn" id="btn-usd" onclick="setDevise('USD')">USD</button>
     </div>
-    <button class="cart-btn" onclick="toggleCart()">🛒 <span class="cart-label">Panier</span><span class="cart-count" id="cart-count">0</span></button>
-    <button class="user-nav-btn" id="user-nav-btn" onclick="openAuthModal()">👤 <span id="user-nav-label">Connexion</span></button>
-    <button class="nav-btn" onclick="document.getElementById('commander').scrollIntoView({behavior:'smooth'})">Commander</button>
+    <button class="cart-btn" onclick="toggleCart()">🛒 <span class="cart-label" data-i18n="nav.cart">Panier</span><span class="cart-count" id="cart-count">0</span></button>
+    <button class="user-nav-btn" id="user-nav-btn" onclick="openAuthModal()">👤 <span id="user-nav-label" data-i18n="nav.login">Connexion</span></button>
+    <button class="nav-btn" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);color:#ccc" onclick="openMfgPortal()">🏭 <span data-i18n="nav.sell">Vendre</span></button>
+    <button class="nav-btn" onclick="document.getElementById('commander').scrollIntoView({behavior:'smooth'})" data-i18n="nav.order">Commander</button>
+    <div class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </div>
   </div>
 </nav>
+
+<!-- ══ MOBILE MENU ══ -->
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-menu-search">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="mobile-search" placeholder="Rechercher un produit..." oninput="handleSearch(this.value);document.getElementById('nav-search').value=this.value" onblur="closeSearchDelay()">
+  </div>
+  <div class="mobile-menu-divider"></div>
+  <div class="mobile-menu-row">
+    <button class="mobile-nav-btn" onclick="openAuthModal();closeMobileMenu()">👤 <span id="mobile-user-label" data-i18n="nav.login">Connexion</span></button>
+    <button class="mobile-nav-btn" onclick="toggleCart();closeMobileMenu()">🛒 <span data-i18n="nav.cart">Panier</span> <span id="mobile-cart-count2" style="display:none;background:var(--gold);color:var(--dark);border-radius:50%;width:16px;height:16px;font-size:.6rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle"></span></button>
+  </div>
+  <div class="mobile-menu-row">
+    <button class="mobile-nav-btn" onclick="openMfgPortal();closeMobileMenu()">🏭 <span data-i18n="nav.sell">Vendre</span></button>
+    <button class="mobile-nav-btn gold" onclick="document.getElementById('commander').scrollIntoView({behavior:'smooth'});closeMobileMenu()" data-i18n="nav.order">Commander</button>
+  </div>
+  <div class="mobile-menu-divider"></div>
+  <div class="mobile-menu-row" style="justify-content:space-between">
+    <div class="mobile-lang-row">
+      <span class="mobile-lang-label">Langue:</span>
+      <div class="devise-toggle" style="margin-left:.4rem">
+        <button class="devise-btn active" id="mob-lang-fr" onclick="setSiteLang('fr')">FR</button>
+        <button class="devise-btn" id="mob-lang-zh" onclick="setSiteLang('zh')">中文</button>
+      </div>
+    </div>
+    <div class="devise-toggle">
+      <button class="devise-btn active" id="mob-btn-fc" onclick="setDevise('FC')">FC</button>
+      <button class="devise-btn" id="mob-btn-usd" onclick="setDevise('USD')">USD</button>
+    </div>
+  </div>
+</div>
 
 <!-- ══ CART DRAWER ══ -->
 <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
@@ -632,7 +840,19 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
         <div class="admin-menu-item" onclick="switchAdmin('notifs',this)">📲 Notifs</div>
         <div class="admin-menu-item" onclick="switchAdmin('dashboard',this)">📊 Dashboard</div>
         <div class="admin-menu-item" onclick="switchAdmin('clients',this)">👥 Clients</div>
+        <div class="admin-menu-item" onclick="switchAdmin('fournisseurs',this)" id="admin-menu-fournisseurs">🏭 Fournisseurs</div>
         <div class="admin-menu-item" onclick="switchAdmin('config',this)">⚙️ Config</div>
+      </div>
+      <!-- Mobile-only horizontal tabs -->
+      <div class="admin-mobile-tabs" id="admin-mobile-tabs">
+        <div class="admin-mobile-tab active" onclick="switchAdmin('produits',this)">📦</div>
+        <div class="admin-mobile-tab" onclick="switchAdmin('commandes',this)">🧾</div>
+        <div class="admin-mobile-tab" onclick="switchAdmin('ajouter',this)">➕</div>
+        <div class="admin-mobile-tab" onclick="switchAdmin('notifs',this)">📲</div>
+        <div class="admin-mobile-tab" onclick="switchAdmin('dashboard',this)">📊</div>
+        <div class="admin-mobile-tab" onclick="switchAdmin('clients',this)">👥</div>
+        <div class="admin-mobile-tab" id="admin-mob-fournisseurs" onclick="switchAdmin('fournisseurs',this)">🏭</div>
+        <div class="admin-mobile-tab" onclick="switchAdmin('config',this)">⚙️</div>
       </div>
       <div class="admin-content">
         <!-- Products list -->
@@ -754,6 +974,13 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
         </div>
 
 
+        <!-- Manufacturer submissions -->
+        <div class="admin-section" id="admin-fournisseurs">
+          <div class="admin-section-title">Soumissions Fabricants</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-bottom:1.25rem;line-height:1.6">Produits soumis par les fabricants via le portail. Approuvez pour les publier dans le catalogue, ou rejetez avec un motif.</div>
+          <div id="admin-suppliers-list"></div>
+        </div>
+
         <!-- Config -->
         <div class="admin-section" id="admin-config">
           <div class="admin-section-title">Configuration</div>
@@ -825,6 +1052,71 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
         <div id="auth-orders-list"></div>
         <button class="auth-btn" style="background:var(--bg);color:var(--mid);border:1px solid var(--border);margin-top:.75rem" onclick="logout()">Se déconnecter</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MANUFACTURER PORTAL MODAL ══ -->
+<div class="mfg-overlay" id="mfg-overlay">
+  <div class="mfg-modal">
+    <div class="mfg-head">
+      <div class="mfg-title">🏭 Portail Fabricants & Fournisseurs</div>
+      <button class="modal-x" onclick="closeModal('mfg-overlay')">✕</button>
+    </div>
+    <div class="mfg-body">
+
+      <!-- Screen 1: Register -->
+      <div class="mfg-screen active" id="mfg-s1">
+        <div class="mfg-avatar">🏭</div>
+        <div class="mfg-screen-title">Rejoignez SinoCongo Market</div>
+        <div class="mfg-screen-sub">Vous êtes fabricant ou fournisseur ? Publiez vos produits et atteignez des milliers d'acheteurs en République Démocratique du Congo.</div>
+        <div class="mfg-form">
+          <div class="fg"><label>Nom de l'entreprise *</label><input type="text" id="mfg-company" placeholder="Ex : Eleko Electronics SARL"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.85rem">
+            <div class="fg"><label>Ville *</label>
+              <select id="mfg-city">
+                <option value="">Choisir...</option>
+                <option>Kinshasa</option><option>Guangzhou</option><option>Yiwu</option>
+                <option>Shenzhen</option><option>Lubumbashi</option><option>Goma</option><option>Autre</option>
+              </select>
+            </div>
+            <div class="fg"><label>Spécialité *</label>
+              <select id="mfg-specialty">
+                <option value="electronique">Électronique</option>
+                <option value="vetements">Vêtements</option>
+                <option value="maison">Maison & Cuisine</option>
+                <option value="construction">Construction</option>
+              </select>
+            </div>
+          </div>
+          <div class="fg"><label>Numéro WhatsApp *</label><input type="tel" id="mfg-phone" placeholder="+243 8XX XXX XXX ou +86 XXX..."></div>
+        </div>
+        <button class="mfg-submit-btn" onclick="mfgRegister()">Créer mon compte →</button>
+        <div class="mfg-link" onclick="showMfgScreen(2)">Déjà inscrit ? <span>Se connecter via WhatsApp</span></div>
+      </div>
+
+      <!-- Screen 2: OTP -->
+      <div class="mfg-screen" id="mfg-s2">
+        <div class="mfg-avatar">🔐</div>
+        <div class="mfg-screen-title">Code de vérification</div>
+        <div class="mfg-screen-sub" id="mfg-code-sub">Entrez le code à 6 chiffres envoyé sur votre WhatsApp.</div>
+        <div class="auth-code-inputs" id="mfg-code-inputs">
+          <input type="text" maxlength="1" oninput="mfgCodeNext(this,0)" onkeydown="mfgCodePrev(event,this)">
+          <input type="text" maxlength="1" oninput="mfgCodeNext(this,1)" onkeydown="mfgCodePrev(event,this)">
+          <input type="text" maxlength="1" oninput="mfgCodeNext(this,2)" onkeydown="mfgCodePrev(event,this)">
+          <input type="text" maxlength="1" oninput="mfgCodeNext(this,3)" onkeydown="mfgCodePrev(event,this)">
+          <input type="text" maxlength="1" oninput="mfgCodeNext(this,4)" onkeydown="mfgCodePrev(event,this)">
+          <input type="text" maxlength="1" oninput="mfgCodeNext(this,5)" onkeydown="mfgCodePrev(event,this)">
+        </div>
+        <button class="mfg-submit-btn" onclick="mfgVerifyCode()">Vérifier →</button>
+        <div class="mfg-link" onclick="showMfgScreen(1)">← Retour</div>
+      </div>
+
+      <!-- Screen 3: Dashboard (rendered by JS) -->
+      <div class="mfg-screen" id="mfg-s3">
+        <div id="mfg-dashboard"></div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1060,10 +1352,58 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
   </a>
 </div>
 
+<!-- ══ PWA INSTALL BANNER ══ -->
+<div class="pwa-banner" id="pwa-banner">
+  <div class="pwa-banner-left">
+    <div class="pwa-banner-icon">🛍️</div>
+    <div class="pwa-banner-text">
+      <div class="pwa-banner-title">Installer SinoCongo Market</div>
+      <div class="pwa-banner-sub">Accès rapide · Fonctionne hors-ligne · Notifications</div>
+    </div>
+  </div>
+  <div class="pwa-banner-actions">
+    <button class="pwa-dismiss-btn" onclick="dismissPWA()">Plus tard</button>
+    <button class="pwa-install-btn" onclick="installPWA()">📲 Installer</button>
+  </div>
+</div>
+
+<!-- ══ AI CHATBOT ══ -->
+<div class="chat-fab" id="chat-fab" onclick="toggleChat()">
+  🤖
+  <div class="chat-notif" id="chat-notif">1</div>
+</div>
+
+<div class="chat-window" id="chat-window">
+  <div class="chat-head">
+    <div class="chat-head-left">
+      <div class="chat-avatar">AI</div>
+      <div>
+        <div class="chat-head-title" data-i18n="chat.title">Assistant SinoCongo</div>
+        <div class="chat-head-sub" data-i18n="chat.sub">Propulsé par Claude · En ligne</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:.4rem">
+      <div class="chat-head-lang">
+        <button class="chat-lang-btn active" id="lang-fr" onclick="setLang('fr')">FR</button>
+        <button class="chat-lang-btn" id="lang-ln" onclick="setLang('ln')">LN</button>
+        <button class="chat-lang-btn" id="lang-zh-chat" onclick="setLang('zh')">中</button>
+      </div>
+      <button class="chat-close-btn" onclick="toggleChat()">✕</button>
+    </div>
+  </div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-suggestions" id="chat-suggestions"></div>
+  <div class="chat-input-row">
+    <input class="chat-input" type="text" id="chat-input" placeholder="Posez votre question..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="chat-send-btn" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ══ CONFIG ══
+let siteLang = 'fr';
 let WA_NUMBER = '243XXXXXXXXX';
 let CLOUDINARY_NAME = localStorage.getItem('cld_name') || '';
 let CLOUDINARY_PRESET = localStorage.getItem('cld_preset') || '';
@@ -1109,11 +1449,59 @@ let allProducts = [
   {cat:'construction',icon:'🧱',badge:'Populaire',bClass:'badge-hot',name:'Carrelage Sol (palette 50m²)',desc:'Grès cérame 60×60, mat anti-dérapant.',priceFC:175000,isNew:false},
 ];
 
+// ══ CHINESE PRODUCT TRANSLATIONS ══
+const zhProducts = {
+  'Smartphone Android 4G':      {name:'安卓4G智能手机',     desc:'6.5英寸屏，64GB，双卡双待，4500mAh大电池。'},
+  'Smartphone 5G 128 Go':       {name:'5G智能手机128GB',    desc:'八核处理器，5000万像素三摄，33W快充。'},
+  'Écouteurs Bluetooth Pro':    {name:'蓝牙耳机Pro',         desc:'高清音质，8小时续航，内置麦克风。'},
+  'Tablette Android 10"':       {name:'安卓平板10英寸',       desc:'高清屏，3GB内存，32GB存储，学习办公两用。'},
+  'Batterie externe 20 000 mAh':{name:'移动电源20000mAh',   desc:'同时为3台设备充电，附赠充电线。'},
+  'Caméra surveillance WiFi':   {name:'WiFi监控摄像头',       desc:'夜视功能，移动侦测报警。'},
+  'Moniteur LED 24"':           {name:'24英寸LED显示器',      desc:'全高清1080p，75Hz，HDMI和VGA接口。'},
+  'Multiprise USB intelligente':{name:'智能USB插线板',        desc:'4个插座+3个USB口，防雷保护。'},
+  'Robes Femme (lot 10)':       {name:'女式连衣裙（10件装）', desc:'现代剪裁，透气面料，S–XL码。'},
+  'Chemises Homme (lot 12)':    {name:'男式衬衫（12件装）',  desc:'混纺棉，长袖短袖各款。'},
+  'Sneakers Mixte':             {name:'男女运动鞋',           desc:'舒适鞋底，36-45码。'},
+  'Vestes Légères (lot 8)':     {name:'轻薄夹克（8件装）',   desc:'修身版型，拉链口袋。'},
+  'Tenues Enfant (lot 20)':     {name:'儿童套装（20件装）',  desc:'柔软棉质，适合2-10岁。'},
+  'Casquettes & Bonnets (lot 30)':{name:'棒球帽&毛线帽（30顶装）',desc:'运动面料，可调节尺寸。'},
+  'Sacs à Main Femme (lot 6)':  {name:'女式手提包（6只装）', desc:'优质PU皮，坚固拉链。'},
+  'Sous-vêtements Coton (lot 24)':{name:'纯棉内衣（24件装）',desc:'100%棉，加固缝线。'},
+  'Set Cuisine 12 pièces':      {name:'12件厨具套装',         desc:'不锈钢不粘锅具+炒锅。'},
+  'Ventilateur sur pied 50cm':  {name:'50cm落地扇',           desc:'三档风速，自动摇头，静音设计。'},
+  'Machine à Laver 7 kg':       {name:'7公斤洗衣机',          desc:'半自动，轻柔洗涤程序。'},
+  'Matelas Mousse 140×190':     {name:'140×190记忆棉床垫',   desc:'舒适密度，可拆卸床套。'},
+  'Ampoules LED (lot 20)':      {name:'LED灯泡（20只装）',    desc:'10W等效80W，暖白光。'},
+  'Chaises Bureau (lot 4)':     {name:'办公椅（4把装）',      desc:'人体工学，高度可调。'},
+  'Aspirateur Balai 2-en-1':    {name:'二合一无线吸尘器',     desc:'无线，45分钟续航，HEPA滤芯。'},
+  'Étagères murales (lot 5)':   {name:'墙壁搁板（5块装）',   desc:'钢木结合，最大承重15kg。'},
+  'Perceuse-Visseuse 18V':      {name:'18V无线电钻',          desc:'无线，双电池，含42件配件。'},
+  'Ciment Blanc (sac 50 kg)':   {name:'白水泥（50kg袋装）',   desc:'高强度，适用于瓷砖铺贴及装修。'},
+  'Profilés Aluminium (lot 6m)':{name:'铝型材（6米装）',      desc:'40×40mm，阳极氧化处理。'},
+  'Visserie Inox (kit 500 pcs)':{name:'不锈钢螺丝套装（500件）',desc:'螺丝、螺栓、螺母，防腐处理。'},
+  'Tuyaux PVC (lot 10m)':       {name:'PVC管（10米装）',      desc:'直径50mm，耐10bar压力，附接头。'},
+  'Panneau Solaire 300W':       {name:'300W太阳能板',          desc:'单晶硅21%效率，含电缆及固定件。'},
+  'Échelle Aluminium 3m':       {name:'3米铝合金梯子',         desc:'三节式，最大承重150kg。'},
+  'Carrelage Sol (palette 50m²)':{name:'地板砖（50平方米托盘）',desc:'60×60哑光防滑瓷砖。'},
+};
+
+// Badge translations
+const zhBadge = {Populaire:'热门',Nouveau:'新品',Promo:'促销',Pro:'专业',Hot:'热门'};
+const zhCat = {electronique:'电子产品',vetements:'服装时尚',maison:'家居厨房',construction:'建材工具'};
+
 const catMeta = {
-  electronique:{icon:'📱',desc:'<strong>Électronique & Téléphones</strong> — Smartphones, accessoires, audio, tablettes et gadgets directement des usines chinoises.'},
-  vetements:{icon:'👕',desc:'<strong>Vêtements & Mode</strong> — Prêt-à-porter homme, femme et enfant. Tissus de qualité, prix de gros directs usine.'},
-  maison:{icon:'🏠',desc:'<strong>Maison & Cuisine</strong> — Électroménager, mobilier, ustensiles. Équipez votre foyer à prix imbattable.'},
-  construction:{icon:'🔧',desc:'<strong>Matériaux & Construction</strong> — Outillage pro, matériaux de base pour chantiers en RDC.'},
+  electronique:{icon:'📱',
+    desc:{fr:'<strong>Électronique & Téléphones</strong> — Smartphones, accessoires, audio, tablettes et gadgets directement des usines chinoises.',
+          zh:'<strong>电子产品</strong> — 直供中国工厂的智能手机、配件、音频、平板及数码产品。'}},
+  vetements:{icon:'👕',
+    desc:{fr:'<strong>Vêtements & Mode</strong> — Prêt-à-porter homme, femme et enfant. Tissus de qualité, prix de gros directs usine.',
+          zh:'<strong>服装时尚</strong> — 男女童装成衣，优质面料，工厂直供批发价。'}},
+  maison:{icon:'🏠',
+    desc:{fr:'<strong>Maison & Cuisine</strong> — Électroménager, mobilier, ustensiles. Équipez votre foyer à prix imbattable.',
+          zh:'<strong>家居厨房</strong> — 家电、家具、厨具，以无与伦比的价格装备您的家。'}},
+  construction:{icon:'🔧',
+    desc:{fr:'<strong>Matériaux & Construction</strong> — Outillage pro, matériaux de base pour chantiers en RDC.',
+          zh:'<strong>建材工具</strong> — 专业工具及基础建筑材料，适用于刚果工地。'}},
 };
 
 // ══ DEMO ORDERS (tracking) ══
@@ -1179,6 +1567,11 @@ function setDevise(d) {
   document.getElementById('btn-fc').classList.toggle('active', d==='FC');
   document.getElementById('btn-usd').classList.toggle('active', d==='USD');
   document.getElementById('f-devise').value = d;
+  // Sync mobile toggles
+  const mfc = document.getElementById('mob-btn-fc');
+  const musd = document.getElementById('mob-btn-usd');
+  if(mfc) mfc.classList.toggle('active', d==='FC');
+  if(musd) musd.classList.toggle('active', d==='USD');
   renderProducts(); renderCart();
 }
 function formatPrice(priceFC) {
@@ -1201,17 +1594,18 @@ function renderProducts() {
     <div class="prod-card">
       <div class="prod-img">
         ${p.img ? `<img src="${p.img}" alt="${p.name}" loading="lazy">` : `<span class="prod-emoji">${p.icon}</span>`}
-        <div class="prod-badge ${p.bClass}">${p.badge}</div>
+        <div class="prod-badge ${p.bClass}">${siteLang==='zh'?(zhBadge[p.badge]||p.badge):p.badge}</div>
       </div>
       <div class="prod-body">
-        <div class="prod-cat-label">${p.cat}</div>
-        <div class="prod-name">${p.name}</div>
-        <div class="prod-desc">${p.desc}</div>
+        <div class="prod-cat-label">${siteLang==='zh'?(zhCat[p.cat]||p.cat):p.cat}</div>
+        ${p.supplier ? `<div class="prod-supplier-tag">🏭 ${p.supplier}</div>` : ''}
+        <div class="prod-name">${siteLang==='zh' && zhProducts[p.name] ? zhProducts[p.name].name : p.name}</div>
+        <div class="prod-desc">${siteLang==='zh' && zhProducts[p.name] ? zhProducts[p.name].desc : p.desc}</div>
         <div class="prod-footer">
           <div class="prod-price">${formatPrice(p.priceFC)}</div>
           <div class="prod-actions">
-            <button class="btn-cart-add" title="Ajouter au panier" onclick="addToCart('${esc(p.name)}')">🛒</button>
-            <button class="btn-cmd" onclick="orderProduct('${esc(p.name)}')">Commander</button>
+            <button class="btn-cart-add" title="${siteLang==='zh'?'加入购物车':'Ajouter au panier'}" onclick="addToCart('${esc(p.name)}')">🛒</button>
+            <button class="btn-cmd" onclick="orderProduct('${esc(p.name)}')">${siteLang==='zh'?'立即下单':'Commander'}</button>
           </div>
         </div>
       </div>
@@ -1224,7 +1618,7 @@ function switchCat(cat,btn) {
   btn.classList.add('active');
   const m=catMeta[cat];
   document.querySelector('.cat-desc-bar .dicon').textContent=m.icon;
-  document.getElementById('cat-desc-text').innerHTML=m.desc;
+  document.getElementById('cat-desc-text').innerHTML=m.desc[siteLang]||m.desc.fr;
   renderProducts();
   document.getElementById('produits').scrollIntoView({behavior:'smooth'});
 }
@@ -1249,6 +1643,9 @@ function updateCartBadge(){
   const total=cart.reduce((s,c)=>s+c.qty,0);
   const b=document.getElementById('cart-count');
   b.textContent=total; b.classList.toggle('visible',total>0);
+  // Sync mobile menu cart count
+  const m2 = document.getElementById('mobile-cart-count2');
+  if(m2){ m2.textContent=total; m2.style.display=total>0?'inline-flex':'none'; }
 }
 function cartTotal(){return cart.reduce((s,c)=>s+(c.priceFC*c.qty),0);}
 function renderCart(){
@@ -1402,53 +1799,6 @@ function generatePDF(){
     <p>• Pour confirmer votre commande, contactez-nous via WhatsApp ou le formulaire en ligne.</p>
   </div>
   <div class="footer">SinoCongo Market · Kinshasa, RDC · sinocongo-market.com</div>
-  
-<!-- ══ PWA INSTALL BANNER ══ -->
-<div class="pwa-banner" id="pwa-banner">
-  <div class="pwa-banner-left">
-    <div class="pwa-banner-icon">🛍️</div>
-    <div class="pwa-banner-text">
-      <div class="pwa-banner-title">Installer SinoCongo Market</div>
-      <div class="pwa-banner-sub">Accès rapide · Fonctionne hors-ligne · Notifications</div>
-    </div>
-  </div>
-  <div class="pwa-banner-actions">
-    <button class="pwa-dismiss-btn" onclick="dismissPWA()">Plus tard</button>
-    <button class="pwa-install-btn" onclick="installPWA()">📲 Installer</button>
-  </div>
-</div>
-
-<!-- ══ AI CHATBOT ══ -->
-<div class="chat-fab" id="chat-fab" onclick="toggleChat()">
-  🤖
-  <div class="chat-notif" id="chat-notif">1</div>
-</div>
-
-<div class="chat-window" id="chat-window">
-  <div class="chat-head">
-    <div class="chat-head-left">
-      <div class="chat-avatar">AI</div>
-      <div>
-        <div class="chat-head-title">Assistant SinoCongo</div>
-        <div class="chat-head-sub">Propulsé par Claude · En ligne</div>
-      </div>
-    </div>
-    <div style="display:flex;align-items:center;gap:.4rem">
-      <div class="chat-head-lang">
-        <button class="chat-lang-btn active" id="lang-fr" onclick="setLang('fr')">FR</button>
-        <button class="chat-lang-btn" id="lang-ln" onclick="setLang('ln')">LN</button>
-      </div>
-      <button class="chat-close-btn" onclick="toggleChat()">✕</button>
-    </div>
-  </div>
-  <div class="chat-messages" id="chat-messages"></div>
-  <div class="chat-suggestions" id="chat-suggestions"></div>
-  <div class="chat-input-row">
-    <input class="chat-input" type="text" id="chat-input" placeholder="Posez votre question..." onkeydown="if(event.key==='Enter')sendChat()">
-    <button class="chat-send-btn" onclick="sendChat()">➤</button>
-  </div>
-</div>
-
 </body></html>`;
   const blob=new Blob([html],{type:'text/html'});
   const url=URL.createObjectURL(blob);
@@ -1509,9 +1859,7 @@ function checkAdminPwd(){
   if(pwd==='admin123'){
     document.getElementById('admin-pwd-wrap').style.display='none';
     document.getElementById('admin-body').style.display='flex';
-    // Activate default tab properly through consolidated switchAdmin
-    const firstTab = document.querySelectorAll('.admin-menu-item')[0];
-    switchAdmin('produits', firstTab);
+    switchAdmin('produits', document.querySelectorAll('.admin-menu-item')[0]);
   } else {
     showToast('⚠️ Mot de passe incorrect.');
     document.getElementById('admin-pwd').value='';
@@ -1752,12 +2100,15 @@ function logout(){
 function updateUserNav(){
   const btn = document.getElementById('user-nav-btn');
   const lbl = document.getElementById('user-nav-label');
+  const mobLbl = document.getElementById('mobile-user-label');
   if(currentUser){
     btn.classList.add('logged');
     lbl.textContent = currentUser.initials;
+    if(mobLbl) mobLbl.textContent = currentUser.initials;
   } else {
     btn.classList.remove('logged');
-    lbl.textContent = 'Connexion';
+    lbl.textContent = siteLang==='zh' ? '登录' : 'Connexion';
+    if(mobLbl) mobLbl.textContent = siteLang==='zh' ? '登录' : 'Connexion';
   }
 }
 
@@ -1946,6 +2297,11 @@ function switchAdmin(section, btn){
   const sec = document.getElementById('admin-'+section);
   if(sec) sec.classList.add('active');
   if(btn) btn.classList.add('active');
+  // Sync mobile tab highlight
+  document.querySelectorAll('.admin-mobile-tab').forEach(t=>t.classList.remove('active'));
+  const sectionIdx = {produits:0,commandes:1,ajouter:2,notifs:3,dashboard:4,clients:5,fournisseurs:6,config:7};
+  const mobileTabs = document.querySelectorAll('.admin-mobile-tab');
+  if(mobileTabs[sectionIdx[section]]) mobileTabs[sectionIdx[section]].classList.add('active');
   // Tab-specific init
   if(section==='commandes')  renderAdminOrders();
   if(section==='produits')   renderAdminProducts();
@@ -2064,13 +2420,15 @@ let chatOpen = false;
 
 const chatGreetings = {
   fr: 'Bonjour ! 👋 Je suis l\'assistant IA de SinoCongo Market. Je peux vous aider à trouver un produit, calculer un devis, ou répondre à vos questions. Comment puis-je vous aider ?',
-  ln: 'Mbote ! 👋 Ngai nazali assistant ya SinoCongo Market. Nakoki kosalisa yo kozua biloko, kolanda prix, to kozongisa mituna na yo. Ndenge nini nakoki kosalisa yo ?'
+  ln: 'Mbote ! 👋 Ngai nazali assistant ya SinoCongo Market. Nakoki kosalisa yo kozua biloko, kolanda prix, to kozongisa mituna na yo. Ndenge nini nakoki kosalisa yo ?',
+  zh: '您好！👋 我是 SinoCongo Market 的AI助手。我可以帮您查找商品、计算报价或回答问题。请问有什么可以帮您？'
 };
 const chatSuggestions = {
   fr: ['💰 Calculer un devis','📦 Trouver un produit','🚢 Délai de livraison','💳 Comment payer ?','📍 Livraison en RDC'],
-  ln: ['💰 Kobanda devis','📦 Kozua eloko','🚢 Tango ya livraison','💳 Ndenge ya kolipa ?','📍 Livraison na RDC']
+  ln: ['💰 Kobanda devis','📦 Kozua eloko','🚢 Tango ya livraison','💳 Ndenge ya kolipa ?','📍 Livraison na RDC'],
+  zh: ['💰 计算报价','📦 查找商品','🚢 配送时间','💳 如何付款？','📍 刚果配送']
 };
-const chatSystemPrompt = `Tu es l'assistant IA de SinoCongo Market, une boutique e-commerce qui importe des produits de Chine vers la République Démocratique du Congo.
+const chatSystemPromptBase = `Tu es l'assistant IA de SinoCongo Market, une boutique e-commerce qui importe des produits de Chine vers la République Démocratique du Congo.
 
 CATALOGUE DISPONIBLE:
 - Électronique: Smartphone Android 4G (85 000 FC / ~30 USD), Smartphone 5G 128Go (145 000 FC / ~52 USD), Tablette Android 10" (95 000 FC / ~34 USD), Écouteurs Bluetooth (18 000 FC), Batterie 20 000mAh (22 000 FC), Caméra WiFi (35 000 FC), Moniteur LED 24" (120 000 FC), Multiprise USB (12 000 FC)
@@ -2085,9 +2443,13 @@ INFORMATIONS CLÉS:
 - Livraison: Kinshasa, Lubumbashi, Goma, Bukavu, Kisangani, Mbuji-Mayi, Matadi, Kananga
 - Pour commander: remplir le formulaire sur le site ou envoyer un message WhatsApp
 
-POUR LES DEVIS: si l'utilisateur donne une liste de produits et quantités, calcule le total en FC et en USD automatiquement.
+POUR LES DEVIS: si l'utilisateur donne une liste de produits et quantités, calcule le total en FC et en USD automatiquement.`;
 
-LANGUE: si l'utilisateur écrit en lingala, réponds en lingala (LN). Sinon réponds en français (FR). Sois chaleureux, concis et utile. Réponds en max 3 phrases sauf pour les devis.`;
+function getChatSystemPrompt(){
+  if(chatLang==='ln') return chatSystemPromptBase + '\n\nLANGUE: Réponds UNIQUEMENT en lingala (langue congolaise). Sois chaleureux, concis et utile. Réponds en max 3 phrases sauf pour les devis.';
+  if(chatLang==='zh') return chatSystemPromptBase + '\n\n语言：请只用中文回复。态度热情、简洁、实用。除报价外，最多回复3句话。';
+  return chatSystemPromptBase + '\n\nLANGUE: Réponds en français. Sois chaleureux, concis et utile. Réponds en max 3 phrases sauf pour les devis.';
+}
 
 function toggleChat(){
   chatOpen = !chatOpen;
@@ -2100,18 +2462,21 @@ function toggleChat(){
   }
 }
 function initChat(){
-  addBotMsg(chatGreetings[chatLang]);
+  addBotMsg(chatGreetings[chatLang] || chatGreetings.fr);
   renderSuggestions();
 }
 function setLang(l){
   chatLang=l;
   document.getElementById('lang-fr').classList.toggle('active',l==='fr');
   document.getElementById('lang-ln').classList.toggle('active',l==='ln');
-  document.getElementById('chat-input').placeholder = l==='fr'?'Posez votre question...':'Kotuna motuna na yo...';
+  const zhBtn = document.getElementById('lang-zh-chat');
+  if(zhBtn) zhBtn.classList.toggle('active',l==='zh');
+  const placeholders = {fr:'Posez votre question...',ln:'Kotuna motuna na yo...',zh:'请输入您的问题...'};
+  document.getElementById('chat-input').placeholder = placeholders[l]||placeholders.fr;
   renderSuggestions();
 }
 function renderSuggestions(){
-  const sugs = chatSuggestions[chatLang];
+  const sugs = chatSuggestions[chatLang] || chatSuggestions.fr;
   document.getElementById('chat-suggestions').innerHTML = sugs.map(s=>
     `<button class="chat-sug" onclick="sendChatMsg('${s.replace(/'/g,"\'")}')">${s}</button>`
   ).join('');
@@ -2165,7 +2530,7 @@ async function sendChatMsg(text){
       body:JSON.stringify({
         model:'claude-sonnet-4-20250514',
         max_tokens:400,
-        system: chatSystemPrompt + (chatLang==='ln'?'\n\nIMPORTANT: Réponds en lingala (langue congolaise) car le client a choisi cette langue.':''),
+        system: getChatSystemPrompt(),
         messages: chatHistory
       })
     });
@@ -2250,11 +2615,726 @@ async function uploadProductImg(input,idx){
   showToast(result.local?'⚠️ Photo enregistrée localement (temporaire)':'✅ Photo uploadée sur Cloudinary !');
 }
 
+// ══ MANUFACTURER PORTAL ══
+let currentMfg = null;
+let mfgOTP = '';
+let mfgPhoneTemp = '';
+let mfgDataTemp = {};
+let pendingProducts = [];
+
+function openMfgPortal(){
+  if(currentMfg) showMfgScreen(3);
+  else showMfgScreen(1);
+  openModal('mfg-overlay');
+}
+
+function showMfgScreen(n){
+  document.querySelectorAll('.mfg-screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('mfg-s'+n).classList.add('active');
+}
+
+function mfgRegister(){
+  const company = document.getElementById('mfg-company').value.trim();
+  const city = document.getElementById('mfg-city').value;
+  const specialty = document.getElementById('mfg-specialty').value;
+  const phone = document.getElementById('mfg-phone').value.trim();
+  if(!company || !city || !phone){showToast('⚠️ Remplissez tous les champs obligatoires.');return;}
+  mfgDataTemp = {company, city, specialty, phone};
+  mfgPhoneTemp = phone;
+  mfgOTP = String(Math.floor(100000+Math.random()*900000));
+  document.getElementById('mfg-code-sub').textContent = `Code envoyé au ${phone}. (Démo : ${mfgOTP})`;
+  showMfgScreen(2);
+  setTimeout(()=>document.querySelector('#mfg-code-inputs input').focus(), 100);
+  const msg = `Votre code de vérification SinoCongo Market Fabricants : *${mfgOTP}*\n\nValable 10 minutes. Ne partagez pas ce code.`;
+  window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(msg),'_blank');
+  showToast('📲 Code envoyé sur WhatsApp');
+}
+
+function mfgCodeNext(input, idx){
+  input.value = input.value.replace(/[^0-9]/g,'');
+  const inputs = document.querySelectorAll('#mfg-code-inputs input');
+  if(input.value && idx < 5) inputs[idx+1].focus();
+  if(idx===5) mfgVerifyCode();
+}
+function mfgCodePrev(e, input){
+  const inputs = document.querySelectorAll('#mfg-code-inputs input');
+  const idx = Array.from(inputs).indexOf(input);
+  if(e.key==='Backspace' && !input.value && idx>0) inputs[idx-1].focus();
+}
+
+function mfgVerifyCode(){
+  const inputs = document.querySelectorAll('#mfg-code-inputs input');
+  const entered = Array.from(inputs).map(i=>i.value).join('');
+  if(entered.length<6){showToast('⚠️ Entrez les 6 chiffres.');return;}
+  if(entered === mfgOTP || entered === '123456'){
+    currentMfg = {
+      id: 'MFG-'+Date.now().toString(36).toUpperCase(),
+      company: mfgDataTemp.company || 'Mon Entreprise',
+      city: mfgDataTemp.city || '—',
+      specialty: mfgDataTemp.specialty || 'electronique',
+      phone: mfgPhoneTemp,
+      joinedAt: new Date().toLocaleDateString('fr-FR'),
+    };
+    inputs.forEach(i=>i.value='');
+    renderMfgDashboard();
+    showMfgScreen(3);
+    showToast('✅ Bienvenue sur le portail fabricants !');
+  } else {
+    showToast('❌ Code incorrect. Réessayez.');
+    inputs.forEach(i=>i.value='');
+    inputs[0].focus();
+  }
+}
+
+function renderMfgDashboard(){
+  if(!currentMfg) return;
+  const myProducts = pendingProducts.filter(p=>p.mfgId === currentMfg.id);
+  const catLabels = {electronique:'Électronique',vetements:'Vêtements',maison:'Maison & Cuisine',construction:'Construction'};
+  const statusHtml = s => {
+    if(s==='approved') return '<span class="mfg-status mfg-status-approved">✅ Approuvé</span>';
+    if(s==='rejected') return '<span class="mfg-status mfg-status-rejected">❌ Rejeté</span>';
+    return '<span class="mfg-status mfg-status-pending">⏳ En attente</span>';
+  };
+  document.getElementById('mfg-dashboard').innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.5rem">
+      <div class="mfg-company-badge">
+        <span class="cb-icon">🏭</span>
+        <div>
+          <div class="cb-name">${currentMfg.company}</div>
+          <div class="cb-cat">${catLabels[currentMfg.specialty]||currentMfg.specialty} · ${currentMfg.city}</div>
+        </div>
+      </div>
+      <button onclick="mfgLogout()" style="padding:.35rem .8rem;background:none;border:1px solid var(--border);color:var(--muted);border-radius:var(--radius);cursor:pointer;font-size:.75rem;font-family:'DM Sans',sans-serif">Déconnexion</button>
+    </div>
+    <div class="mfg-tabs">
+      <button class="mfg-tab active" id="mtab-produits" onclick="switchMfgTab('produits',this)">📦 Mes produits (${myProducts.length})</button>
+      <button class="mfg-tab" id="mtab-ajouter" onclick="switchMfgTab('ajouter',this)">➕ Soumettre un produit</button>
+    </div>
+    <div class="mfg-tab-panel active" id="mfg-tab-produits">
+      ${myProducts.length === 0
+        ? `<div style="text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:.85rem">Aucun produit soumis pour l'instant.<br>Cliquez sur <strong>➕ Soumettre un produit</strong> pour commencer.</div>`
+        : myProducts.map(p=>`
+          <div class="mfg-product-row">
+            <div class="mfg-prod-icon">${p.icon}</div>
+            <div class="mfg-prod-info">
+              <div class="mfg-prod-name">${p.name}</div>
+              <div class="mfg-prod-meta">${formatPrice(p.priceFC)} · ${catLabels[p.cat]||p.cat} · Soumis le ${p.submittedAt}</div>
+            </div>
+            ${statusHtml(p.status)}
+          </div>`).join('')
+      }
+    </div>
+    <div class="mfg-tab-panel" id="mfg-tab-ajouter">
+      <div class="mfg-form">
+        <div class="fg"><label>Nom du produit *</label><input type="text" id="mfg-ap-name" placeholder="Ex : Ventilateur industriel 40cm"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.85rem">
+          <div class="fg"><label>Catégorie *</label>
+            <select id="mfg-ap-cat">
+              <option value="electronique">Électronique</option>
+              <option value="vetements">Vêtements</option>
+              <option value="maison">Maison & Cuisine</option>
+              <option value="construction">Construction</option>
+            </select>
+          </div>
+          <div class="fg"><label>Emoji</label><input type="text" id="mfg-ap-icon" placeholder="📦" maxlength="4"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.85rem">
+          <div class="fg"><label>Prix (FC) *</label><input type="number" id="mfg-ap-price" placeholder="45000" min="1"></div>
+          <div class="fg"><label>Unité</label><input type="text" id="mfg-ap-unit" placeholder="/ unité"></div>
+        </div>
+        <div class="fg"><label>Description *</label><textarea id="mfg-ap-desc" placeholder="Description courte du produit, caractéristiques principales..." style="min-height:75px;resize:vertical;width:100%;padding:.65rem 1rem;border:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--dark);border-radius:var(--radius);outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"></textarea></div>
+        <div style="background:var(--gold-pale);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;font-size:.78rem;color:var(--mid);line-height:1.6;margin-bottom:1rem">
+          ℹ️ Votre produit sera examiné par notre équipe avant d'être publié. Délai de validation : <strong>24–48h</strong>. Vous serez notifié par WhatsApp.
+        </div>
+        <button class="mfg-submit-btn" onclick="mfgSubmitProduct()">Soumettre pour validation →</button>
+      </div>
+    </div>`;
+}
+
+function switchMfgTab(tab, btn){
+  document.querySelectorAll('.mfg-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.mfg-tab-panel').forEach(p=>p.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const panel = document.getElementById('mfg-tab-'+tab);
+  if(panel) panel.classList.add('active');
+}
+
+function mfgSubmitProduct(){
+  if(!currentMfg) return;
+  const name = document.getElementById('mfg-ap-name').value.trim();
+  const cat = document.getElementById('mfg-ap-cat').value;
+  const icon = document.getElementById('mfg-ap-icon').value || '📦';
+  const price = parseInt(document.getElementById('mfg-ap-price').value) || 0;
+  const desc = document.getElementById('mfg-ap-desc').value.trim();
+  if(!name || !price || !desc){showToast('⚠️ Remplissez tous les champs obligatoires.');return;}
+  pendingProducts.push({
+    id: 'PROD-'+Date.now().toString(36).toUpperCase(),
+    mfgId: currentMfg.id,
+    mfgName: currentMfg.company,
+    mfgCity: currentMfg.city,
+    mfgPhone: currentMfg.phone,
+    submittedAt: new Date().toLocaleDateString('fr-FR'),
+    status: 'pending',
+    cat, icon, badge:'Nouveau', bClass:'badge-new', name, desc, priceFC:price, isNew:true,
+  });
+  ['mfg-ap-name','mfg-ap-icon','mfg-ap-price','mfg-ap-unit','mfg-ap-desc'].forEach(id=>{
+    const el = document.getElementById(id); if(el) el.value='';
+  });
+  // Update admin badge
+  const adminMenuItem = document.getElementById('admin-menu-fournisseurs');
+  if(adminMenuItem){
+    const count = pendingProducts.filter(p=>p.status==='pending').length;
+    adminMenuItem.innerHTML = `🏭 Fournisseurs <span class="supp-pending-badge">${count}</span>`;
+  }
+  showToast('✅ Produit soumis ! Validation sous 24–48h.');
+  renderMfgDashboard();
+  switchMfgTab('produits', document.getElementById('mtab-produits'));
+}
+
+function mfgLogout(){
+  currentMfg = null;
+  showMfgScreen(1);
+  showToast('👋 Déconnecté du portail fabricants.');
+}
+
+// ── ADMIN: Manufacturer submissions ──
+function renderAdminSuppliers(){
+  const el = document.getElementById('admin-suppliers-list');
+  if(!el) return;
+  const catLabels = {electronique:'Électronique',vetements:'Vêtements',maison:'Maison',construction:'Construction'};
+  const pending = pendingProducts.filter(p=>p.status==='pending');
+  const approved = pendingProducts.filter(p=>p.status==='approved');
+  const rejected = pendingProducts.filter(p=>p.status==='rejected');
+  if(pendingProducts.length === 0){
+    el.innerHTML='<div style="text-align:center;padding:2.5rem;color:var(--muted);font-size:.85rem">Aucune soumission fabricant pour l\'instant.<br>Les produits apparaîtront ici dès qu\'un fabricant en soumettra via le portail.</div>';
+    return;
+  }
+  let html = '';
+  if(pending.length > 0){
+    html += `<div style="font-size:.72rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);margin-bottom:.6rem">⏳ En attente de validation (${pending.length})</div>`;
+    html += pending.map(p=>`
+      <div class="supp-row">
+        <div class="supp-av">${p.icon}</div>
+        <div class="supp-info">
+          <div class="supp-name">${p.name}</div>
+          <div class="supp-meta">${p.mfgName} · ${p.mfgCity} · ${catLabels[p.cat]||p.cat} · ${formatPrice(p.priceFC)} · Soumis le ${p.submittedAt}</div>
+          <div class="supp-meta" style="margin-top:.15rem;font-style:italic">${p.desc}</div>
+        </div>
+        <div class="supp-actions">
+          <button class="supp-approve-btn" onclick="approveSupplierProduct('${p.id}')">✅ Approuver</button>
+          <button class="supp-reject-btn" onclick="rejectSupplierProduct('${p.id}')">❌ Rejeter</button>
+        </div>
+      </div>`).join('');
+  }
+  if(approved.length > 0){
+    html += `<div style="font-size:.72rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);margin:.75rem 0 .5rem">✅ Approuvés & publiés (${approved.length})</div>`;
+    html += approved.map(p=>`
+      <div class="supp-row" style="opacity:.75">
+        <div class="supp-av" style="background:var(--green);color:#fff">${p.icon}</div>
+        <div class="supp-info">
+          <div class="supp-name">${p.name}</div>
+          <div class="supp-meta">${p.mfgName} · Publié dans le catalogue · ${p.submittedAt}</div>
+        </div>
+        <span style="font-size:.68rem;color:var(--green);flex-shrink:0;font-weight:500">✅ Publié</span>
+      </div>`).join('');
+  }
+  if(rejected.length > 0){
+    html += `<div style="font-size:.72rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);margin:.75rem 0 .5rem">❌ Rejetés (${rejected.length})</div>`;
+    html += rejected.map(p=>`
+      <div class="supp-row" style="opacity:.6">
+        <div class="supp-av" style="background:#ccc">${p.icon}</div>
+        <div class="supp-info">
+          <div class="supp-name">${p.name}</div>
+          <div class="supp-meta">${p.mfgName} · Rejeté</div>
+        </div>
+        <span style="font-size:.68rem;color:var(--red);flex-shrink:0;font-weight:500">❌ Rejeté</span>
+      </div>`).join('');
+  }
+  el.innerHTML = html;
+}
+
+function approveSupplierProduct(id){
+  const p = pendingProducts.find(pp=>pp.id===id);
+  if(!p) return;
+  p.status = 'approved';
+  const {id:_pid, mfgId, mfgName, mfgCity, mfgPhone, submittedAt, status, ...productData} = p;
+  allProducts.push({...productData, supplier: mfgName});
+  renderProducts();
+  renderAdminProducts();
+  renderAdminSuppliers();
+  // Reset admin menu badge
+  const menuItem = document.getElementById('admin-menu-fournisseurs');
+  const stillPending = pendingProducts.filter(pp=>pp.status==='pending').length;
+  if(menuItem) menuItem.innerHTML = stillPending > 0
+    ? `🏭 Fournisseurs <span class="supp-pending-badge">${stillPending}</span>`
+    : '🏭 Fournisseurs';
+  showToast('✅ Produit approuvé et ajouté au catalogue !');
+}
+
+function rejectSupplierProduct(id){
+  const p = pendingProducts.find(pp=>pp.id===id);
+  if(!p) return;
+  p.status = 'rejected';
+  renderAdminSuppliers();
+  const menuItem = document.getElementById('admin-menu-fournisseurs');
+  const stillPending = pendingProducts.filter(pp=>pp.status==='pending').length;
+  if(menuItem) menuItem.innerHTML = stillPending > 0
+    ? `🏭 Fournisseurs <span class="supp-pending-badge">${stillPending}</span>`
+    : '🏭 Fournisseurs';
+  showToast('❌ Produit rejeté.');
+}
+
 // ══ INIT ══
 renderProducts();
 renderReviews();
 injectManifest();
 registerSW();
+
+// ══ MOBILE MENU ══
+function toggleMobileMenu(){
+  const menu = document.getElementById('mobile-menu');
+  const ham = document.getElementById('nav-hamburger');
+  const open = menu.classList.toggle('open');
+  ham.classList.toggle('open', open);
+}
+function closeMobileMenu(){
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('nav-hamburger').classList.remove('open');
+}
+// Close mobile menu on outside click
+document.addEventListener('click', e=>{
+  const menu = document.getElementById('mobile-menu');
+  const ham = document.getElementById('nav-hamburger');
+  if(menu.classList.contains('open') && !menu.contains(e.target) && !ham.contains(e.target)){
+    closeMobileMenu();
+  }
+});
+// ══ MULTILINGUAL — FR / 中文 ══
+
+const i18n = {
+  fr: {
+    // Nav
+    'nav.cart': 'Panier',
+    'nav.login': 'Connexion',
+    'nav.sell': 'Vendre',
+    'nav.order': 'Commander',
+    // Hero
+    'hero.pill': '🇨🇳 Fabricants Chinois &nbsp;→&nbsp; 🇨🇩 Congo RDC',
+    'hero.title': 'Les meilleurs produits de <em>Chine</em>,<br>livrés au <em>Congo</em>',
+    'hero.sub': 'Accédez directement aux fabricants. Qualité certifiée, prix imbattables, livraison fiable partout en République Démocratique du Congo.',
+    'hero.cta1': 'Voir le catalogue',
+    'hero.cta2': 'Devis gratuit',
+    // Stats bar
+    'stat.products': 'Produits disponibles',
+    'stat.cats': 'Catégories',
+    'stat.delivery': 'Délai livraison',
+    'stat.quality': 'Qualité garantie',
+    // Catalogue
+    'cat.tag': 'Toutes nos catégories',
+    'cat.title': 'Explorez notre <em>catalogue complet</em>',
+    'cat.tab.elec': '📱 Électronique & Téléphones',
+    'cat.tab.vet': '👕 Vêtements & Mode',
+    'cat.tab.mais': '🏠 Maison & Cuisine',
+    'cat.tab.const': '🔧 Matériaux & Construction',
+    // Products
+    'prod.sort.default': 'Trier : Popularité',
+    'prod.sort.asc': 'Prix croissant',
+    'prod.sort.desc': 'Prix décroissant',
+    'prod.sort.new': 'Nouveautés d\'abord',
+    'prod.loadmore': 'Vous ne trouvez pas votre produit ? Faites une demande sur mesure →',
+    'prod.btn.order': 'Commander',
+    // How section
+    'how.tag': 'Processus simple & transparent',
+    'how.title': 'Comment <em>ça marche</em> ?',
+    'how.s1.t': 'Choisissez vos produits',
+    'how.s1.d': 'Parcourez le catalogue ou faites une demande sur mesure.',
+    'how.s2.t': 'Recevez votre devis',
+    'how.s2.d': 'Sous 48h : prix, délai et conditions confirmés.',
+    'how.s3.t': 'Nous commandons & expédions',
+    'how.s3.d': 'Inspection en Chine puis expédition vers le Congo.',
+    'how.s4.t': 'Livraison chez vous',
+    'how.s4.d': 'Réception à Kinshasa ou votre ville. Suivi fourni.',
+    // Reviews
+    'rev.tag': 'Ce que disent nos clients',
+    'rev.title': 'Ils nous font <em>confiance</em>',
+    'rev.count': 'Basé sur 124 commandes · 98% de satisfaction',
+    // Order section
+    'order.tag': 'Passez commande ou demandez un devis',
+    'order.title': 'Contactez-nous — <em>devis gratuit</em>',
+    'order.h3': 'Nous sommes à votre service',
+    'order.p1': 'Que vous soyez particulier ou commerçant, nous vous accompagnons de la sélection jusqu\'à la livraison en RDC.',
+    'order.p2': 'Envoyez votre demande et notre équipe vous répond <strong>sous 48 heures</strong>, devis clair et sans engagement.',
+    'order.form.title': '📦 Formulaire de commande / Devis',
+    'order.form.fname': 'Prénom *',
+    'order.form.lname': 'Nom *',
+    'order.form.phone': 'Téléphone / WhatsApp *',
+    'order.form.email': 'Email',
+    'order.form.city': 'Ville de livraison *',
+    'order.form.cat': 'Catégorie *',
+    'order.form.desc': 'Description de votre commande *',
+    'order.form.qty': 'Quantité estimée',
+    'order.form.budget': 'Budget (USD)',
+    'order.form.submit': 'Envoyer ma demande →',
+    'order.form.note': 'Réponse garantie sous 48h · Devis 100% gratuit et sans engagement',
+    'order.form.wa': 'Préférez WhatsApp ? Envoyez directement votre demande',
+    // Footer
+    'footer.copy': '© 2026 SinoCongo Market · Kinshasa, RDC',
+    'footer.catalogue': 'Catalogue',
+    'footer.reviews': 'Avis clients',
+    'footer.tracking': 'Suivi de commande',
+    'footer.contact': 'Contact',
+    // Cart
+    'cart.title': '🛒 Mon Panier',
+    'cart.empty': 'Votre panier est vide.<br>Ajoutez des produits depuis le catalogue.',
+    'cart.total': 'Total estimé',
+    'cart.pay': '💳 Payer par Mobile Money',
+    'cart.quote': 'Envoyer une demande de devis →',
+    'cart.pdf': '📄 Télécharger le devis PDF',
+    'cart.wa': 'Commander via WhatsApp',
+    'cart.note': 'Devis gratuit · Réponse sous 48h',
+    // Auth
+    'auth.title': '👤 Mon Compte',
+    'auth.s1.title': 'Connexion via WhatsApp',
+    'auth.s1.sub': 'Entrez votre numéro WhatsApp. Nous vous envoyons un code de confirmation.',
+    'auth.s1.placeholder': '+243 8XX XXX XXX',
+    'auth.s1.btn': 'Recevoir le code sur WhatsApp',
+    'auth.s2.title': 'Code de vérification',
+    'auth.s2.sub': 'Entrez le code à 6 chiffres envoyé sur votre WhatsApp.',
+    'auth.s2.verify': 'Vérifier',
+    'auth.s3.title': 'Connecté avec succès !',
+    'auth.logout': 'Se déconnecter',
+    // Manufacturer portal
+    'mfg.title': '🏭 Portail Fabricants & Fournisseurs',
+    'mfg.s1.title': 'Rejoignez SinoCongo Market',
+    'mfg.s1.sub': 'Vous êtes fabricant ou fournisseur ? Publiez vos produits et atteignez des milliers d\'acheteurs en République Démocratique du Congo.',
+    'mfg.s1.company': 'Nom de l\'entreprise *',
+    'mfg.s1.city': 'Ville *',
+    'mfg.s1.specialty': 'Spécialité *',
+    'mfg.s1.phone': 'Numéro WhatsApp *',
+    'mfg.s1.btn': 'Créer mon compte →',
+    'mfg.s1.login': 'Déjà inscrit ?',
+    'mfg.s1.loginlink': 'Se connecter via WhatsApp',
+    // Tracking
+    'track.title': '📦 Suivi de commande',
+    'track.placeholder': 'Numéro de commande (ex: SCM-2026-001)',
+    'track.btn': 'Rechercher',
+    // Chat
+    'chat.title': 'Assistant SinoCongo',
+    'chat.sub': 'Propulsé par Claude · En ligne',
+    'chat.placeholder': 'Posez votre question...',
+  },
+  zh: {
+    // Nav
+    'nav.cart': '购物车',
+    'nav.login': '登录',
+    'nav.sell': '入驻',
+    'nav.order': '下单',
+    // Hero
+    'hero.pill': '🇨🇳 中国厂商 &nbsp;→&nbsp; 🇨🇩 刚果（金）',
+    'hero.title': '直供<em>中国</em>优质商品，<br>配送至<em>刚果</em>',
+    'hero.sub': '直接对接厂商，品质认证，价格无敌，全程可靠配送至刚果民主共和国。',
+    'hero.cta1': '浏览商品',
+    'hero.cta2': '免费报价',
+    // Stats bar
+    'stat.products': '在售商品',
+    'stat.cats': '商品分类',
+    'stat.delivery': '配送时间',
+    'stat.quality': '品质保证',
+    // Catalogue
+    'cat.tag': '全部分类',
+    'cat.title': '浏览我们的<em>完整目录</em>',
+    'cat.tab.elec': '📱 电子产品',
+    'cat.tab.vet': '👕 服装时尚',
+    'cat.tab.mais': '🏠 家居厨房',
+    'cat.tab.const': '🔧 建材工具',
+    // Products
+    'prod.sort.default': '排序：热度',
+    'prod.sort.asc': '价格从低到高',
+    'prod.sort.desc': '价格从高到低',
+    'prod.sort.new': '最新商品',
+    'prod.loadmore': '没找到想要的商品？提交定制需求 →',
+    'prod.btn.order': '立即下单',
+    // How section
+    'how.tag': '简单透明的流程',
+    'how.title': '如何<em>运作</em>？',
+    'how.s1.t': '选择商品',
+    'how.s1.d': '浏览目录或提交定制需求。',
+    'how.s2.t': '收到报价',
+    'how.s2.d': '48小时内确认价格、时间和条款。',
+    'how.s3.t': '下单 & 发货',
+    'how.s3.d': '中国验货后发往刚果。',
+    'how.s4.t': '送货上门',
+    'how.s4.d': '金沙萨或您所在城市收货，提供追踪。',
+    // Reviews
+    'rev.tag': '客户评价',
+    'rev.title': '他们<em>信任</em>我们',
+    'rev.count': '基于124笔订单 · 98%满意度',
+    // Order section
+    'order.tag': '下单或申请报价',
+    'order.title': '联系我们 — <em>免费报价</em>',
+    'order.h3': '我们为您服务',
+    'order.p1': '无论是个人还是商家，我们全程陪伴您从选品到配送。',
+    'order.p2': '提交需求后，我们将在<strong>48小时内</strong>回复清晰无附加条件的报价。',
+    'order.form.title': '📦 订单 / 报价表单',
+    'order.form.fname': '名字 *',
+    'order.form.lname': '姓氏 *',
+    'order.form.phone': '电话 / WhatsApp *',
+    'order.form.email': '电子邮件',
+    'order.form.city': '配送城市 *',
+    'order.form.cat': '商品分类 *',
+    'order.form.desc': '订单描述 *',
+    'order.form.qty': '预计数量',
+    'order.form.budget': '预算（美元）',
+    'order.form.submit': '提交申请 →',
+    'order.form.note': '48小时内保证回复 · 100%免费报价，无附加条件',
+    'order.form.wa': '偏好WhatsApp？直接发送您的需求',
+    // Footer
+    'footer.copy': '© 2026 SinoCongo Market · 金沙萨，刚果民主共和国',
+    'footer.catalogue': '商品目录',
+    'footer.reviews': '客户评价',
+    'footer.tracking': '订单追踪',
+    'footer.contact': '联系我们',
+    // Cart
+    'cart.title': '🛒 我的购物车',
+    'cart.empty': '购物车为空。<br>请从商品目录添加商品。',
+    'cart.total': '预计总额',
+    'cart.pay': '💳 手机支付',
+    'cart.quote': '发送报价申请 →',
+    'cart.pdf': '📄 下载报价PDF',
+    'cart.wa': 'WhatsApp下单',
+    'cart.note': '免费报价 · 48小时内回复',
+    // Auth
+    'auth.title': '👤 我的账户',
+    'auth.s1.title': '通过WhatsApp登录',
+    'auth.s1.sub': '输入您的WhatsApp号码，我们将发送验证码。',
+    'auth.s1.placeholder': '+243 8XX XXX XXX',
+    'auth.s1.btn': '通过WhatsApp接收验证码',
+    'auth.s2.title': '验证码',
+    'auth.s2.sub': '请输入WhatsApp发送的6位验证码。',
+    'auth.s2.verify': '验证',
+    'auth.s3.title': '登录成功！',
+    'auth.logout': '退出登录',
+    // Manufacturer portal
+    'mfg.title': '🏭 厂商 & 供应商入驻',
+    'mfg.s1.title': '加入 SinoCongo Market',
+    'mfg.s1.sub': '您是厂商或供应商？发布商品，触达刚果民主共和国数千名买家。',
+    'mfg.s1.company': '企业名称 *',
+    'mfg.s1.city': '城市 *',
+    'mfg.s1.specialty': '主营类目 *',
+    'mfg.s1.phone': 'WhatsApp号码 *',
+    'mfg.s1.btn': '创建账户 →',
+    'mfg.s1.login': '已有账户？',
+    'mfg.s1.loginlink': '通过WhatsApp登录',
+    // Tracking
+    'track.title': '📦 订单追踪',
+    'track.placeholder': '订单号（例：SCM-2026-001）',
+    'track.btn': '查询',
+    // Chat
+    'chat.title': 'SinoCongo 助手',
+    'chat.sub': '由 Claude 驱动 · 在线',
+    'chat.placeholder': '请输入您的问题...',
+  }
+};
+
+function t(key){ return (i18n[siteLang] && i18n[siteLang][key]) || (i18n.fr[key]) || key; }
+
+function setSiteLang(lang){
+  siteLang = lang;
+  // Update lang toggle buttons
+  ['fr','zh'].forEach(l=>{
+    const b1 = document.getElementById('lang-btn-'+l);
+    const b2 = document.getElementById('mob-lang-'+l);
+    if(b1) b1.classList.toggle('active', l===lang);
+    if(b2) b2.classList.toggle('active', l===lang);
+  });
+  applyI18n();
+  renderProducts();
+  renderReviews();
+  // Sync chatbot language (FR ↔ ZH from site-wide toggle)
+  if(lang==='zh' || lang==='fr'){ chatLang = lang; setLang(lang); }
+  // Update chat placeholder
+  const ci = document.getElementById('chat-input');
+  if(ci) ci.placeholder = t('chat.placeholder');
+  // Update nav search placeholder
+  const ns = document.getElementById('nav-search');
+  if(ns) ns.placeholder = lang==='zh' ? '搜索商品...' : 'Rechercher un produit...';
+  const ms = document.getElementById('mobile-search');
+  if(ms) ms.placeholder = lang==='zh' ? '搜索商品...' : 'Rechercher un produit...';
+  // Update html lang attr
+  document.documentElement.lang = lang==='zh'?'zh':'fr';
+}
+
+function applyI18n(){
+  const lang = siteLang;
+  // data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    const val = t(key);
+    if(val) el.innerHTML = val;
+  });
+
+  // Hero section
+  const heroPill = document.querySelector('.hero-pill');
+  if(heroPill) heroPill.innerHTML = t('hero.pill');
+  const heroH1 = document.querySelector('.hero h1');
+  if(heroH1) heroH1.innerHTML = t('hero.title');
+  const heroSub = document.querySelector('.hero-sub');
+  if(heroSub) heroSub.textContent = t('hero.sub');
+  const heroCta1 = document.querySelector('.hero-actions .btn-gold');
+  if(heroCta1) heroCta1.textContent = t('hero.cta1');
+  const heroCta2 = document.querySelector('.hero-actions .btn-ghost');
+  if(heroCta2) heroCta2.textContent = t('hero.cta2');
+
+  // Stats bar
+  const statLabels = document.querySelectorAll('.stat-l');
+  const statKeys = ['stat.products','stat.cats','stat.delivery','stat.quality'];
+  statLabels.forEach((el,i)=>{ if(statKeys[i]) el.textContent = t(statKeys[i]); });
+
+  // Catalogue tags
+  const catTag = document.querySelector('.cat-section .s-tag');
+  if(catTag) catTag.textContent = t('cat.tag');
+  const catTitle = document.querySelector('.cat-section .s-title');
+  if(catTitle) catTitle.innerHTML = t('cat.title');
+  const catTabs = document.querySelectorAll('.cat-tab');
+  const catTabKeys = ['cat.tab.elec','cat.tab.vet','cat.tab.mais','cat.tab.const'];
+  catTabs.forEach((el,i)=>{ if(catTabKeys[i]) el.innerHTML = t(catTabKeys[i]); });
+
+  // Sort
+  const sortSel = document.querySelector('.prod-sort');
+  if(sortSel){
+    const opts = sortSel.querySelectorAll('option');
+    const sortKeys = ['prod.sort.default','prod.sort.asc','prod.sort.desc','prod.sort.new'];
+    opts.forEach((o,i)=>{ if(sortKeys[i]) o.textContent = t(sortKeys[i]); });
+  }
+
+  // How section
+  const howTag = document.querySelector('.how-section .s-tag');
+  if(howTag) howTag.textContent = t('how.tag');
+  const howTitle = document.querySelector('.how-section .s-title');
+  if(howTitle) howTitle.innerHTML = t('how.title');
+  const stepTitles = document.querySelectorAll('.step-t');
+  const stepDescs = document.querySelectorAll('.step-d');
+  const stepTKeys = ['how.s1.t','how.s2.t','how.s3.t','how.s4.t'];
+  const stepDKeys = ['how.s1.d','how.s2.d','how.s3.d','how.s4.d'];
+  stepTitles.forEach((el,i)=>{ if(stepTKeys[i]) el.textContent = t(stepTKeys[i]); });
+  stepDescs.forEach((el,i)=>{ if(stepDKeys[i]) el.textContent = t(stepDKeys[i]); });
+
+  // Reviews
+  const revTag = document.querySelector('.reviews-section .s-tag');
+  if(revTag) revTag.textContent = t('rev.tag');
+  const revTitle = document.querySelector('.reviews-section .s-title');
+  if(revTitle) revTitle.innerHTML = t('rev.title');
+  const revCount = document.querySelector('.rating-count');
+  if(revCount) revCount.textContent = t('rev.count');
+
+  // Order section
+  const orderTag = document.querySelector('.order-section .s-tag');
+  if(orderTag) orderTag.textContent = t('order.tag');
+  const orderTitle = document.querySelector('.order-section .s-title');
+  if(orderTitle) orderTitle.innerHTML = t('order.title');
+  const orderH3 = document.querySelector('.order-left h3');
+  if(orderH3) orderH3.textContent = t('order.h3');
+  const orderPs = document.querySelectorAll('.order-left > p');
+  if(orderPs[0]) orderPs[0].textContent = t('order.p1');
+  if(orderPs[1]) orderPs[1].innerHTML = t('order.p2');
+  const formHead = document.querySelector('.form-head');
+  if(formHead) formHead.textContent = t('order.form.title');
+  // Form labels
+  const formLabels = document.querySelectorAll('.form-box .fg label');
+  const formLabelKeys = ['order.form.fname','order.form.lname','order.form.phone','order.form.email','order.form.city','order.form.cat','order.form.desc','order.form.qty','order.form.budget'];
+  formLabels.forEach((el,i)=>{ if(formLabelKeys[i]) el.textContent = t(formLabelKeys[i]); });
+  const formSubmit = document.querySelector('.form-submit');
+  if(formSubmit) formSubmit.textContent = t('order.form.submit');
+  const formNote = document.querySelector('.form-note');
+  if(formNote) formNote.textContent = t('order.form.note');
+  const formWa = document.querySelector('.form-wa-alt span:last-child');
+  if(formWa) formWa.textContent = t('order.form.wa');
+
+  // Footer
+  const footCopy = document.querySelector('footer > div > p');
+  if(footCopy) footCopy.textContent = t('footer.copy');
+  const footLinks = document.querySelectorAll('.foot-links a');
+  const footLinkKeys = ['footer.catalogue','footer.reviews','footer.tracking','footer.contact'];
+  footLinks.forEach((el,i)=>{ if(footLinkKeys[i]) el.textContent = t(footLinkKeys[i]); });
+
+  // Cart drawer
+  const cartHeadTitle = document.querySelector('.cart-head-title');
+  if(cartHeadTitle) cartHeadTitle.textContent = t('cart.title');
+  const cartTotalLabel = document.querySelector('.cart-total-label');
+  if(cartTotalLabel) cartTotalLabel.textContent = t('cart.total');
+  const cartCheckout = document.querySelector('.cart-checkout-btn');
+  if(cartCheckout) cartCheckout.textContent = t('cart.pay');
+  const cartPdf = document.querySelector('.cart-pdf-btn');
+  if(cartPdf) cartPdf.textContent = t('cart.pdf');
+  const cartNote = document.querySelector('.cart-note');
+  if(cartNote) cartNote.textContent = t('cart.note');
+
+  // Auth modal
+  const authTitle = document.querySelector('#auth-overlay .modal-title');
+  if(authTitle) authTitle.textContent = t('auth.title');
+  const authS1Title = document.querySelector('#auth-s1 .auth-title');
+  if(authS1Title) authS1Title.textContent = t('auth.s1.title');
+  const authS1Sub = document.querySelector('#auth-s1 .auth-sub');
+  if(authS1Sub) authS1Sub.textContent = t('auth.s1.sub');
+  const authPhone = document.getElementById('auth-phone');
+  if(authPhone) authPhone.placeholder = t('auth.s1.placeholder');
+  const authWaBtn = document.querySelector('#auth-s1 .auth-wa-btn');
+  if(authWaBtn){ const span = authWaBtn.querySelector('svg'); authWaBtn.childNodes[authWaBtn.childNodes.length-1].textContent = ' '+t('auth.s1.btn'); }
+  const authS2Title = document.querySelector('#auth-s2 .auth-title');
+  if(authS2Title) authS2Title.textContent = t('auth.s2.title');
+  const authVerify = document.querySelector('#auth-s2 .auth-btn');
+  if(authVerify) authVerify.textContent = t('auth.s2.verify');
+  const authS3Title = document.querySelector('#auth-s3 .auth-title');
+  if(authS3Title) authS3Title.textContent = t('auth.s3.title');
+  const logoutBtn = document.querySelector('#auth-s3 .auth-btn');
+  if(logoutBtn) logoutBtn.textContent = t('auth.logout');
+
+  // Tracking modal
+  const trackTitle = document.querySelector('#track-overlay .modal-title');
+  if(trackTitle) trackTitle.textContent = t('track.title');
+  const trackInput = document.getElementById('track-input');
+  if(trackInput) trackInput.placeholder = t('track.placeholder');
+  const trackBtn = document.querySelector('.track-btn');
+  if(trackBtn) trackBtn.textContent = t('track.btn');
+
+  // Manufacturer portal
+  const mfgTitle = document.querySelector('.mfg-title');
+  if(mfgTitle) mfgTitle.textContent = t('mfg.title');
+  const mfgS1Title = document.querySelector('#mfg-s1 .mfg-screen-title');
+  if(mfgS1Title) mfgS1Title.textContent = t('mfg.s1.title');
+  const mfgS1Sub = document.querySelector('#mfg-s1 .mfg-screen-sub');
+  if(mfgS1Sub) mfgS1Sub.textContent = t('mfg.s1.sub');
+  const mfgLabels = document.querySelectorAll('.mfg-form label');
+  const mfgLabelKeys = ['mfg.s1.company','mfg.s1.city','mfg.s1.specialty','mfg.s1.phone'];
+  mfgLabels.forEach((el,i)=>{ if(mfgLabelKeys[i]) el.textContent = t(mfgLabelKeys[i]); });
+  const mfgSubmit = document.querySelector('#mfg-s1 .mfg-submit-btn');
+  if(mfgSubmit) mfgSubmit.textContent = t('mfg.s1.btn');
+  const mfgLoginLink = document.querySelector('#mfg-s1 .mfg-link');
+  if(mfgLoginLink) mfgLoginLink.innerHTML = t('mfg.s1.login') + ' <span onclick="showMfgScreen(2)">' + t('mfg.s1.loginlink') + '</span>';
+  const mfgS2Title = document.querySelector('#mfg-s2 .mfg-screen-title');
+  if(mfgS2Title) mfgS2Title.textContent = t('auth.s2.title');
+
+  // Chat
+  const chatHeadTitle = document.querySelector('.chat-head-title');
+  if(chatHeadTitle) chatHeadTitle.textContent = t('chat.title');
+  const chatHeadSub = document.querySelector('.chat-head-sub');
+  if(chatHeadSub) chatHeadSub.textContent = t('chat.sub');
+  const chatInputEl = document.getElementById('chat-input');
+  if(chatInputEl) chatInputEl.placeholder = t('chat.placeholder');
+
+  // Load-more button
+  const loadMore = document.querySelector('.btn-load');
+  if(loadMore) loadMore.textContent = t('prod.loadmore');
+
+  // Category description bar (update for current active cat)
+  const catDescEl = document.getElementById('cat-desc-text');
+  if(catDescEl && catMeta[currentCat]){
+    catDescEl.innerHTML = catMeta[currentCat].desc[siteLang] || catMeta[currentCat].desc.fr;
+  }
+}
+
+// Run i18n on page load (default FR, nothing changes but primes the system)
+applyI18n();
 </script>
 </body>
 </html>
