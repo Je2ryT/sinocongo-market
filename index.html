@@ -8,7 +8,7 @@
 <meta property="og:title" content="SinoCongo Market — Importations de Qualité">
 <meta property="og:description" content="Les meilleurs produits de Chine livrés au Congo RDC. Qualité certifiée, prix imbattables.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#C9A84C">
+<meta name="theme-color" content="#1D6B68">
 <link rel="manifest" href="#" id="pwa-manifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -17,50 +17,57 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --gold:#C9A84C;--gold-l:#E8C96A;--gold-pale:#FDF8EE;
+  --teal:#1D6B68;--teal-l:#2D8A87;--teal-pale:#EDF7F6;
+  --gold:var(--teal);--gold-l:var(--teal-l);--gold-pale:var(--teal-pale);
+  --terracotta:#B85C38;
   --red:#C0392B;--green:#1A6B3C;--green-l:#e6f5ec;
-  --dark:#181818;--mid:#4A4A4A;--muted:#888;
-  --bg:#F8F7F3;--white:#FFFFFF;--border:#E5DFD0;
-  --radius:3px;
+  --dark:#1A1A1A;--mid:#5A5A5A;--muted:#9A9A9A;
+  --bg:#F0EBE4;--white:#FFFFFF;--border:#E5E0D8;
+  --radius:10px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark);overflow-x:hidden}
 
 /* ── NAV ── */
-nav{position:sticky;top:0;z-index:300;background:var(--dark);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;border-bottom:2px solid var(--gold);gap:1rem}
-.logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900;color:var(--gold);text-decoration:none;flex-shrink:0}
-.logo span{color:#fff}
-.nav-center{display:flex;align-items:center;gap:.5rem;flex:1;max-width:380px;margin:0 auto}
+nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;border-bottom:1px solid var(--border);gap:1.5rem}
+.logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;flex-shrink:0}
+.logo-badge{width:34px;height:34px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#fff;letter-spacing:.02em;flex-shrink:0}
+.logo-text .logo-name{font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:700;color:var(--dark);line-height:1.2}
+.logo-text .logo-sub{font-size:.58rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.nav-links-center{display:flex;align-items:center;gap:1.75rem;margin:0 auto}
+.nav-page-link{font-size:.88rem;font-weight:500;color:var(--mid);text-decoration:none;transition:color .2s;cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;padding:0}
+.nav-page-link.active,.nav-page-link:hover{color:var(--teal)}
+.nav-center{display:flex;align-items:center;gap:.5rem;flex:1;max-width:320px}
 .nav-search-wrap{position:relative;flex:1}
-.nav-search{width:100%;padding:.42rem 1rem .42rem 2.2rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#fff;font-family:'DM Sans',sans-serif;font-size:.82rem;border-radius:var(--radius);outline:none;transition:border-color .2s}
-.nav-search::placeholder{color:#777}
-.nav-search:focus{border-color:var(--gold)}
-.search-icon{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);font-size:.85rem;pointer-events:none}
+.nav-search{width:100%;padding:.42rem 1rem .42rem 2.2rem;background:#f5f4f2;border:1px solid var(--border);color:var(--dark);font-family:'DM Sans',sans-serif;font-size:.82rem;border-radius:var(--radius);outline:none;transition:border-color .2s}
+.nav-search::placeholder{color:var(--muted)}
+.nav-search:focus{border-color:var(--teal)}
+.search-icon{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);font-size:.85rem;pointer-events:none;opacity:.5}
 .nav-right{display:flex;align-items:center;gap:.75rem;flex-shrink:0}
-.devise-toggle{display:flex;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);overflow:hidden}
-.devise-btn{padding:.3rem .65rem;font-size:.72rem;font-weight:500;cursor:pointer;border:none;background:none;color:#999;font-family:'DM Sans',sans-serif;transition:all .2s}
-.devise-btn.active{background:var(--gold);color:var(--dark)}
-.cart-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#ccc;padding:.3rem .75rem;border-radius:var(--radius);cursor:pointer;font-size:.85rem;display:flex;align-items:center;gap:.4rem;transition:all .2s;font-family:'DM Sans',sans-serif}
-.cart-btn:hover{border-color:var(--gold);color:var(--gold)}
+.devise-toggle{display:flex;background:#f5f4f2;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.devise-btn{padding:.3rem .65rem;font-size:.72rem;font-weight:500;cursor:pointer;border:none;background:none;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all .2s}
+.devise-btn.active{background:var(--teal);color:#fff}
+.cart-btn{background:#f5f4f2;border:1px solid var(--border);color:var(--dark);padding:.35rem .85rem;border-radius:var(--radius);cursor:pointer;font-size:.85rem;display:flex;align-items:center;gap:.4rem;transition:all .2s;font-family:'DM Sans',sans-serif}
+.cart-btn:hover{border-color:var(--teal);color:var(--teal)}
 .cart-label{font-size:.72rem;}
-.cart-count{background:var(--gold);color:var(--dark);border-radius:50%;width:18px;height:18px;font-size:.65rem;font-weight:700;display:none;align-items:center;justify-content:center}
+.cart-count{background:var(--teal);color:#fff;border-radius:50%;width:18px;height:18px;font-size:.65rem;font-weight:700;display:none;align-items:center;justify-content:center}
 .cart-count.visible{display:flex}
-.nav-btn{background:var(--gold);color:var(--dark);border:none;padding:.38rem 1rem;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;transition:background .2s;border-radius:var(--radius)}
-.nav-btn:hover{background:var(--gold-l)}
+.nav-btn{background:var(--teal);color:#fff;border:none;padding:.42rem 1rem;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:500;letter-spacing:.04em;cursor:pointer;transition:background .2s;border-radius:var(--radius)}
+.nav-btn:hover{background:var(--teal-l)}
 
 /* ── SEARCH DROPDOWN ── */
-.search-dropdown{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--dark);border:1px solid rgba(201,168,76,.3);border-radius:var(--radius);z-index:400;max-height:320px;overflow-y:auto;display:none;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.search-dropdown{position:absolute;top:calc(100% + 8px);left:0;right:0;background:#fff;border:1px solid var(--border);border-radius:var(--radius);z-index:400;max-height:320px;overflow-y:auto;display:none;box-shadow:0 8px 32px rgba(0,0,0,.1)}
 .search-dropdown.open{display:block}
-.search-result-item{display:flex;align-items:center;gap:.75rem;padding:.7rem 1rem;cursor:pointer;transition:background .15s;border-bottom:1px solid rgba(255,255,255,.05)}
+.search-result-item{display:flex;align-items:center;gap:.75rem;padding:.7rem 1rem;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border)}
 .search-result-item:last-child{border-bottom:none}
-.search-result-item:hover{background:rgba(201,168,76,.08)}
+.search-result-item:hover{background:var(--teal-pale)}
 .sri-icon{font-size:1.3rem;width:28px;text-align:center;flex-shrink:0}
 .sri-info{flex:1;min-width:0}
-.sri-name{font-size:.82rem;color:#eee;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sri-cat{font-size:.68rem;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}
-.sri-price{font-size:.8rem;font-weight:500;color:#ccc;flex-shrink:0}
-.search-no-result{padding:1rem;text-align:center;font-size:.82rem;color:#777}
+.sri-name{font-size:.82rem;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sri-cat{font-size:.68rem;color:var(--teal);letter-spacing:.08em;text-transform:uppercase}
+.sri-price{font-size:.8rem;font-weight:500;color:var(--mid);flex-shrink:0}
+.search-no-result{padding:1rem;text-align:center;font-size:.82rem;color:var(--muted)}
 
 /* ── CART DRAWER ── */
 .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;opacity:0;pointer-events:none;transition:opacity .3s}
@@ -143,7 +150,7 @@ nav{position:sticky;top:0;z-index:300;background:var(--dark);height:60px;display
 .ts-date{font-size:.72rem;color:var(--muted);margin-top:.15rem}
 .track-not-found{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.88rem}
 .track-demo-hint{font-size:.75rem;color:var(--muted);text-align:center;margin-top:1rem;padding:.6rem;background:var(--bg);border-radius:var(--radius)}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.4)}50%{box-shadow:0 0 0 6px rgba(201,168,76,0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(29,107,104,.4)}50%{box-shadow:0 0 0 6px rgba(29,107,104,0)}}
 
 /* ── REVIEWS ── */
 .reviews-section{background:var(--white)}
@@ -214,10 +221,10 @@ nav{position:sticky;top:0;z-index:300;background:var(--dark);height:60px;display
 .status-btn.active-status{background:var(--dark);color:var(--gold);border-color:var(--dark)}
 
 /* ── HERO ── */
-.hero{background:var(--dark);min-height:86vh;display:grid;grid-template-columns:1fr 420px;align-items:center;position:relative;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 75% 50%,rgba(201,168,76,.1) 0%,transparent 70%);pointer-events:none}
+.hero{background:var(--dark);background-size:cover;background-position:center;min-height:86vh;display:grid;grid-template-columns:1fr 420px;align-items:center;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:rgba(0,0,0,.58);pointer-events:none}
 .hero-text{padding:5rem 4rem 5rem 5rem;position:relative;z-index:2}
-.hero-pill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.35);color:var(--gold);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;padding:.3rem .85rem;border-radius:2px;margin-bottom:2rem;animation:up .7s ease both}
+.hero-pill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(29,107,104,.18);border:1px solid rgba(29,107,104,.4);color:var(--teal-pale);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;padding:.3rem .85rem;border-radius:20px;margin-bottom:2rem;animation:up .7s ease both}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:900;line-height:1.07;color:#fff;animation:up .7s .12s ease both}
 .hero h1 em{color:var(--gold);font-style:normal}
 .hero-sub{margin-top:1.4rem;font-size:1rem;font-weight:300;color:#aaa;line-height:1.75;max-width:420px;animation:up .7s .24s ease both}
@@ -227,7 +234,7 @@ nav{position:sticky;top:0;z-index:300;background:var(--dark);height:60px;display
 .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.25);padding:.8rem 1.8rem;font-family:'DM Sans',sans-serif;font-size:.88rem;letter-spacing:.05em;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;border-radius:var(--radius)}
 .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
 .hero-visual{display:flex;align-items:center;justify-content:center;padding:3rem 2rem;animation:up .9s .1s ease both}
-.route-card{background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);padding:2rem;border-radius:4px;width:100%;max-width:340px}
+.route-card{background:rgba(255,255,255,.04);border:1px solid rgba(29,107,104,.3);padding:2rem;border-radius:14px;width:100%;max-width:340px}
 .route-header{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;text-align:center}
 .route-node{display:flex;align-items:center;gap:1rem;padding:.9rem 0}
 .route-flag{font-size:1.6rem;width:40px;text-align:center}
@@ -235,9 +242,9 @@ nav{position:sticky;top:0;z-index:300;background:var(--dark);height:60px;display
 .route-sub{font-size:.72rem;color:#888;margin-top:.1rem}
 .route-connector{display:flex;align-items:center;padding:.4rem 0 .4rem 1.1rem;gap:.75rem}
 .route-dots{display:flex;flex-direction:column;gap:4px}
-.route-dots span{display:block;width:3px;height:3px;border-radius:50%;background:rgba(201,168,76,.5)}
+.route-dots span{display:block;width:3px;height:3px;border-radius:50%;background:rgba(29,107,104,.5)}
 .route-arrow-label{font-size:.68rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase}
-.route-stats{margin-top:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:.75rem;border-top:1px solid rgba(201,168,76,.15);padding-top:1.5rem}
+.route-stats{margin-top:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:.75rem;border-top:1px solid rgba(29,107,104,.15);padding-top:1.5rem}
 .rstat{text-align:center}
 .rstat-n{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--gold)}
 .rstat-l{font-size:.65rem;color:#888;letter-spacing:.08em;text-transform:uppercase;margin-top:.1rem}
@@ -256,60 +263,85 @@ nav{position:sticky;top:0;z-index:300;background:var(--dark);height:60px;display
 .s-title em{color:var(--gold);font-style:normal}
 
 /* ── CATALOGUE ── */
-.cat-section{background:var(--white)}
-.cat-tabs{display:flex;margin-top:2.5rem;border-bottom:2px solid var(--border);overflow-x:auto}
-.cat-tab{display:flex;align-items:center;gap:.6rem;padding:.9rem 1.6rem;font-size:.82rem;font-weight:500;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;white-space:nowrap;font-family:'DM Sans',sans-serif}
-.cat-tab.active{color:var(--dark);border-bottom-color:var(--gold)}
-.cat-tab:hover:not(.active){color:var(--mid)}
-.cat-desc-bar{margin-top:1.5rem;background:var(--gold-pale);border:1px solid var(--border);padding:1rem 1.5rem;display:flex;align-items:center;gap:1rem;border-radius:var(--radius)}
-.cat-desc-bar .dicon{font-size:1.4rem}
-.cat-desc-bar p{font-size:.85rem;color:var(--mid);line-height:1.5}
-.cat-desc-bar strong{color:var(--dark);font-weight:500}
+.cat-section{background:var(--bg);padding:3rem 3rem 1.5rem}
+.catalogue-header{margin-bottom:1.75rem}
+.catalogue-h1{font-family:'DM Sans',sans-serif;font-size:2.4rem;font-weight:900;color:var(--dark);letter-spacing:-.02em;line-height:1;text-transform:uppercase}
+.catalogue-sub{font-size:.88rem;color:var(--muted);margin-top:.4rem}
+.catalogue-toolbar{display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem}
+.cat-search-wrap{position:relative;flex:1;max-width:420px}
+.cat-search-icon{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);font-size:.85rem;opacity:.45;pointer-events:none}
+.cat-search-input{width:100%;padding:.62rem 1rem .62rem 2.4rem;background:#fff;border:1px solid var(--border);color:var(--dark);font-family:'DM Sans',sans-serif;font-size:.85rem;border-radius:var(--radius);outline:none;transition:border-color .2s}
+.cat-search-input:focus{border-color:var(--teal)}
+.cat-sort-select{padding:.62rem 1.1rem;border:1px solid var(--border);background:#fff;font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--mid);cursor:pointer;outline:none;border-radius:var(--radius);appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239A9A9A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .8rem center;padding-right:2.2rem}
+.cat-pills{display:flex;gap:.5rem;flex-wrap:wrap}
+.cat-pill{display:inline-flex;align-items:center;gap:.45rem;padding:.55rem 1.15rem;font-size:.82rem;font-weight:500;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--mid);border-radius:50px;transition:all .2s;white-space:nowrap;font-family:'DM Sans',sans-serif}
+.cat-pill.active{background:var(--dark);color:#fff;border-color:var(--dark)}
+.cat-pill:hover:not(.active){border-color:var(--teal);color:var(--teal)}
 
 /* ── PRODUCTS ── */
-.prod-section{background:var(--bg)}
-.prod-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+.prod-section{background:var(--bg);padding:1.5rem 3rem 4rem}
+.prod-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem}
 .prod-count{font-size:.82rem;color:var(--muted)}
 .prod-sort{padding:.4rem .8rem;border:1px solid var(--border);background:var(--white);font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--mid);cursor:pointer;outline:none;border-radius:var(--radius)}
-.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
-.prod-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .25s;display:flex;flex-direction:column}
-.prod-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.09);transform:translateY(-3px)}
-.prod-img{height:185px;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;font-size:3.2rem;position:relative;overflow:hidden}
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
+.prod-card{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .25s;display:flex;flex-direction:column}
+.prod-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.08);transform:translateY(-2px)}
+.prod-img{height:195px;background:#E8E6E1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .prod-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
-.prod-img .prod-emoji{position:relative;z-index:1}
+.prod-img-placeholder{color:#C4C0BA}
+.prod-city-badge{position:absolute;top:10px;left:10px;background:rgba(255,255,255,.92);backdrop-filter:blur(4px);color:var(--dark);font-size:.66rem;font-weight:600;padding:.22rem .62rem;border-radius:30px;border:1px solid rgba(0,0,0,.06);z-index:2}
+.prod-moq-badge{position:absolute;top:10px;left:10px;background:var(--terracotta);color:#fff;font-size:.63rem;font-weight:600;padding:.22rem .58rem;border-radius:30px;z-index:2}
+.prod-city-badge+.prod-city-badge,.prod-moq-badge+.prod-city-badge{top:36px}
 .img-upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);margin-bottom:.75rem}
-.img-upload-zone:hover{border-color:var(--gold);background:var(--gold-pale)}
+.img-upload-zone:hover{border-color:var(--teal);background:var(--teal-pale)}
 .img-upload-zone input[type=file]{display:none}
 .img-preview{width:100%;height:120px;object-fit:cover;border-radius:var(--radius);margin-bottom:.5rem;display:none}
 .img-preview.visible{display:block}
 .img-upload-label{font-size:.78rem;color:var(--muted);line-height:1.5}
-.img-upload-label strong{color:var(--gold);font-weight:500}
-.apl-thumb{width:36px;height:36px;border-radius:var(--radius);object-fit:cover;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;overflow:hidden}
+.img-upload-label strong{color:var(--teal);font-weight:500}
+.apl-thumb{width:36px;height:36px;border-radius:var(--radius);object-fit:cover;background:var(--teal-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;overflow:hidden}
 .apl-thumb img{width:100%;height:100%;object-fit:cover}
-.prod-badge{position:absolute;top:10px;left:10px;font-size:.63rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;padding:.22rem .6rem;border-radius:2px}
+.prod-body{padding:1rem 1rem 1.1rem;flex:1;display:flex;flex-direction:column}
+.prod-cat-label{font-size:.62rem;color:var(--mid);letter-spacing:.12em;text-transform:uppercase;font-weight:500;margin-bottom:.3rem}
+.prod-name{font-family:'DM Sans',sans-serif;font-size:.92rem;font-weight:700;color:var(--dark);margin-bottom:.55rem;line-height:1.35}
+.prod-price-main{font-family:'DM Sans',sans-serif;font-size:1.3rem;font-weight:800;color:var(--dark);letter-spacing:-.02em;line-height:1}
+.prod-price-alt{font-size:.71rem;color:var(--muted);margin-top:.2rem;margin-bottom:.65rem}
+.btn-add-cart{width:100%;padding:.68rem;background:var(--teal);color:#fff;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:.45rem}
+.btn-add-cart:hover{background:var(--teal-l)}
+.btn-add-cart.in-cart{background:#E8E6E1;color:var(--dark)}
+/* keep legacy classes for admin/modal usage */
+.prod-badge{position:absolute;top:10px;right:10px;font-size:.6rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.2rem .55rem;border-radius:30px;z-index:2}
 .badge-hot{background:var(--red);color:#fff}
 .badge-new{background:var(--green);color:#fff}
-.badge-promo{background:var(--dark);color:var(--gold)}
-.prod-body{padding:1.1rem;flex:1;display:flex;flex-direction:column}
-.prod-cat-label{font-size:.65rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem}
-.prod-name{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--dark);margin-bottom:.4rem;line-height:1.3}
-.prod-desc{font-size:.78rem;color:var(--muted);line-height:1.55;flex:1;margin-bottom:1rem}
+.badge-promo{background:var(--dark);color:#fff}
 .prod-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:.9rem;gap:.5rem}
-.prod-price{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--dark);flex-shrink:0}
+.prod-price{font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:700;color:var(--dark);flex-shrink:0}
 .prod-actions{display:flex;gap:.4rem}
-.btn-cmd{background:var(--dark);color:var(--gold);border:none;padding:.42rem .85rem;font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;border-radius:2px;white-space:nowrap}
-.btn-cmd:hover{background:var(--gold);color:var(--dark)}
-.btn-cart-add{background:var(--gold-pale);color:var(--dark);border:1px solid var(--border);padding:.42rem .7rem;font-size:.85rem;cursor:pointer;border-radius:2px;transition:all .2s}
-.btn-cart-add:hover{background:var(--gold);border-color:var(--gold)}
+.btn-cmd{background:var(--teal);color:#fff;border:none;padding:.42rem .85rem;font-size:.7rem;letter-spacing:.05em;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;border-radius:8px;white-space:nowrap}
+.btn-cmd:hover{background:var(--teal-l)}
+.btn-cart-add{background:var(--teal-pale);color:var(--teal);border:1px solid var(--teal);padding:.42rem .7rem;font-size:.85rem;cursor:pointer;border-radius:8px;transition:all .2s}
+.btn-cart-add:hover{background:var(--teal);color:#fff}
 .load-more-wrap{text-align:center;margin-top:2.5rem}
 .btn-load{background:transparent;border:1px solid var(--border);color:var(--mid);padding:.75rem 2rem;font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s;border-radius:var(--radius)}
-.btn-load:hover{border-color:var(--gold);color:var(--gold)}
+.btn-load:hover{border-color:var(--teal);color:var(--teal)}
+
+/* ── POURQUOI SINOCONGO ── */
+.pourquoi-section{background:var(--bg);padding:4.5rem 3rem}
+.pourquoi-title{font-family:'DM Sans',sans-serif;font-size:1.6rem;font-weight:900;color:var(--dark);text-align:center;letter-spacing:-.01em;text-transform:uppercase;margin-bottom:3rem}
+.pourquoi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
+.pourquoi-item{display:flex;flex-direction:column;align-items:center;text-align:center}
+.pourquoi-icon-box{width:58px;height:58px;background:#E8E5DF;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem;font-size:1.35rem}
+.pourquoi-icon-box.terracotta{background:#F5EAE4}
+.pourquoi-icon-box.terracotta svg{stroke:var(--terracotta)}
+.pourquoi-icon-box svg{stroke:var(--teal);width:24px;height:24px;stroke-width:1.75;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.pourquoi-label{font-size:.78rem;font-weight:700;color:var(--dark);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.pourquoi-desc{font-size:.82rem;color:var(--muted);line-height:1.55}
 
 /* ── HOW ── */
 .how-section{background:var(--dark)}
 .how-section .s-title{color:#fff}
 .steps{margin-top:3.5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;position:relative}
-.steps::before{content:'';position:absolute;top:27px;left:12.5%;right:12.5%;height:1px;background:rgba(201,168,76,.2)}
+.steps::before{content:'';position:absolute;top:27px;left:12.5%;right:12.5%;height:1px;background:rgba(29,107,104,.2)}
 .step{text-align:center;position:relative;z-index:1}
 .step-n{width:54px;height:54px;margin:0 auto 1.4rem;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--gold);background:var(--dark)}
 .step-t{color:#fff;font-weight:500;font-size:.9rem;margin-bottom:.5rem}
@@ -346,9 +378,11 @@ nav{position:sticky;top:0;z-index:300;background:var(--dark);height:60px;display
 .form-wa-alt span{font-size:.8rem;color:var(--green);font-weight:500}
 
 /* ── FOOTER ── */
-footer{background:#111;padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;border-top:1px solid rgba(201,168,76,.2)}
-.foot-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;color:var(--gold)}
-.foot-logo span{color:#fff}
+footer{background:#111;padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;border-top:1px solid rgba(29,107,104,.2)}
+.foot-logo{display:flex;align-items:center;gap:.6rem}
+.foot-logo-badge{width:30px;height:30px;background:var(--teal);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;color:#fff}
+.foot-logo-name{font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:700;color:#fff}
+.foot-logo-sub{font-size:.58rem;color:#666;letter-spacing:.08em;text-transform:uppercase}
 footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 .foot-links{display:flex;gap:1.5rem;flex-wrap:wrap}
 .foot-links a{color:#555;text-decoration:none;font-size:.78rem;transition:color .2s;cursor:pointer}
@@ -361,6 +395,9 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── RESPONSIVE ── */
+@media(max-width:1200px){
+  .prod-grid{grid-template-columns:repeat(3,1fr)}
+}
 @media(max-width:1100px){
   .hero{grid-template-columns:1fr}.hero-visual{display:none}
   .prod-grid{grid-template-columns:repeat(2,1fr)}
@@ -368,138 +405,33 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
   .section{padding:4rem 3rem}
   nav{padding:0 1.5rem}
   .nav-center{max-width:260px}
+  .nav-links-center{display:none}
   .reviews-grid{grid-template-columns:repeat(2,1fr)}
+  .pourquoi-grid{grid-template-columns:repeat(2,1fr);gap:2rem}
+  .cat-section{padding:2.5rem 1.5rem 1rem}
+  .prod-section{padding:1rem 1.5rem 3rem}
 }
-
-/* ── MOBILE NAV HAMBURGER ── */
-.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:.4rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);flex-shrink:0}
-.nav-hamburger span{display:block;width:20px;height:2px;background:#ccc;transition:all .3s;border-radius:1px}
-.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.nav-hamburger.open span:nth-child(2){opacity:0}
-.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.mobile-menu{position:fixed;top:60px;left:0;right:0;background:var(--dark);border-bottom:2px solid var(--gold);z-index:299;padding:1rem 1.5rem;display:none;flex-direction:column;gap:.6rem;box-shadow:0 8px 32px rgba(0,0,0,.4)}
-.mobile-menu.open{display:flex}
-.mobile-menu-search{position:relative;margin-bottom:.4rem}
-.mobile-menu-search input{width:100%;padding:.55rem 1rem .55rem 2.2rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:#fff;font-family:'DM Sans',sans-serif;font-size:.85rem;border-radius:var(--radius);outline:none}
-.mobile-menu-search input:focus{border-color:var(--gold)}
-.mobile-menu-search .search-icon{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);font-size:.85rem;pointer-events:none}
-.mobile-menu-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
-.mobile-menu-divider{height:1px;background:rgba(255,255,255,.08);margin:.2rem 0}
-.mobile-nav-btn{flex:1;min-width:calc(50% - .25rem);padding:.6rem .75rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#ccc;font-family:'DM Sans',sans-serif;font-size:.8rem;cursor:pointer;border-radius:var(--radius);text-align:center;transition:all .2s}
-.mobile-nav-btn:hover,.mobile-nav-btn.active-btn{border-color:var(--gold);color:var(--gold)}
-.mobile-nav-btn.gold{background:var(--gold);color:var(--dark);border-color:var(--gold);font-weight:500}
-.mobile-lang-row{display:flex;gap:.4rem;align-items:center}
-.mobile-lang-label{font-size:.68rem;color:#666;letter-spacing:.1em;text-transform:uppercase}
-
 @media(max-width:700px){
-  /* Layout */
-  .section{padding:2.5rem 1.25rem}
-  .hero-text{padding:2.5rem 1.25rem}
-  footer{padding:1.75rem 1.25rem;flex-direction:column;align-items:flex-start;gap:.75rem}
-
-  /* Nav — show hamburger, hide most right items */
-  nav{padding:0 1rem;height:56px}
-  .nav-center{display:none}
-  .nav-hamburger{display:flex}
-  .cart-label{display:none}
-  .devise-toggle{display:none}
-  .user-nav-btn{display:none}
-  .nav-btn{display:none}
-  /* Only show logo, cart icon, hamburger on mobile */
-
-  /* Products */
-  .prod-grid{grid-template-columns:1fr}
-  .prod-card{flex-direction:row;height:auto}
-  .prod-img{width:110px;min-width:110px;height:auto;min-height:110px;border-radius:0;flex-shrink:0}
-  .prod-body{padding:.85rem}
-  .prod-name{font-size:.88rem}
-  .prod-desc{font-size:.75rem;margin-bottom:.6rem;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
-
-  /* Steps */
-  .steps{grid-template-columns:1fr 1fr}.steps::before{display:none}
-  .step{padding:.5rem}
-
-  /* Form */
+  .section{padding:3rem 1.5rem}
+  .prod-grid{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr)}.steps::before{display:none}
   .form-row2{grid-template-columns:1fr}
-  .form-box{padding:1.5rem 1.25rem}
-
-  /* Stats */
-  .stats-bar{flex-wrap:wrap}.stat-item{min-width:50%;border-right:none;border-bottom:1px solid rgba(26,26,26,.1)}
-
-  /* Reviews */
+  .stats-bar{flex-wrap:wrap}.stat-item{min-width:50%}
+  footer{padding:2rem 1.5rem}
+  .hero-text{padding:3rem 1.5rem}
+  .nav-center{display:none}
+  .cart-label{display:none}
   .reviews-grid{grid-template-columns:1fr}
-  .reviews-summary{gap:.75rem}
-  .rating-big{font-size:2.2rem}
-
-  /* Admin */
-  .admin-modal{max-height:100vh;border-radius:0}
-  .admin-sidebar{display:none}
-  .admin-body{flex-direction:column}
-  .admin-mobile-tabs{display:flex;overflow-x:auto;border-bottom:1px solid var(--border);padding:0 .75rem;gap:0;flex-shrink:0;scrollbar-width:none}
-  .admin-mobile-tabs::-webkit-scrollbar{display:none}
-  .admin-mobile-tab{padding:.6rem .85rem;font-size:.75rem;white-space:nowrap;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'DM Sans',sans-serif;transition:all .15s;flex-shrink:0}
-  .admin-mobile-tab.active{color:var(--dark);border-bottom-color:var(--gold)}
+  .admin-sidebar{width:130px}
   .admin-grid2{grid-template-columns:1fr}
-  .dash-stats{grid-template-columns:1fr 1fr}
-  .admin-content{padding:1rem}
-
-  /* Modals */
-  .modal{max-height:95vh;border-radius:4px 4px 0 0;margin-top:auto}
-  .modal-overlay{align-items:flex-end;padding:0}
-  .pay-modal{border-radius:4px 4px 0 0}
-  .pay-methods{grid-template-columns:1fr 1fr 1fr}
-  .mfg-modal{max-height:95vh;border-radius:4px 4px 0 0;margin-top:auto}
-  .mfg-overlay{align-items:flex-end;padding:0}
-
-  /* Cart */
-  .cart-drawer{width:100vw}
-
-  /* Chat */
-  .chat-window{right:.5rem;left:.5rem;width:auto;bottom:7.5rem}
-  .chat-fab{bottom:4.5rem;right:1rem}
-
-  /* PWA */
-  .pwa-banner{flex-direction:column;align-items:flex-start;gap:.65rem}
-  .pwa-banner-actions{width:100%;justify-content:flex-end}
-
-  /* Manufacturer portal */
-  .mfg-body{padding:1.25rem}
-
-  /* Hero */
-  .hero{min-height:auto}
-  .hero h1{font-size:clamp(1.9rem,7vw,2.5rem)}
-  .hero-pill{font-size:.65rem}
-  .hero-actions{gap:.6rem}
-  .btn-gold,.btn-ghost{padding:.7rem 1.3rem;font-size:.82rem}
-
-  /* Cat tabs scroll */
-  .cat-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
-  .cat-tabs::-webkit-scrollbar{display:none}
-  .cat-tab{padding:.75rem 1rem;font-size:.78rem}
-
-  /* Trust pills wrap */
-  .trust-row{gap:.4rem}
-  .trust-pill{font-size:.68rem;padding:.35rem .65rem}
-
-  /* Order section */
-  .order-wrap{gap:1.75rem}
-  .order-left p{font-size:.83rem}
-
-  /* Supplier rows */
-  .supp-row{flex-wrap:wrap;gap:.5rem}
-  .supp-actions{width:100%;justify-content:flex-end}
-
-  /* MFG grid */
-  .mfg-form [style*="grid-template-columns:1fr 1fr"]{display:block !important}
-  .mfg-form [style*="grid-template-columns:1fr 1fr"] .fg{margin-bottom:.85rem}
+  .pourquoi-grid{grid-template-columns:repeat(2,1fr);gap:1.25rem}
+  .pourquoi-section{padding:3rem 1.5rem}
+  .catalogue-h1{font-size:1.8rem}
+  .catalogue-toolbar{flex-wrap:wrap}
 }
-
-@media(max-width:400px){
-  .prod-img{width:90px;min-width:90px}
-  .pay-methods{grid-template-columns:1fr 1fr 1fr;gap:.4rem}
-  .pay-method-btn{padding:.65rem .3rem}
-  .pm-icon{font-size:1.1rem}
-  .pm-name{font-size:.65rem}
+@media(max-width:480px){
+  .prod-grid{grid-template-columns:1fr}
+  .pourquoi-grid{grid-template-columns:repeat(2,1fr)}
 }
 
 /* ══ PHASE 3 — COMPTES CLIENTS / PAIEMENT / NOTIFS / DASHBOARD ══ */
@@ -529,9 +461,9 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 .auth-profile-avatar{width:36px;height:36px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:var(--dark);flex-shrink:0}
 .auth-profile-name{font-size:.85rem;font-weight:500;color:var(--dark)}
 .auth-profile-phone{font-size:.72rem;color:var(--muted)}
-.user-nav-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#ccc;padding:.3rem .75rem;border-radius:var(--radius);cursor:pointer;font-size:.8rem;font-family:'DM Sans',sans-serif;transition:all .2s;display:flex;align-items:center;gap:.4rem}
-.user-nav-btn:hover{border-color:var(--gold);color:var(--gold)}
-.user-nav-btn.logged{border-color:rgba(201,168,76,.5);color:var(--gold)}
+.user-nav-btn{background:#f5f4f2;border:1px solid var(--border);color:var(--mid);padding:.3rem .75rem;border-radius:var(--radius);cursor:pointer;font-size:.8rem;font-family:'DM Sans',sans-serif;transition:all .2s;display:flex;align-items:center;gap:.4rem}
+.user-nav-btn:hover{border-color:var(--teal);color:var(--teal)}
+.user-nav-btn.logged{border-color:var(--teal);color:var(--teal)}
 
 /* ── PAYMENT MODAL ── */
 .pay-modal{max-width:500px}
@@ -714,7 +646,17 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 
 <!-- ══ NAV ══ -->
 <nav>
-  <a class="logo" href="#">Sino<span>Congo</span> Market</a>
+  <a class="logo" href="#">
+    <div class="logo-badge">SC</div>
+    <div class="logo-text">
+      <div class="logo-name">SinoCongo Market</div>
+      <div class="logo-sub">La Chine, Livrée Chez Vous</div>
+    </div>
+  </a>
+  <div class="nav-links-center">
+    <button class="nav-page-link active" onclick="window.scrollTo({top:0,behavior:'smooth'})">Accueil</button>
+    <a class="nav-page-link" href="#catalogue">Catalogue</a>
+  </div>
   <div class="nav-center">
     <div class="nav-search-wrap">
       <span class="search-icon">🔍</span>
@@ -723,54 +665,16 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
     </div>
   </div>
   <div class="nav-right">
-    <div class="lang-toggle devise-toggle" id="lang-toggle-nav">
-      <button class="devise-btn active" id="lang-btn-fr" onclick="setSiteLang('fr')">FR</button>
-      <button class="devise-btn" id="lang-btn-zh" onclick="setSiteLang('zh')">中文</button>
-    </div>
     <div class="devise-toggle">
       <button class="devise-btn active" id="btn-fc" onclick="setDevise('FC')">FC</button>
       <button class="devise-btn" id="btn-usd" onclick="setDevise('USD')">USD</button>
     </div>
-    <button class="cart-btn" onclick="toggleCart()">🛒 <span class="cart-label" data-i18n="nav.cart">Panier</span><span class="cart-count" id="cart-count">0</span></button>
-    <button class="user-nav-btn" id="user-nav-btn" onclick="openAuthModal()">👤 <span id="user-nav-label" data-i18n="nav.login">Connexion</span></button>
-    <button class="nav-btn" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);color:#ccc" onclick="openMfgPortal()">🏭 <span data-i18n="nav.sell">Vendre</span></button>
-    <button class="nav-btn" onclick="document.getElementById('commander').scrollIntoView({behavior:'smooth'})" data-i18n="nav.order">Commander</button>
-    <div class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileMenu()">
-      <span></span><span></span><span></span>
-    </div>
+    <button class="cart-btn" onclick="toggleCart()">🛒 <span class="cart-label">Panier</span><span class="cart-count" id="cart-count">0</span></button>
+    <button class="user-nav-btn" id="user-nav-btn" onclick="openAuthModal()">👤 <span id="user-nav-label">Connexion</span></button>
+    <button class="nav-btn" style="background:#f5f4f2;border:1px solid var(--border);color:var(--mid)" onclick="openMfgPortal()">🏭 Vendre</button>
+    <button class="nav-btn" onclick="document.getElementById('commander').scrollIntoView({behavior:'smooth'})">Commander</button>
   </div>
 </nav>
-
-<!-- ══ MOBILE MENU ══ -->
-<div class="mobile-menu" id="mobile-menu">
-  <div class="mobile-menu-search">
-    <span class="search-icon">🔍</span>
-    <input type="text" id="mobile-search" placeholder="Rechercher un produit..." oninput="handleSearch(this.value);document.getElementById('nav-search').value=this.value" onblur="closeSearchDelay()">
-  </div>
-  <div class="mobile-menu-divider"></div>
-  <div class="mobile-menu-row">
-    <button class="mobile-nav-btn" onclick="openAuthModal();closeMobileMenu()">👤 <span id="mobile-user-label" data-i18n="nav.login">Connexion</span></button>
-    <button class="mobile-nav-btn" onclick="toggleCart();closeMobileMenu()">🛒 <span data-i18n="nav.cart">Panier</span> <span id="mobile-cart-count2" style="display:none;background:var(--gold);color:var(--dark);border-radius:50%;width:16px;height:16px;font-size:.6rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle"></span></button>
-  </div>
-  <div class="mobile-menu-row">
-    <button class="mobile-nav-btn" onclick="openMfgPortal();closeMobileMenu()">🏭 <span data-i18n="nav.sell">Vendre</span></button>
-    <button class="mobile-nav-btn gold" onclick="document.getElementById('commander').scrollIntoView({behavior:'smooth'});closeMobileMenu()" data-i18n="nav.order">Commander</button>
-  </div>
-  <div class="mobile-menu-divider"></div>
-  <div class="mobile-menu-row" style="justify-content:space-between">
-    <div class="mobile-lang-row">
-      <span class="mobile-lang-label">Langue:</span>
-      <div class="devise-toggle" style="margin-left:.4rem">
-        <button class="devise-btn active" id="mob-lang-fr" onclick="setSiteLang('fr')">FR</button>
-        <button class="devise-btn" id="mob-lang-zh" onclick="setSiteLang('zh')">中文</button>
-      </div>
-    </div>
-    <div class="devise-toggle">
-      <button class="devise-btn active" id="mob-btn-fc" onclick="setDevise('FC')">FC</button>
-      <button class="devise-btn" id="mob-btn-usd" onclick="setDevise('USD')">USD</button>
-    </div>
-  </div>
-</div>
 
 <!-- ══ CART DRAWER ══ -->
 <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
@@ -840,19 +744,9 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
         <div class="admin-menu-item" onclick="switchAdmin('notifs',this)">📲 Notifs</div>
         <div class="admin-menu-item" onclick="switchAdmin('dashboard',this)">📊 Dashboard</div>
         <div class="admin-menu-item" onclick="switchAdmin('clients',this)">👥 Clients</div>
+        <div class="admin-menu-item" onclick="switchAdmin('categories',this)">🏷️ Catégories</div>
         <div class="admin-menu-item" onclick="switchAdmin('fournisseurs',this)" id="admin-menu-fournisseurs">🏭 Fournisseurs</div>
         <div class="admin-menu-item" onclick="switchAdmin('config',this)">⚙️ Config</div>
-      </div>
-      <!-- Mobile-only horizontal tabs -->
-      <div class="admin-mobile-tabs" id="admin-mobile-tabs">
-        <div class="admin-mobile-tab active" onclick="switchAdmin('produits',this)">📦</div>
-        <div class="admin-mobile-tab" onclick="switchAdmin('commandes',this)">🧾</div>
-        <div class="admin-mobile-tab" onclick="switchAdmin('ajouter',this)">➕</div>
-        <div class="admin-mobile-tab" onclick="switchAdmin('notifs',this)">📲</div>
-        <div class="admin-mobile-tab" onclick="switchAdmin('dashboard',this)">📊</div>
-        <div class="admin-mobile-tab" onclick="switchAdmin('clients',this)">👥</div>
-        <div class="admin-mobile-tab" id="admin-mob-fournisseurs" onclick="switchAdmin('fournisseurs',this)">🏭</div>
-        <div class="admin-mobile-tab" onclick="switchAdmin('config',this)">⚙️</div>
       </div>
       <div class="admin-content">
         <!-- Products list -->
@@ -872,12 +766,7 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
             <div class="fg"><label>Nom du produit *</label><input type="text" id="ap-name" placeholder="Ex: Ventilateur 40cm"></div>
             <div class="admin-grid2">
               <div class="fg"><label>Catégorie *</label>
-                <select id="ap-cat">
-                  <option value="electronique">Électronique</option>
-                  <option value="vetements">Vêtements</option>
-                  <option value="maison">Maison</option>
-                  <option value="construction">Construction</option>
-                </select>
+                <select id="ap-cat"></select>
               </div>
               <div class="fg"><label>Emoji (si pas de photo)</label><input type="text" id="ap-icon" placeholder="🔌" maxlength="4"></div>
             </div>
@@ -974,6 +863,23 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
         </div>
 
 
+        <!-- Categories -->
+        <div class="admin-section" id="admin-categories">
+          <div class="admin-section-title">Gestion des catégories</div>
+          <p style="font-size:.78rem;color:var(--muted);margin-bottom:1.25rem;line-height:1.6">Ajoutez des catégories personnalisées. Les catégories par défaut ne peuvent être supprimées que si aucun produit ne les utilise.</p>
+          <div class="admin-prod-list" id="admin-cat-list"></div>
+          <div style="margin-top:1.5rem;border-top:1px solid var(--border);padding-top:1.25rem">
+            <div class="admin-section-title" style="font-size:.9rem;margin-bottom:1rem">Ajouter une catégorie</div>
+            <div class="admin-form">
+              <div class="admin-grid2">
+                <div class="fg"><label>Nom de la catégorie *</label><input type="text" id="new-cat-label" placeholder="Ex: Alimentation"></div>
+                <div class="fg"><label>Icône (emoji)</label><input type="text" id="new-cat-icon" placeholder="🍎" maxlength="4"></div>
+              </div>
+              <button class="admin-submit" onclick="addCategory()">+ Ajouter la catégorie</button>
+            </div>
+          </div>
+        </div>
+
         <!-- Manufacturer submissions -->
         <div class="admin-section" id="admin-fournisseurs">
           <div class="admin-section-title">Soumissions Fabricants</div>
@@ -988,6 +894,12 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
             <div class="fg"><label>Numéro WhatsApp</label><input type="text" id="cfg-wa" placeholder="243XXXXXXXXX"></div>
             <div class="fg"><label>Taux FC/USD</label><input type="number" id="cfg-rate" placeholder="2800"></div>
             <div class="fg"><label>ID Formspree</label><input type="text" id="cfg-form" placeholder="xpzgvkjr"></div>
+            <div style="border-top:1px solid var(--border);margin:.75rem 0;padding-top:.75rem">
+              <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">🖼️ Image de fond — Hero</div>
+              <div class="fg"><label>URL de l'image (JPG, PNG, Unsplash…)</label><input type="url" id="cfg-hero-img" placeholder="https://images.unsplash.com/photo-..."></div>
+              <div id="hero-img-preview-wrap" style="display:none;margin-bottom:.75rem"><img id="hero-img-preview" style="width:100%;height:120px;object-fit:cover;border-radius:8px;border:1px solid var(--border)" alt=""></div>
+              <div style="font-size:.7rem;color:var(--muted);margin-bottom:.5rem">Astuce : sur unsplash.com, cliquez sur une photo → Share → Copy image address</div>
+            </div>
             <div style="border-top:1px solid var(--border);margin:.75rem 0;padding-top:.75rem">
               <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">☁️ Cloudinary — Stockage images</div>
               <div class="fg"><label>Cloud Name *</label><input type="text" id="cfg-cld-name" placeholder="ex: dxyz1234"></div>
@@ -1198,33 +1110,64 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
   <div class="stat-item"><div class="stat-n">100%</div><div class="stat-l">Qualité garantie</div></div>
 </div>
 
-<!-- ══ CATALOGUE ══ -->
-<section class="section cat-section" id="catalogue">
-  <div class="s-tag">Toutes nos catégories</div>
-  <div class="s-title">Explorez notre <em>catalogue complet</em></div>
-  <div class="cat-tabs">
-    <button class="cat-tab active" onclick="switchCat('electronique',this)">📱 Électronique & Téléphones</button>
-    <button class="cat-tab" onclick="switchCat('vetements',this)">👕 Vêtements & Mode</button>
-    <button class="cat-tab" onclick="switchCat('maison',this)">🏠 Maison & Cuisine</button>
-    <button class="cat-tab" onclick="switchCat('construction',this)">🔧 Matériaux & Construction</button>
-  </div>
-  <div class="cat-desc-bar">
-    <span class="dicon">📱</span>
-    <p id="cat-desc-text"><strong>Électronique & Téléphones</strong> — Smartphones, accessoires, audio, tablettes et gadgets directement des usines chinoises. Qualité vérifiée, garantie incluse.</p>
+<!-- ══ POURQUOI SINOCONGO ══ -->
+<section class="pourquoi-section">
+  <h2 class="pourquoi-title">Pourquoi SinoCongo ?</h2>
+  <div class="pourquoi-grid">
+    <div class="pourquoi-item">
+      <div class="pourquoi-icon-box">
+        <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      </div>
+      <div class="pourquoi-label">Prix Imbattables</div>
+      <div class="pourquoi-desc">Direct usine, sans intermédiaire</div>
+    </div>
+    <div class="pourquoi-item">
+      <div class="pourquoi-icon-box terracotta">
+        <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </div>
+      <div class="pourquoi-label">Livraison Fiable</div>
+      <div class="pourquoi-desc">30–45 jours, suivi complet</div>
+    </div>
+    <div class="pourquoi-item">
+      <div class="pourquoi-icon-box">
+        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+      </div>
+      <div class="pourquoi-label">Paiement Mobile</div>
+      <div class="pourquoi-desc">M-Pesa, Airtel Money, MTN</div>
+    </div>
+    <div class="pourquoi-item">
+      <div class="pourquoi-icon-box terracotta">
+        <svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>
+      </div>
+      <div class="pourquoi-label">Service Client</div>
+      <div class="pourquoi-desc">Assistance en français et lingala</div>
+    </div>
   </div>
 </section>
 
-<!-- ══ PRODUCTS ══ -->
-<section class="section prod-section" id="produits" style="padding-top:2rem">
-  <div class="prod-toolbar">
-    <div class="prod-count" id="prod-count">8 produits</div>
-    <select class="prod-sort" onchange="sortProducts(this.value)">
-      <option value="default">Trier : Popularité</option>
+<!-- ══ CATALOGUE ══ -->
+<section class="cat-section" id="catalogue">
+  <div class="catalogue-header">
+    <h1 class="catalogue-h1">Catalogue</h1>
+    <p class="catalogue-sub" id="catalogue-total">32 produits</p>
+  </div>
+  <div class="catalogue-toolbar">
+    <div class="cat-search-wrap">
+      <span class="cat-search-icon">🔍</span>
+      <input class="cat-search-input" type="text" id="cat-search" placeholder="Rechercher un produit..." oninput="handleCatSearch(this.value)">
+    </div>
+    <select class="cat-sort-select" onchange="sortProducts(this.value)">
+      <option value="default">Trier par</option>
       <option value="price-asc">Prix croissant</option>
       <option value="price-desc">Prix décroissant</option>
-      <option value="new">Nouveautés d'abord</option>
+      <option value="new">Nouveautés</option>
     </select>
   </div>
+  <div class="cat-pills" id="cat-pills-container"></div>
+</section>
+
+<!-- ══ PRODUCTS ══ -->
+<section class="prod-section" id="produits">
   <div class="prod-grid" id="prod-grid"></div>
   <div class="load-more-wrap">
     <button class="btn-load" onclick="document.getElementById('commander').scrollIntoView({behavior:'smooth'})">Vous ne trouvez pas votre produit ? Faites une demande sur mesure →</button>
@@ -1333,7 +1276,13 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 <!-- ══ FOOTER ══ -->
 <footer>
   <div>
-    <div class="foot-logo">Sino<span>Congo</span> Market</div>
+    <div class="foot-logo">
+      <div class="foot-logo-badge">SC</div>
+      <div>
+        <div class="foot-logo-name">SinoCongo Market</div>
+        <div class="foot-logo-sub">La Chine, Livrée Chez Vous</div>
+      </div>
+    </div>
     <p>© 2026 SinoCongo Market · Kinshasa, RDC</p>
   </div>
   <div class="foot-links">
@@ -1352,58 +1301,10 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
   </a>
 </div>
 
-<!-- ══ PWA INSTALL BANNER ══ -->
-<div class="pwa-banner" id="pwa-banner">
-  <div class="pwa-banner-left">
-    <div class="pwa-banner-icon">🛍️</div>
-    <div class="pwa-banner-text">
-      <div class="pwa-banner-title">Installer SinoCongo Market</div>
-      <div class="pwa-banner-sub">Accès rapide · Fonctionne hors-ligne · Notifications</div>
-    </div>
-  </div>
-  <div class="pwa-banner-actions">
-    <button class="pwa-dismiss-btn" onclick="dismissPWA()">Plus tard</button>
-    <button class="pwa-install-btn" onclick="installPWA()">📲 Installer</button>
-  </div>
-</div>
-
-<!-- ══ AI CHATBOT ══ -->
-<div class="chat-fab" id="chat-fab" onclick="toggleChat()">
-  🤖
-  <div class="chat-notif" id="chat-notif">1</div>
-</div>
-
-<div class="chat-window" id="chat-window">
-  <div class="chat-head">
-    <div class="chat-head-left">
-      <div class="chat-avatar">AI</div>
-      <div>
-        <div class="chat-head-title" data-i18n="chat.title">Assistant SinoCongo</div>
-        <div class="chat-head-sub" data-i18n="chat.sub">Propulsé par Claude · En ligne</div>
-      </div>
-    </div>
-    <div style="display:flex;align-items:center;gap:.4rem">
-      <div class="chat-head-lang">
-        <button class="chat-lang-btn active" id="lang-fr" onclick="setLang('fr')">FR</button>
-        <button class="chat-lang-btn" id="lang-ln" onclick="setLang('ln')">LN</button>
-        <button class="chat-lang-btn" id="lang-zh-chat" onclick="setLang('zh')">中</button>
-      </div>
-      <button class="chat-close-btn" onclick="toggleChat()">✕</button>
-    </div>
-  </div>
-  <div class="chat-messages" id="chat-messages"></div>
-  <div class="chat-suggestions" id="chat-suggestions"></div>
-  <div class="chat-input-row">
-    <input class="chat-input" type="text" id="chat-input" placeholder="Posez votre question..." onkeydown="if(event.key==='Enter')sendChat()">
-    <button class="chat-send-btn" onclick="sendChat()">➤</button>
-  </div>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ══ CONFIG ══
-let siteLang = 'fr';
 let WA_NUMBER = '243XXXXXXXXX';
 let CLOUDINARY_NAME = localStorage.getItem('cld_name') || '';
 let CLOUDINARY_PRESET = localStorage.getItem('cld_preset') || '';
@@ -1415,93 +1316,45 @@ let devise = 'FC';
 
 // ══ PRODUCTS DATA ══
 let allProducts = [
-  {cat:'electronique',icon:'📱',badge:'Populaire',bClass:'badge-hot',name:'Smartphone Android 4G',desc:'Écran 6.5", 64 Go, double SIM, batterie 4500 mAh.',priceFC:85000,isNew:false},
-  {cat:'electronique',icon:'📱',badge:'Nouveau',bClass:'badge-new',name:'Smartphone 5G 128 Go',desc:'Octa-core, triple caméra 50MP, charge rapide 33W.',priceFC:145000,isNew:true},
-  {cat:'electronique',icon:'🎧',badge:'Promo',bClass:'badge-promo',name:'Écouteurs Bluetooth Pro',desc:'Son HD, autonomie 8h, micro intégré.',priceFC:18000,isNew:false},
-  {cat:'electronique',icon:'💻',badge:'Populaire',bClass:'badge-hot',name:'Tablette Android 10"',desc:'HD, 3 Go RAM, 32 Go, école et bureautique.',priceFC:95000,isNew:false},
-  {cat:'electronique',icon:'🔋',badge:'Nouveau',bClass:'badge-new',name:'Batterie externe 20 000 mAh',desc:'3 appareils simultanément, câbles inclus.',priceFC:22000,isNew:true},
-  {cat:'electronique',icon:'📷',badge:'Promo',bClass:'badge-promo',name:'Caméra surveillance WiFi',desc:'Vision nocturne, détection mouvement.',priceFC:35000,isNew:false},
-  {cat:'electronique',icon:'🖥️',badge:'Nouveau',bClass:'badge-new',name:'Moniteur LED 24"',desc:'Full HD 1080p, 75Hz, HDMI & VGA.',priceFC:120000,isNew:true},
-  {cat:'electronique',icon:'🔌',badge:'Populaire',bClass:'badge-hot',name:'Multiprise USB intelligente',desc:'4 prises + 3 USB, protection surtension.',priceFC:12000,isNew:false},
-  {cat:'vetements',icon:'👗',badge:'Nouveau',bClass:'badge-new',name:'Robes Femme (lot 10)',desc:'Coupes modernes, tissu respirant. Tailles S–XL.',priceFC:130000,isNew:true},
-  {cat:'vetements',icon:'👔',badge:'Populaire',bClass:'badge-hot',name:'Chemises Homme (lot 12)',desc:'Coton mélangé, manches longues & courtes.',priceFC:96000,isNew:false},
-  {cat:'vetements',icon:'👟',badge:'Promo',bClass:'badge-promo',name:'Sneakers Mixte',desc:'Semelle confort, pointures 36–45.',priceFC:28000,isNew:false},
-  {cat:'vetements',icon:'🧥',badge:'Nouveau',bClass:'badge-new',name:'Vestes Légères (lot 8)',desc:'Coupe slim, poches zippées.',priceFC:88000,isNew:true},
-  {cat:'vetements',icon:'👶',badge:'Populaire',bClass:'badge-hot',name:'Tenues Enfant (lot 20)',desc:'Coton doux, âges 2–10 ans.',priceFC:75000,isNew:false},
-  {cat:'vetements',icon:'🧢',badge:'Promo',bClass:'badge-promo',name:'Casquettes & Bonnets (lot 30)',desc:'Matière sport, taille réglable.',priceFC:42000,isNew:false},
-  {cat:'vetements',icon:'👜',badge:'Nouveau',bClass:'badge-new',name:'Sacs à Main Femme (lot 6)',desc:'PU cuir premium, fermetures solides.',priceFC:54000,isNew:true},
-  {cat:'vetements',icon:'🩱',badge:'Populaire',bClass:'badge-hot',name:'Sous-vêtements Coton (lot 24)',desc:'100% coton, coutures renforcées.',priceFC:36000,isNew:false},
-  {cat:'maison',icon:'🍳',badge:'Populaire',bClass:'badge-hot',name:'Set Cuisine 12 pièces',desc:'Casseroles + poêles antiadhésives inox.',priceFC:55000,isNew:false},
-  {cat:'maison',icon:'🌀',badge:'Promo',bClass:'badge-promo',name:'Ventilateur sur pied 50cm',desc:'3 vitesses, oscillation auto, silencieux.',priceFC:32000,isNew:false},
-  {cat:'maison',icon:'🫧',badge:'Nouveau',bClass:'badge-new',name:'Machine à Laver 7 kg',desc:'Semi-automatique, programme délicat.',priceFC:180000,isNew:true},
-  {cat:'maison',icon:'🛏️',badge:'Populaire',bClass:'badge-hot',name:'Matelas Mousse 140×190',desc:'Densité confort, housse amovible.',priceFC:95000,isNew:false},
-  {cat:'maison',icon:'💡',badge:'Promo',bClass:'badge-promo',name:'Ampoules LED (lot 20)',desc:'10W équiv. 80W, blanc chaud.',priceFC:15000,isNew:false},
-  {cat:'maison',icon:'🪑',badge:'Nouveau',bClass:'badge-new',name:'Chaises Bureau (lot 4)',desc:'Ergonomique, hauteur réglable.',priceFC:72000,isNew:true},
-  {cat:'maison',icon:'🧹',badge:'Populaire',bClass:'badge-hot',name:'Aspirateur Balai 2-en-1',desc:'Sans fil, 45 min, filtre HEPA.',priceFC:48000,isNew:false},
-  {cat:'maison',icon:'🪴',badge:'Promo',bClass:'badge-promo',name:'Étagères murales (lot 5)',desc:'Acier + bois, max 15 kg.',priceFC:28000,isNew:false},
-  {cat:'construction',icon:'🔨',badge:'Pro',bClass:'badge-hot',name:'Perceuse-Visseuse 18V',desc:'Sans fil, 2 batteries, 42 accessoires.',priceFC:65000,isNew:false},
-  {cat:'construction',icon:'🪣',badge:'Populaire',bClass:'badge-hot',name:'Ciment Blanc (sac 50 kg)',desc:'Haute résistance, carrelage & finitions.',priceFC:18000,isNew:false},
-  {cat:'construction',icon:'🪟',badge:'Nouveau',bClass:'badge-new',name:'Profilés Aluminium (lot 6m)',desc:'40×40mm, anodisé.',priceFC:42000,isNew:true},
-  {cat:'construction',icon:'🔩',badge:'Pro',bClass:'badge-hot',name:'Visserie Inox (kit 500 pcs)',desc:'Vis, boulons, écrous anti-corrosion.',priceFC:25000,isNew:false},
-  {cat:'construction',icon:'💧',badge:'Populaire',bClass:'badge-hot',name:'Tuyaux PVC (lot 10m)',desc:'Ø 50mm, 10 bars, raccords inclus.',priceFC:35000,isNew:false},
-  {cat:'construction',icon:'🔆',badge:'Nouveau',bClass:'badge-new',name:'Panneau Solaire 300W',desc:'Monocristallin 21%, câbles & fixations.',priceFC:220000,isNew:true},
-  {cat:'construction',icon:'🪜',badge:'Promo',bClass:'badge-promo',name:'Échelle Aluminium 3m',desc:'3 segments, 150 kg max.',priceFC:48000,isNew:false},
-  {cat:'construction',icon:'🧱',badge:'Populaire',bClass:'badge-hot',name:'Carrelage Sol (palette 50m²)',desc:'Grès cérame 60×60, mat anti-dérapant.',priceFC:175000,isNew:false},
+  {cat:'electronique',icon:'📱',badge:'Populaire',bClass:'badge-hot',name:'Smartphone Android 4G',desc:'Écran 6.5", 64 Go, double SIM, batterie 4500 mAh.',priceFC:85000,isNew:false,city:'Shenzhen'},
+  {cat:'electronique',icon:'📱',badge:'Nouveau',bClass:'badge-new',name:'Smartphone 5G 128 Go',desc:'Octa-core, triple caméra 50MP, charge rapide 33W.',priceFC:145000,isNew:true,city:'Shenzhen'},
+  {cat:'electronique',icon:'🎧',badge:'Promo',bClass:'badge-promo',name:'Écouteurs Bluetooth Pro',desc:'Son HD, autonomie 8h, micro intégré.',priceFC:18000,isNew:false,city:'Guangzhou'},
+  {cat:'electronique',icon:'💻',badge:'Populaire',bClass:'badge-hot',name:'Tablette Android 10"',desc:'HD, 3 Go RAM, 32 Go, école et bureautique.',priceFC:95000,isNew:false,city:'Guangzhou'},
+  {cat:'electronique',icon:'🔋',badge:'Nouveau',bClass:'badge-new',name:'Batterie externe 20 000 mAh',desc:'3 appareils simultanément, câbles inclus.',priceFC:22000,isNew:true,city:'Shenzhen'},
+  {cat:'electronique',icon:'📷',badge:'Promo',bClass:'badge-promo',name:'Caméra surveillance WiFi',desc:'Vision nocturne, détection mouvement.',priceFC:35000,isNew:false,city:'Shenzhen'},
+  {cat:'electronique',icon:'🖥️',badge:'Nouveau',bClass:'badge-new',name:'Moniteur LED 24"',desc:'Full HD 1080p, 75Hz, HDMI & VGA.',priceFC:120000,isNew:true,city:'Guangzhou'},
+  {cat:'electronique',icon:'🔌',badge:'Populaire',bClass:'badge-hot',name:'Multiprise USB intelligente',desc:'4 prises + 3 USB, protection surtension.',priceFC:12000,isNew:false,city:'Yiwu'},
+  {cat:'vetements',icon:'👗',badge:'Nouveau',bClass:'badge-new',name:'Robes Femme (lot 10)',desc:'Coupes modernes, tissu respirant. Tailles S–XL.',priceFC:130000,isNew:true,city:'Guangzhou'},
+  {cat:'vetements',icon:'👔',badge:'Populaire',bClass:'badge-hot',name:'Chemises Homme (lot 12)',desc:'Coton mélangé, manches longues & courtes.',priceFC:96000,isNew:false,city:'Guangzhou'},
+  {cat:'vetements',icon:'👟',badge:'Promo',bClass:'badge-promo',name:'Sneakers Mixte',desc:'Semelle confort, pointures 36–45.',priceFC:28000,isNew:false,city:'Dongguan'},
+  {cat:'vetements',icon:'🧥',badge:'Nouveau',bClass:'badge-new',name:'Vestes Légères (lot 8)',desc:'Coupe slim, poches zippées.',priceFC:88000,isNew:true,city:'Hangzhou'},
+  {cat:'vetements',icon:'👶',badge:'Populaire',bClass:'badge-hot',name:'Tenues Enfant (lot 20)',desc:'Coton doux, âges 2–10 ans.',priceFC:75000,isNew:false,city:'Yiwu'},
+  {cat:'vetements',icon:'🧢',badge:'Promo',bClass:'badge-promo',name:'Casquettes & Bonnets (lot 30)',desc:'Matière sport, taille réglable.',priceFC:42000,isNew:false,city:'Yiwu'},
+  {cat:'vetements',icon:'👜',badge:'Nouveau',bClass:'badge-new',name:'Sacs à Main Femme (lot 6)',desc:'PU cuir premium, fermetures solides.',priceFC:54000,isNew:true,city:'Guangzhou'},
+  {cat:'vetements',icon:'🩱',badge:'Populaire',bClass:'badge-hot',name:'Sous-vêtements Coton (lot 24)',desc:'100% coton, coutures renforcées.',priceFC:36000,isNew:false,city:'Yiwu'},
+  {cat:'maison',icon:'🍳',badge:'Populaire',bClass:'badge-hot',name:'Set Cuisine 12 pièces',desc:'Casseroles + poêles antiadhésives inox.',priceFC:55000,isNew:false,city:'Foshan'},
+  {cat:'maison',icon:'🌀',badge:'Promo',bClass:'badge-promo',name:'Ventilateur sur pied 50cm',desc:'3 vitesses, oscillation auto, silencieux.',priceFC:32000,isNew:false,city:'Guangzhou'},
+  {cat:'maison',icon:'🫧',badge:'Nouveau',bClass:'badge-new',name:'Machine à Laver 7 kg',desc:'Semi-automatique, programme délicat.',priceFC:180000,isNew:true,city:'Foshan'},
+  {cat:'maison',icon:'🛏️',badge:'Populaire',bClass:'badge-hot',name:'Matelas Mousse 140×190',desc:'Densité confort, housse amovible.',priceFC:95000,isNew:false,city:'Foshan'},
+  {cat:'maison',icon:'💡',badge:'Promo',bClass:'badge-promo',name:'Ampoules LED (lot 20)',desc:'10W équiv. 80W, blanc chaud.',priceFC:15000,isNew:false,city:'Yiwu'},
+  {cat:'maison',icon:'🪑',badge:'Nouveau',bClass:'badge-new',name:'Chaises Bureau (lot 4)',desc:'Ergonomique, hauteur réglable.',priceFC:72000,isNew:true,city:'Foshan'},
+  {cat:'maison',icon:'🧹',badge:'Populaire',bClass:'badge-hot',name:'Aspirateur Balai 2-en-1',desc:'Sans fil, 45 min, filtre HEPA.',priceFC:48000,isNew:false,city:'Shenzhen'},
+  {cat:'maison',icon:'🪴',badge:'Promo',bClass:'badge-promo',name:'Étagères murales (lot 5)',desc:'Acier + bois, max 15 kg.',priceFC:28000,isNew:false,city:'Yiwu'},
+  {cat:'construction',icon:'🔨',badge:'Pro',bClass:'badge-hot',name:'Perceuse-Visseuse 18V',desc:'Sans fil, 2 batteries, 42 accessoires.',priceFC:65000,isNew:false,city:'Foshan'},
+  {cat:'construction',icon:'🪣',badge:'Populaire',bClass:'badge-hot',name:'Ciment Blanc (sac 50 kg)',desc:'Haute résistance, carrelage & finitions.',priceFC:18000,isNew:false,city:'Shanghai'},
+  {cat:'construction',icon:'🪟',badge:'Nouveau',bClass:'badge-new',name:'Profilés Aluminium (lot 6m)',desc:'40×40mm, anodisé.',priceFC:42000,isNew:true,city:'Foshan'},
+  {cat:'construction',icon:'🔩',badge:'Pro',bClass:'badge-hot',name:'Visserie Inox (kit 500 pcs)',desc:'Vis, boulons, écrous anti-corrosion.',priceFC:25000,isNew:false,city:'Yiwu',moq:'500 pièces'},
+  {cat:'construction',icon:'💧',badge:'Populaire',bClass:'badge-hot',name:'Tuyaux PVC (lot 10m)',desc:'Ø 50mm, 10 bars, raccords inclus.',priceFC:35000,isNew:false,city:'Guangzhou'},
+  {cat:'construction',icon:'🔆',badge:'Nouveau',bClass:'badge-new',name:'Panneau Solaire 300W',desc:'Monocristallin 21%, câbles & fixations.',priceFC:220000,isNew:true,city:'Shanghai'},
+  {cat:'construction',icon:'🪜',badge:'Promo',bClass:'badge-promo',name:'Échelle Aluminium 3m',desc:'3 segments, 150 kg max.',priceFC:48000,isNew:false,city:'Foshan'},
+  {cat:'construction',icon:'🧱',badge:'Populaire',bClass:'badge-hot',name:'Carrelage Sol (palette 50m²)',desc:'Grès cérame 60×60, mat anti-dérapant.',priceFC:175000,isNew:false,city:'Foshan'},
 ];
 
-// ══ CHINESE PRODUCT TRANSLATIONS ══
-const zhProducts = {
-  'Smartphone Android 4G':      {name:'安卓4G智能手机',     desc:'6.5英寸屏，64GB，双卡双待，4500mAh大电池。'},
-  'Smartphone 5G 128 Go':       {name:'5G智能手机128GB',    desc:'八核处理器，5000万像素三摄，33W快充。'},
-  'Écouteurs Bluetooth Pro':    {name:'蓝牙耳机Pro',         desc:'高清音质，8小时续航，内置麦克风。'},
-  'Tablette Android 10"':       {name:'安卓平板10英寸',       desc:'高清屏，3GB内存，32GB存储，学习办公两用。'},
-  'Batterie externe 20 000 mAh':{name:'移动电源20000mAh',   desc:'同时为3台设备充电，附赠充电线。'},
-  'Caméra surveillance WiFi':   {name:'WiFi监控摄像头',       desc:'夜视功能，移动侦测报警。'},
-  'Moniteur LED 24"':           {name:'24英寸LED显示器',      desc:'全高清1080p，75Hz，HDMI和VGA接口。'},
-  'Multiprise USB intelligente':{name:'智能USB插线板',        desc:'4个插座+3个USB口，防雷保护。'},
-  'Robes Femme (lot 10)':       {name:'女式连衣裙（10件装）', desc:'现代剪裁，透气面料，S–XL码。'},
-  'Chemises Homme (lot 12)':    {name:'男式衬衫（12件装）',  desc:'混纺棉，长袖短袖各款。'},
-  'Sneakers Mixte':             {name:'男女运动鞋',           desc:'舒适鞋底，36-45码。'},
-  'Vestes Légères (lot 8)':     {name:'轻薄夹克（8件装）',   desc:'修身版型，拉链口袋。'},
-  'Tenues Enfant (lot 20)':     {name:'儿童套装（20件装）',  desc:'柔软棉质，适合2-10岁。'},
-  'Casquettes & Bonnets (lot 30)':{name:'棒球帽&毛线帽（30顶装）',desc:'运动面料，可调节尺寸。'},
-  'Sacs à Main Femme (lot 6)':  {name:'女式手提包（6只装）', desc:'优质PU皮，坚固拉链。'},
-  'Sous-vêtements Coton (lot 24)':{name:'纯棉内衣（24件装）',desc:'100%棉，加固缝线。'},
-  'Set Cuisine 12 pièces':      {name:'12件厨具套装',         desc:'不锈钢不粘锅具+炒锅。'},
-  'Ventilateur sur pied 50cm':  {name:'50cm落地扇',           desc:'三档风速，自动摇头，静音设计。'},
-  'Machine à Laver 7 kg':       {name:'7公斤洗衣机',          desc:'半自动，轻柔洗涤程序。'},
-  'Matelas Mousse 140×190':     {name:'140×190记忆棉床垫',   desc:'舒适密度，可拆卸床套。'},
-  'Ampoules LED (lot 20)':      {name:'LED灯泡（20只装）',    desc:'10W等效80W，暖白光。'},
-  'Chaises Bureau (lot 4)':     {name:'办公椅（4把装）',      desc:'人体工学，高度可调。'},
-  'Aspirateur Balai 2-en-1':    {name:'二合一无线吸尘器',     desc:'无线，45分钟续航，HEPA滤芯。'},
-  'Étagères murales (lot 5)':   {name:'墙壁搁板（5块装）',   desc:'钢木结合，最大承重15kg。'},
-  'Perceuse-Visseuse 18V':      {name:'18V无线电钻',          desc:'无线，双电池，含42件配件。'},
-  'Ciment Blanc (sac 50 kg)':   {name:'白水泥（50kg袋装）',   desc:'高强度，适用于瓷砖铺贴及装修。'},
-  'Profilés Aluminium (lot 6m)':{name:'铝型材（6米装）',      desc:'40×40mm，阳极氧化处理。'},
-  'Visserie Inox (kit 500 pcs)':{name:'不锈钢螺丝套装（500件）',desc:'螺丝、螺栓、螺母，防腐处理。'},
-  'Tuyaux PVC (lot 10m)':       {name:'PVC管（10米装）',      desc:'直径50mm，耐10bar压力，附接头。'},
-  'Panneau Solaire 300W':       {name:'300W太阳能板',          desc:'单晶硅21%效率，含电缆及固定件。'},
-  'Échelle Aluminium 3m':       {name:'3米铝合金梯子',         desc:'三节式，最大承重150kg。'},
-  'Carrelage Sol (palette 50m²)':{name:'地板砖（50平方米托盘）',desc:'60×60哑光防滑瓷砖。'},
-};
-
-// Badge translations
-const zhBadge = {Populaire:'热门',Nouveau:'新品',Promo:'促销',Pro:'专业',Hot:'热门'};
-const zhCat = {electronique:'电子产品',vetements:'服装时尚',maison:'家居厨房',construction:'建材工具'};
-
 const catMeta = {
-  electronique:{icon:'📱',
-    desc:{fr:'<strong>Électronique & Téléphones</strong> — Smartphones, accessoires, audio, tablettes et gadgets directement des usines chinoises.',
-          zh:'<strong>电子产品</strong> — 直供中国工厂的智能手机、配件、音频、平板及数码产品。'}},
-  vetements:{icon:'👕',
-    desc:{fr:'<strong>Vêtements & Mode</strong> — Prêt-à-porter homme, femme et enfant. Tissus de qualité, prix de gros directs usine.',
-          zh:'<strong>服装时尚</strong> — 男女童装成衣，优质面料，工厂直供批发价。'}},
-  maison:{icon:'🏠',
-    desc:{fr:'<strong>Maison & Cuisine</strong> — Électroménager, mobilier, ustensiles. Équipez votre foyer à prix imbattable.',
-          zh:'<strong>家居厨房</strong> — 家电、家具、厨具，以无与伦比的价格装备您的家。'}},
-  construction:{icon:'🔧',
-    desc:{fr:'<strong>Matériaux & Construction</strong> — Outillage pro, matériaux de base pour chantiers en RDC.',
-          zh:'<strong>建材工具</strong> — 专业工具及基础建筑材料，适用于刚果工地。'}},
+  electronique:{icon:'📱',desc:'<strong>Électronique & Téléphones</strong> — Smartphones, accessoires, audio, tablettes et gadgets directement des usines chinoises.'},
+  vetements:{icon:'👕',desc:'<strong>Vêtements & Mode</strong> — Prêt-à-porter homme, femme et enfant. Tissus de qualité, prix de gros directs usine.'},
+  maison:{icon:'🏠',desc:'<strong>Maison & Cuisine</strong> — Électroménager, mobilier, ustensiles. Équipez votre foyer à prix imbattable.'},
+  construction:{icon:'🔧',desc:'<strong>Matériaux & Construction</strong> — Outillage pro, matériaux de base pour chantiers en RDC.'},
 };
 
 // ══ DEMO ORDERS (tracking) ══
@@ -1557,7 +1410,7 @@ const reviews = [
 ];
 
 // ══ STATE ══
-let currentCat = 'electronique';
+let currentCat = 'all';
 let currentSort = 'default';
 let cart = [];
 
@@ -1567,11 +1420,6 @@ function setDevise(d) {
   document.getElementById('btn-fc').classList.toggle('active', d==='FC');
   document.getElementById('btn-usd').classList.toggle('active', d==='USD');
   document.getElementById('f-devise').value = d;
-  // Sync mobile toggles
-  const mfc = document.getElementById('mob-btn-fc');
-  const musd = document.getElementById('mob-btn-usd');
-  if(mfc) mfc.classList.toggle('active', d==='FC');
-  if(musd) musd.classList.toggle('active', d==='USD');
   renderProducts(); renderCart();
 }
 function formatPrice(priceFC) {
@@ -1579,50 +1427,123 @@ function formatPrice(priceFC) {
   return priceFC.toLocaleString('fr-FR')+' FC';
 }
 
+// ══ CATEGORIES (dynamic, persisted) ══
+let categories = JSON.parse(localStorage.getItem('sinocongo_cats') || 'null') || [
+  {id:'electronique', label:'Électronique', icon:'📱'},
+  {id:'vetements',    label:'Vêtements',    icon:'👕'},
+  {id:'maison',       label:'Maison',       icon:'🏠'},
+  {id:'construction', label:'Construction', icon:'🔧'},
+];
+function saveCategories(){ localStorage.setItem('sinocongo_cats', JSON.stringify(categories)); }
+function getCatLabel(id){ const c=categories.find(c=>c.id===id); return c?c.label:id; }
+function renderCatPills(){
+  const container=document.getElementById('cat-pills-container');
+  if(!container) return;
+  container.innerHTML=`<button class="cat-pill${currentCat==='all'?' active':''}" onclick="switchCat('all',this)">Tout</button>`
+    +categories.map(c=>`<button class="cat-pill${currentCat===c.id?' active':''}" onclick="switchCat('${c.id}',this)">${c.icon} ${c.label}</button>`).join('');
+}
+
 // ══ PRODUCTS ══
+let catSearchQuery = '';
+const BOX_SVG = `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#C4C0BA" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`;
+
 function getFiltered() {
-  let list = allProducts.filter(p=>p.cat===currentCat);
+  let list = currentCat==='all' ? [...allProducts] : allProducts.filter(p=>p.cat===currentCat);
+  if (catSearchQuery) {
+    const q=catSearchQuery.toLowerCase();
+    list=list.filter(p=>p.name.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q)||(p.city||'').toLowerCase().includes(q));
+  }
   if (currentSort==='price-asc') list=[...list].sort((a,b)=>a.priceFC-b.priceFC);
   else if (currentSort==='price-desc') list=[...list].sort((a,b)=>b.priceFC-a.priceFC);
   else if (currentSort==='new') list=[...list].sort((a,b)=>Number(b.isNew)-Number(a.isNew));
   return list;
 }
+function formatAltPrice(priceFC) {
+  return '≈ $'+(priceFC/RATE).toFixed(2)+' USD';
+}
 function renderProducts() {
   const list = getFiltered();
-  document.getElementById('prod-count').textContent = list.length+' produit'+(list.length>1?'s':'');
-  document.getElementById('prod-grid').innerHTML = list.map(p=>`
+  const total = allProducts.length;
+  const shown = list.length;
+  document.getElementById('catalogue-total').textContent = shown+' produit'+(shown>1?'s':'')+(shown<total?' sur '+total:'');
+  document.getElementById('prod-grid').innerHTML = list.map(p=>{
+    const inCart = cart.some(c=>c.name===p.name);
+    const catLabel = getCatLabel(p.cat);
+    return `
     <div class="prod-card">
       <div class="prod-img">
-        ${p.img ? `<img src="${p.img}" alt="${p.name}" loading="lazy">` : `<span class="prod-emoji">${p.icon}</span>`}
-        <div class="prod-badge ${p.bClass}">${siteLang==='zh'?(zhBadge[p.badge]||p.badge):p.badge}</div>
+        ${p.img ? `<img src="${p.img}" alt="${p.name}" loading="lazy">` : BOX_SVG}
+        ${p.moq ? `<div class="prod-moq-badge">${esc(p.moq)}</div><div class="prod-city-badge" style="top:36px">${esc(p.city||'')}</div>` : (p.city ? `<div class="prod-city-badge">${esc(p.city)}</div>` : '')}
       </div>
       <div class="prod-body">
-        <div class="prod-cat-label">${siteLang==='zh'?(zhCat[p.cat]||p.cat):p.cat}</div>
+        <div class="prod-cat-label">${catLabel}</div>
         ${p.supplier ? `<div class="prod-supplier-tag">🏭 ${p.supplier}</div>` : ''}
-        <div class="prod-name">${siteLang==='zh' && zhProducts[p.name] ? zhProducts[p.name].name : p.name}</div>
-        <div class="prod-desc">${siteLang==='zh' && zhProducts[p.name] ? zhProducts[p.name].desc : p.desc}</div>
-        <div class="prod-footer">
-          <div class="prod-price">${formatPrice(p.priceFC)}</div>
-          <div class="prod-actions">
-            <button class="btn-cart-add" title="${siteLang==='zh'?'加入购物车':'Ajouter au panier'}" onclick="addToCart('${esc(p.name)}')">🛒</button>
-            <button class="btn-cmd" onclick="orderProduct('${esc(p.name)}')">${siteLang==='zh'?'立即下单':'Commander'}</button>
-          </div>
-        </div>
+        <div class="prod-name">${p.name}</div>
+        <div class="prod-price-main">${formatPrice(p.priceFC)}</div>
+        <div class="prod-price-alt">${formatAltPrice(p.priceFC)}</div>
+        <button class="btn-add-cart${inCart?' in-cart':''}" onclick="addToCart('${esc(p.name)}')">
+          🛒 ${inCart ? 'Dans le panier' : 'Ajouter au panier'}
+        </button>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 function esc(s){return s.replace(/'/g,"\\'").replace(/"/g,'&quot;')}
+function handleCatSearch(val){catSearchQuery=val;renderProducts();}
 function switchCat(cat,btn) {
   currentCat=cat;
-  document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  const m=catMeta[cat];
-  document.querySelector('.cat-desc-bar .dicon').textContent=m.icon;
-  document.getElementById('cat-desc-text').innerHTML=m.desc[siteLang]||m.desc.fr;
+  renderCatPills();
   renderProducts();
-  document.getElementById('produits').scrollIntoView({behavior:'smooth'});
+  document.getElementById('catalogue').scrollIntoView({behavior:'smooth'});
 }
 function sortProducts(val){currentSort=val;renderProducts();}
+
+// ── Admin category helpers ──
+function renderAdminCategories(){
+  const list=document.getElementById('admin-cat-list');
+  if(!list) return;
+  list.innerHTML=categories.map((c,i)=>`
+    <div class="admin-prod-row">
+      <div class="apl-icon">${c.icon}</div>
+      <div class="apl-info">
+        <div class="apl-name">${c.label}</div>
+        <div class="apl-meta">ID: ${c.id} · ${allProducts.filter(p=>p.cat===c.id).length} produit(s)</div>
+      </div>
+      <div class="apl-actions">
+        <button class="apl-btn del" onclick="deleteCategory(${i})">Supprimer</button>
+      </div>
+    </div>`).join('');
+  // also refresh product add dropdown
+  const sel=document.getElementById('ap-cat');
+  if(sel) sel.innerHTML=categories.map(c=>`<option value="${c.id}">${c.label}</option>`).join('');
+}
+function addCategory(){
+  const label=document.getElementById('new-cat-label').value.trim();
+  const icon=document.getElementById('new-cat-icon').value.trim()||'📦';
+  if(!label){showToast('❌ Entrez un nom de catégorie');return;}
+  const id=label.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+  if(categories.find(c=>c.id===id)){showToast('❌ Cette catégorie existe déjà');return;}
+  categories.push({id,label,icon});
+  saveCategories();
+  document.getElementById('new-cat-label').value='';
+  document.getElementById('new-cat-icon').value='';
+  renderAdminCategories();
+  renderCatPills();
+  showToast('✅ Catégorie "'+label+'" ajoutée');
+}
+function deleteCategory(i){
+  const cat=categories[i];
+  const inUse=allProducts.filter(p=>p.cat===cat.id).length;
+  if(inUse>0){showToast('❌ '+inUse+' produit(s) utilisent cette catégorie');return;}
+  if(!confirm('Supprimer "'+cat.label+'" ?')) return;
+  categories.splice(i,1);
+  saveCategories();
+  if(currentCat===cat.id) currentCat='all';
+  renderAdminCategories();
+  renderCatPills();
+  renderProducts();
+  showToast('🗑️ Catégorie supprimée');
+}
 
 // ══ CART ══
 function addToCart(name) {
@@ -1643,9 +1564,6 @@ function updateCartBadge(){
   const total=cart.reduce((s,c)=>s+c.qty,0);
   const b=document.getElementById('cart-count');
   b.textContent=total; b.classList.toggle('visible',total>0);
-  // Sync mobile menu cart count
-  const m2 = document.getElementById('mobile-cart-count2');
-  if(m2){ m2.textContent=total; m2.style.display=total>0?'inline-flex':'none'; }
 }
 function cartTotal(){return cart.reduce((s,c)=>s+(c.priceFC*c.qty),0);}
 function renderCart(){
@@ -1746,17 +1664,17 @@ function generatePDF(){
   <title>Devis ${ref}</title>
   <style>
     body{font-family:Georgia,serif;color:#1a1a1a;margin:0;padding:2rem}
-    .header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #C9A84C;padding-bottom:1.5rem;margin-bottom:2rem}
-    .logo{font-size:1.6rem;font-weight:900;color:#C9A84C}.logo span{color:#1a1a1a}
+    .header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #1D6B68;padding-bottom:1.5rem;margin-bottom:2rem}
+    .logo{font-size:1.6rem;font-weight:900;color:#1D6B68}.logo span{color:#1a1a1a}
     .ref{font-size:.8rem;color:#888;margin-top:.3rem}
-    .info-box{background:#FDF8EE;border:1px solid #E5DFD0;padding:1rem 1.25rem;margin-bottom:2rem;font-size:.85rem}
+    .info-box{background:#EDF7F6;border:1px solid #E5E0D8;padding:1rem 1.25rem;margin-bottom:2rem;font-size:.85rem}
     .info-box p{margin:.2rem 0}
     table{width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:.88rem}
-    th{background:#1a1a1a;color:#C9A84C;padding:10px 12px;text-align:left}
+    th{background:#1a1a1a;color:#1D6B68;padding:10px 12px;text-align:left}
     th:last-child,th:nth-child(3),th:nth-child(2){text-align:right;text-align:center}
     th:nth-child(2){text-align:center}
     th:nth-child(3),th:last-child{text-align:right}
-    .total-row td{padding:12px;font-weight:700;font-size:1rem;background:#FDF8EE;border-top:2px solid #C9A84C}
+    .total-row td{padding:12px;font-weight:700;font-size:1rem;background:#EDF7F6;border-top:2px solid #1D6B68}
     .footer{margin-top:2.5rem;font-size:.78rem;color:#888;border-top:1px solid #eee;padding-top:1rem;text-align:center}
     .conditions{margin-top:1.5rem;font-size:.78rem;color:#666;line-height:1.6}
     .conditions h4{color:#1a1a1a;margin-bottom:.5rem;font-size:.85rem}
@@ -1799,6 +1717,53 @@ function generatePDF(){
     <p>• Pour confirmer votre commande, contactez-nous via WhatsApp ou le formulaire en ligne.</p>
   </div>
   <div class="footer">SinoCongo Market · Kinshasa, RDC · sinocongo-market.com</div>
+  
+<!-- ══ PWA INSTALL BANNER ══ -->
+<div class="pwa-banner" id="pwa-banner">
+  <div class="pwa-banner-left">
+    <div class="pwa-banner-icon">🛍️</div>
+    <div class="pwa-banner-text">
+      <div class="pwa-banner-title">Installer SinoCongo Market</div>
+      <div class="pwa-banner-sub">Accès rapide · Fonctionne hors-ligne · Notifications</div>
+    </div>
+  </div>
+  <div class="pwa-banner-actions">
+    <button class="pwa-dismiss-btn" onclick="dismissPWA()">Plus tard</button>
+    <button class="pwa-install-btn" onclick="installPWA()">📲 Installer</button>
+  </div>
+</div>
+
+<!-- ══ AI CHATBOT ══ -->
+<div class="chat-fab" id="chat-fab" onclick="toggleChat()">
+  🤖
+  <div class="chat-notif" id="chat-notif">1</div>
+</div>
+
+<div class="chat-window" id="chat-window">
+  <div class="chat-head">
+    <div class="chat-head-left">
+      <div class="chat-avatar">AI</div>
+      <div>
+        <div class="chat-head-title">Assistant SinoCongo</div>
+        <div class="chat-head-sub">Propulsé par Claude · En ligne</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:.4rem">
+      <div class="chat-head-lang">
+        <button class="chat-lang-btn active" id="lang-fr" onclick="setLang('fr')">FR</button>
+        <button class="chat-lang-btn" id="lang-ln" onclick="setLang('ln')">LN</button>
+      </div>
+      <button class="chat-close-btn" onclick="toggleChat()">✕</button>
+    </div>
+  </div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-suggestions" id="chat-suggestions"></div>
+  <div class="chat-input-row">
+    <input class="chat-input" type="text" id="chat-input" placeholder="Posez votre question..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="chat-send-btn" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
 </body></html>`;
   const blob=new Blob([html],{type:'text/html'});
   const url=URL.createObjectURL(blob);
@@ -1859,7 +1824,9 @@ function checkAdminPwd(){
   if(pwd==='admin123'){
     document.getElementById('admin-pwd-wrap').style.display='none';
     document.getElementById('admin-body').style.display='flex';
-    switchAdmin('produits', document.querySelectorAll('.admin-menu-item')[0]);
+    // Activate default tab properly through consolidated switchAdmin
+    const firstTab = document.querySelectorAll('.admin-menu-item')[0];
+    switchAdmin('produits', firstTab);
   } else {
     showToast('⚠️ Mot de passe incorrect.');
     document.getElementById('admin-pwd').value='';
@@ -1916,29 +1883,54 @@ function addProduct(){
   showToast('✅ "'+name+'" ajouté au catalogue !');
   switchAdmin('produits',document.querySelectorAll('.admin-menu-item')[0]);
 }
+const DEFAULT_HERO_IMG='https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1920&q=80';
+function applyHeroImage(){
+  const url=localStorage.getItem('hero_img')||DEFAULT_HERO_IMG;
+  const hero=document.querySelector('.hero');
+  if(!hero) return;
+  hero.style.backgroundImage=`url('${url}')`;
+  // pre-fill admin input (show custom URL only, not the default)
+  const inp=document.getElementById('cfg-hero-img');
+  if(inp) inp.value=localStorage.getItem('hero_img')||'';
+}
 function saveConfig(){
   const wa=document.getElementById('cfg-wa').value.trim();
   const rate=parseInt(document.getElementById('cfg-rate').value);
   const form=document.getElementById('cfg-form').value.trim();
   const cldName=document.getElementById('cfg-cld-name').value.trim();
   const cldPreset=document.getElementById('cfg-cld-preset').value.trim();
+  const heroImg=document.getElementById('cfg-hero-img').value.trim();
   if(wa) WA_NUMBER=wa;
   if(rate>0){RATE=rate;renderProducts();renderCart();}
   if(form) FORMSPREE_ID=form;
   if(cldName) CLOUDINARY_NAME=cldName;
   if(cldPreset) CLOUDINARY_PRESET=cldPreset;
-  // persist to localStorage so creds survive reload
   try{
     if(cldName) localStorage.setItem('cld_name',cldName);
     if(cldPreset) localStorage.setItem('cld_preset',cldPreset);
     if(wa) localStorage.setItem('wa_number',wa);
+    localStorage.setItem('hero_img', heroImg);
   }catch(e){}
+  applyHeroImage();
   const status=document.getElementById('cld-status');
   if(status) status.innerHTML = CLOUDINARY_NAME && CLOUDINARY_PRESET
     ? '✅ Cloudinary configuré — les uploads utiliseront votre compte'
     : '⚠️ Entrez Cloud Name + Upload Preset pour activer';
   showToast('✅ Configuration enregistrée !');
 }
+
+// live preview of hero image URL while typing
+document.addEventListener('DOMContentLoaded',()=>{
+  const inp=document.getElementById('cfg-hero-img');
+  if(!inp) return;
+  inp.addEventListener('input',()=>{
+    const url=inp.value.trim();
+    const wrap=document.getElementById('hero-img-preview-wrap');
+    const img=document.getElementById('hero-img-preview');
+    if(url){wrap.style.display='block';img.src=url;}
+    else{wrap.style.display='none';}
+  });
+});
 
 // ══ SEARCH ══
 let searchTimeout;
@@ -1962,9 +1954,7 @@ function handleSearch(val){
 function selectSearchResult(cat,name){
   document.getElementById('search-dropdown').classList.remove('open');
   document.getElementById('nav-search').value='';
-  const tabs=document.querySelectorAll('.cat-tab');
-  const idx=['electronique','vetements','maison','construction'].indexOf(cat);
-  if(idx!==-1) switchCat(cat,tabs[idx]);
+  switchCat(cat, null);
   document.getElementById('catalogue').scrollIntoView({behavior:'smooth'});
 }
 function closeSearchDelay(){setTimeout(()=>document.getElementById('search-dropdown').classList.remove('open'),200);}
@@ -2100,15 +2090,12 @@ function logout(){
 function updateUserNav(){
   const btn = document.getElementById('user-nav-btn');
   const lbl = document.getElementById('user-nav-label');
-  const mobLbl = document.getElementById('mobile-user-label');
   if(currentUser){
     btn.classList.add('logged');
     lbl.textContent = currentUser.initials;
-    if(mobLbl) mobLbl.textContent = currentUser.initials;
   } else {
     btn.classList.remove('logged');
-    lbl.textContent = siteLang==='zh' ? '登录' : 'Connexion';
-    if(mobLbl) mobLbl.textContent = siteLang==='zh' ? '登录' : 'Connexion';
+    lbl.textContent = 'Connexion';
   }
 }
 
@@ -2297,11 +2284,6 @@ function switchAdmin(section, btn){
   const sec = document.getElementById('admin-'+section);
   if(sec) sec.classList.add('active');
   if(btn) btn.classList.add('active');
-  // Sync mobile tab highlight
-  document.querySelectorAll('.admin-mobile-tab').forEach(t=>t.classList.remove('active'));
-  const sectionIdx = {produits:0,commandes:1,ajouter:2,notifs:3,dashboard:4,clients:5,fournisseurs:6,config:7};
-  const mobileTabs = document.querySelectorAll('.admin-mobile-tab');
-  if(mobileTabs[sectionIdx[section]]) mobileTabs[sectionIdx[section]].classList.add('active');
   // Tab-specific init
   if(section==='commandes')  renderAdminOrders();
   if(section==='produits')   renderAdminProducts();
@@ -2309,6 +2291,8 @@ function switchAdmin(section, btn){
   if(section==='dashboard')  renderDashboard();
   if(section==='clients')    renderAdminClients();
   if(section==='fournisseurs') renderAdminSuppliers();
+  if(section==='categories')  renderAdminCategories();
+  if(section==='ajouter')     renderAdminCategories();
 }
 
 // ── CONSOLIDATED renderAdminOrders — with notify buttons built in ──
@@ -2402,10 +2386,10 @@ function injectManifest(){
     name:'SinoCongo Market',short_name:'SinoCongo',
     description:'Importations Chine → Congo RDC',
     start_url:'/',display:'standalone',
-    background_color:'#181818',theme_color:'#C9A84C',
+    background_color:'#181818',theme_color:'#1D6B68',
     icons:[
-      {src:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%23181818"/><text y=".9em" font-size="80" x="10">🛍️</text></svg>',sizes:'192x192',type:'image/svg+xml'},
-      {src:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%23181818"/><text y=".9em" font-size="80" x="10">🛍️</text></svg>',sizes:'512x512',type:'image/svg+xml'}
+      {src:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%231D6B68"/><text y=".9em" font-size="80" x="10">🛍️</text></svg>',sizes:'192x192',type:'image/svg+xml'},
+      {src:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%231D6B68"/><text y=".9em" font-size="80" x="10">🛍️</text></svg>',sizes:'512x512',type:'image/svg+xml'}
     ]
   };
   const blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
@@ -2420,15 +2404,13 @@ let chatOpen = false;
 
 const chatGreetings = {
   fr: 'Bonjour ! 👋 Je suis l\'assistant IA de SinoCongo Market. Je peux vous aider à trouver un produit, calculer un devis, ou répondre à vos questions. Comment puis-je vous aider ?',
-  ln: 'Mbote ! 👋 Ngai nazali assistant ya SinoCongo Market. Nakoki kosalisa yo kozua biloko, kolanda prix, to kozongisa mituna na yo. Ndenge nini nakoki kosalisa yo ?',
-  zh: '您好！👋 我是 SinoCongo Market 的AI助手。我可以帮您查找商品、计算报价或回答问题。请问有什么可以帮您？'
+  ln: 'Mbote ! 👋 Ngai nazali assistant ya SinoCongo Market. Nakoki kosalisa yo kozua biloko, kolanda prix, to kozongisa mituna na yo. Ndenge nini nakoki kosalisa yo ?'
 };
 const chatSuggestions = {
   fr: ['💰 Calculer un devis','📦 Trouver un produit','🚢 Délai de livraison','💳 Comment payer ?','📍 Livraison en RDC'],
-  ln: ['💰 Kobanda devis','📦 Kozua eloko','🚢 Tango ya livraison','💳 Ndenge ya kolipa ?','📍 Livraison na RDC'],
-  zh: ['💰 计算报价','📦 查找商品','🚢 配送时间','💳 如何付款？','📍 刚果配送']
+  ln: ['💰 Kobanda devis','📦 Kozua eloko','🚢 Tango ya livraison','💳 Ndenge ya kolipa ?','📍 Livraison na RDC']
 };
-const chatSystemPromptBase = `Tu es l'assistant IA de SinoCongo Market, une boutique e-commerce qui importe des produits de Chine vers la République Démocratique du Congo.
+const chatSystemPrompt = `Tu es l'assistant IA de SinoCongo Market, une boutique e-commerce qui importe des produits de Chine vers la République Démocratique du Congo.
 
 CATALOGUE DISPONIBLE:
 - Électronique: Smartphone Android 4G (85 000 FC / ~30 USD), Smartphone 5G 128Go (145 000 FC / ~52 USD), Tablette Android 10" (95 000 FC / ~34 USD), Écouteurs Bluetooth (18 000 FC), Batterie 20 000mAh (22 000 FC), Caméra WiFi (35 000 FC), Moniteur LED 24" (120 000 FC), Multiprise USB (12 000 FC)
@@ -2443,13 +2425,9 @@ INFORMATIONS CLÉS:
 - Livraison: Kinshasa, Lubumbashi, Goma, Bukavu, Kisangani, Mbuji-Mayi, Matadi, Kananga
 - Pour commander: remplir le formulaire sur le site ou envoyer un message WhatsApp
 
-POUR LES DEVIS: si l'utilisateur donne une liste de produits et quantités, calcule le total en FC et en USD automatiquement.`;
+POUR LES DEVIS: si l'utilisateur donne une liste de produits et quantités, calcule le total en FC et en USD automatiquement.
 
-function getChatSystemPrompt(){
-  if(chatLang==='ln') return chatSystemPromptBase + '\n\nLANGUE: Réponds UNIQUEMENT en lingala (langue congolaise). Sois chaleureux, concis et utile. Réponds en max 3 phrases sauf pour les devis.';
-  if(chatLang==='zh') return chatSystemPromptBase + '\n\n语言：请只用中文回复。态度热情、简洁、实用。除报价外，最多回复3句话。';
-  return chatSystemPromptBase + '\n\nLANGUE: Réponds en français. Sois chaleureux, concis et utile. Réponds en max 3 phrases sauf pour les devis.';
-}
+LANGUE: si l'utilisateur écrit en lingala, réponds en lingala (LN). Sinon réponds en français (FR). Sois chaleureux, concis et utile. Réponds en max 3 phrases sauf pour les devis.`;
 
 function toggleChat(){
   chatOpen = !chatOpen;
@@ -2462,21 +2440,18 @@ function toggleChat(){
   }
 }
 function initChat(){
-  addBotMsg(chatGreetings[chatLang] || chatGreetings.fr);
+  addBotMsg(chatGreetings[chatLang]);
   renderSuggestions();
 }
 function setLang(l){
   chatLang=l;
   document.getElementById('lang-fr').classList.toggle('active',l==='fr');
   document.getElementById('lang-ln').classList.toggle('active',l==='ln');
-  const zhBtn = document.getElementById('lang-zh-chat');
-  if(zhBtn) zhBtn.classList.toggle('active',l==='zh');
-  const placeholders = {fr:'Posez votre question...',ln:'Kotuna motuna na yo...',zh:'请输入您的问题...'};
-  document.getElementById('chat-input').placeholder = placeholders[l]||placeholders.fr;
+  document.getElementById('chat-input').placeholder = l==='fr'?'Posez votre question...':'Kotuna motuna na yo...';
   renderSuggestions();
 }
 function renderSuggestions(){
-  const sugs = chatSuggestions[chatLang] || chatSuggestions.fr;
+  const sugs = chatSuggestions[chatLang];
   document.getElementById('chat-suggestions').innerHTML = sugs.map(s=>
     `<button class="chat-sug" onclick="sendChatMsg('${s.replace(/'/g,"\'")}')">${s}</button>`
   ).join('');
@@ -2530,7 +2505,7 @@ async function sendChatMsg(text){
       body:JSON.stringify({
         model:'claude-sonnet-4-20250514',
         max_tokens:400,
-        system: getChatSystemPrompt(),
+        system: chatSystemPrompt + (chatLang==='ln'?'\n\nIMPORTANT: Réponds en lingala (langue congolaise) car le client a choisi cette langue.':''),
         messages: chatHistory
       })
     });
@@ -2885,456 +2860,12 @@ function rejectSupplierProduct(id){
 }
 
 // ══ INIT ══
+renderCatPills();
 renderProducts();
 renderReviews();
+applyHeroImage();
 injectManifest();
 registerSW();
-
-// ══ MOBILE MENU ══
-function toggleMobileMenu(){
-  const menu = document.getElementById('mobile-menu');
-  const ham = document.getElementById('nav-hamburger');
-  const open = menu.classList.toggle('open');
-  ham.classList.toggle('open', open);
-}
-function closeMobileMenu(){
-  document.getElementById('mobile-menu').classList.remove('open');
-  document.getElementById('nav-hamburger').classList.remove('open');
-}
-// Close mobile menu on outside click
-document.addEventListener('click', e=>{
-  const menu = document.getElementById('mobile-menu');
-  const ham = document.getElementById('nav-hamburger');
-  if(menu.classList.contains('open') && !menu.contains(e.target) && !ham.contains(e.target)){
-    closeMobileMenu();
-  }
-});
-// ══ MULTILINGUAL — FR / 中文 ══
-
-const i18n = {
-  fr: {
-    // Nav
-    'nav.cart': 'Panier',
-    'nav.login': 'Connexion',
-    'nav.sell': 'Vendre',
-    'nav.order': 'Commander',
-    // Hero
-    'hero.pill': '🇨🇳 Fabricants Chinois &nbsp;→&nbsp; 🇨🇩 Congo RDC',
-    'hero.title': 'Les meilleurs produits de <em>Chine</em>,<br>livrés au <em>Congo</em>',
-    'hero.sub': 'Accédez directement aux fabricants. Qualité certifiée, prix imbattables, livraison fiable partout en République Démocratique du Congo.',
-    'hero.cta1': 'Voir le catalogue',
-    'hero.cta2': 'Devis gratuit',
-    // Stats bar
-    'stat.products': 'Produits disponibles',
-    'stat.cats': 'Catégories',
-    'stat.delivery': 'Délai livraison',
-    'stat.quality': 'Qualité garantie',
-    // Catalogue
-    'cat.tag': 'Toutes nos catégories',
-    'cat.title': 'Explorez notre <em>catalogue complet</em>',
-    'cat.tab.elec': '📱 Électronique & Téléphones',
-    'cat.tab.vet': '👕 Vêtements & Mode',
-    'cat.tab.mais': '🏠 Maison & Cuisine',
-    'cat.tab.const': '🔧 Matériaux & Construction',
-    // Products
-    'prod.sort.default': 'Trier : Popularité',
-    'prod.sort.asc': 'Prix croissant',
-    'prod.sort.desc': 'Prix décroissant',
-    'prod.sort.new': 'Nouveautés d\'abord',
-    'prod.loadmore': 'Vous ne trouvez pas votre produit ? Faites une demande sur mesure →',
-    'prod.btn.order': 'Commander',
-    // How section
-    'how.tag': 'Processus simple & transparent',
-    'how.title': 'Comment <em>ça marche</em> ?',
-    'how.s1.t': 'Choisissez vos produits',
-    'how.s1.d': 'Parcourez le catalogue ou faites une demande sur mesure.',
-    'how.s2.t': 'Recevez votre devis',
-    'how.s2.d': 'Sous 48h : prix, délai et conditions confirmés.',
-    'how.s3.t': 'Nous commandons & expédions',
-    'how.s3.d': 'Inspection en Chine puis expédition vers le Congo.',
-    'how.s4.t': 'Livraison chez vous',
-    'how.s4.d': 'Réception à Kinshasa ou votre ville. Suivi fourni.',
-    // Reviews
-    'rev.tag': 'Ce que disent nos clients',
-    'rev.title': 'Ils nous font <em>confiance</em>',
-    'rev.count': 'Basé sur 124 commandes · 98% de satisfaction',
-    // Order section
-    'order.tag': 'Passez commande ou demandez un devis',
-    'order.title': 'Contactez-nous — <em>devis gratuit</em>',
-    'order.h3': 'Nous sommes à votre service',
-    'order.p1': 'Que vous soyez particulier ou commerçant, nous vous accompagnons de la sélection jusqu\'à la livraison en RDC.',
-    'order.p2': 'Envoyez votre demande et notre équipe vous répond <strong>sous 48 heures</strong>, devis clair et sans engagement.',
-    'order.form.title': '📦 Formulaire de commande / Devis',
-    'order.form.fname': 'Prénom *',
-    'order.form.lname': 'Nom *',
-    'order.form.phone': 'Téléphone / WhatsApp *',
-    'order.form.email': 'Email',
-    'order.form.city': 'Ville de livraison *',
-    'order.form.cat': 'Catégorie *',
-    'order.form.desc': 'Description de votre commande *',
-    'order.form.qty': 'Quantité estimée',
-    'order.form.budget': 'Budget (USD)',
-    'order.form.submit': 'Envoyer ma demande →',
-    'order.form.note': 'Réponse garantie sous 48h · Devis 100% gratuit et sans engagement',
-    'order.form.wa': 'Préférez WhatsApp ? Envoyez directement votre demande',
-    // Footer
-    'footer.copy': '© 2026 SinoCongo Market · Kinshasa, RDC',
-    'footer.catalogue': 'Catalogue',
-    'footer.reviews': 'Avis clients',
-    'footer.tracking': 'Suivi de commande',
-    'footer.contact': 'Contact',
-    // Cart
-    'cart.title': '🛒 Mon Panier',
-    'cart.empty': 'Votre panier est vide.<br>Ajoutez des produits depuis le catalogue.',
-    'cart.total': 'Total estimé',
-    'cart.pay': '💳 Payer par Mobile Money',
-    'cart.quote': 'Envoyer une demande de devis →',
-    'cart.pdf': '📄 Télécharger le devis PDF',
-    'cart.wa': 'Commander via WhatsApp',
-    'cart.note': 'Devis gratuit · Réponse sous 48h',
-    // Auth
-    'auth.title': '👤 Mon Compte',
-    'auth.s1.title': 'Connexion via WhatsApp',
-    'auth.s1.sub': 'Entrez votre numéro WhatsApp. Nous vous envoyons un code de confirmation.',
-    'auth.s1.placeholder': '+243 8XX XXX XXX',
-    'auth.s1.btn': 'Recevoir le code sur WhatsApp',
-    'auth.s2.title': 'Code de vérification',
-    'auth.s2.sub': 'Entrez le code à 6 chiffres envoyé sur votre WhatsApp.',
-    'auth.s2.verify': 'Vérifier',
-    'auth.s3.title': 'Connecté avec succès !',
-    'auth.logout': 'Se déconnecter',
-    // Manufacturer portal
-    'mfg.title': '🏭 Portail Fabricants & Fournisseurs',
-    'mfg.s1.title': 'Rejoignez SinoCongo Market',
-    'mfg.s1.sub': 'Vous êtes fabricant ou fournisseur ? Publiez vos produits et atteignez des milliers d\'acheteurs en République Démocratique du Congo.',
-    'mfg.s1.company': 'Nom de l\'entreprise *',
-    'mfg.s1.city': 'Ville *',
-    'mfg.s1.specialty': 'Spécialité *',
-    'mfg.s1.phone': 'Numéro WhatsApp *',
-    'mfg.s1.btn': 'Créer mon compte →',
-    'mfg.s1.login': 'Déjà inscrit ?',
-    'mfg.s1.loginlink': 'Se connecter via WhatsApp',
-    // Tracking
-    'track.title': '📦 Suivi de commande',
-    'track.placeholder': 'Numéro de commande (ex: SCM-2026-001)',
-    'track.btn': 'Rechercher',
-    // Chat
-    'chat.title': 'Assistant SinoCongo',
-    'chat.sub': 'Propulsé par Claude · En ligne',
-    'chat.placeholder': 'Posez votre question...',
-  },
-  zh: {
-    // Nav
-    'nav.cart': '购物车',
-    'nav.login': '登录',
-    'nav.sell': '入驻',
-    'nav.order': '下单',
-    // Hero
-    'hero.pill': '🇨🇳 中国厂商 &nbsp;→&nbsp; 🇨🇩 刚果（金）',
-    'hero.title': '直供<em>中国</em>优质商品，<br>配送至<em>刚果</em>',
-    'hero.sub': '直接对接厂商，品质认证，价格无敌，全程可靠配送至刚果民主共和国。',
-    'hero.cta1': '浏览商品',
-    'hero.cta2': '免费报价',
-    // Stats bar
-    'stat.products': '在售商品',
-    'stat.cats': '商品分类',
-    'stat.delivery': '配送时间',
-    'stat.quality': '品质保证',
-    // Catalogue
-    'cat.tag': '全部分类',
-    'cat.title': '浏览我们的<em>完整目录</em>',
-    'cat.tab.elec': '📱 电子产品',
-    'cat.tab.vet': '👕 服装时尚',
-    'cat.tab.mais': '🏠 家居厨房',
-    'cat.tab.const': '🔧 建材工具',
-    // Products
-    'prod.sort.default': '排序：热度',
-    'prod.sort.asc': '价格从低到高',
-    'prod.sort.desc': '价格从高到低',
-    'prod.sort.new': '最新商品',
-    'prod.loadmore': '没找到想要的商品？提交定制需求 →',
-    'prod.btn.order': '立即下单',
-    // How section
-    'how.tag': '简单透明的流程',
-    'how.title': '如何<em>运作</em>？',
-    'how.s1.t': '选择商品',
-    'how.s1.d': '浏览目录或提交定制需求。',
-    'how.s2.t': '收到报价',
-    'how.s2.d': '48小时内确认价格、时间和条款。',
-    'how.s3.t': '下单 & 发货',
-    'how.s3.d': '中国验货后发往刚果。',
-    'how.s4.t': '送货上门',
-    'how.s4.d': '金沙萨或您所在城市收货，提供追踪。',
-    // Reviews
-    'rev.tag': '客户评价',
-    'rev.title': '他们<em>信任</em>我们',
-    'rev.count': '基于124笔订单 · 98%满意度',
-    // Order section
-    'order.tag': '下单或申请报价',
-    'order.title': '联系我们 — <em>免费报价</em>',
-    'order.h3': '我们为您服务',
-    'order.p1': '无论是个人还是商家，我们全程陪伴您从选品到配送。',
-    'order.p2': '提交需求后，我们将在<strong>48小时内</strong>回复清晰无附加条件的报价。',
-    'order.form.title': '📦 订单 / 报价表单',
-    'order.form.fname': '名字 *',
-    'order.form.lname': '姓氏 *',
-    'order.form.phone': '电话 / WhatsApp *',
-    'order.form.email': '电子邮件',
-    'order.form.city': '配送城市 *',
-    'order.form.cat': '商品分类 *',
-    'order.form.desc': '订单描述 *',
-    'order.form.qty': '预计数量',
-    'order.form.budget': '预算（美元）',
-    'order.form.submit': '提交申请 →',
-    'order.form.note': '48小时内保证回复 · 100%免费报价，无附加条件',
-    'order.form.wa': '偏好WhatsApp？直接发送您的需求',
-    // Footer
-    'footer.copy': '© 2026 SinoCongo Market · 金沙萨，刚果民主共和国',
-    'footer.catalogue': '商品目录',
-    'footer.reviews': '客户评价',
-    'footer.tracking': '订单追踪',
-    'footer.contact': '联系我们',
-    // Cart
-    'cart.title': '🛒 我的购物车',
-    'cart.empty': '购物车为空。<br>请从商品目录添加商品。',
-    'cart.total': '预计总额',
-    'cart.pay': '💳 手机支付',
-    'cart.quote': '发送报价申请 →',
-    'cart.pdf': '📄 下载报价PDF',
-    'cart.wa': 'WhatsApp下单',
-    'cart.note': '免费报价 · 48小时内回复',
-    // Auth
-    'auth.title': '👤 我的账户',
-    'auth.s1.title': '通过WhatsApp登录',
-    'auth.s1.sub': '输入您的WhatsApp号码，我们将发送验证码。',
-    'auth.s1.placeholder': '+243 8XX XXX XXX',
-    'auth.s1.btn': '通过WhatsApp接收验证码',
-    'auth.s2.title': '验证码',
-    'auth.s2.sub': '请输入WhatsApp发送的6位验证码。',
-    'auth.s2.verify': '验证',
-    'auth.s3.title': '登录成功！',
-    'auth.logout': '退出登录',
-    // Manufacturer portal
-    'mfg.title': '🏭 厂商 & 供应商入驻',
-    'mfg.s1.title': '加入 SinoCongo Market',
-    'mfg.s1.sub': '您是厂商或供应商？发布商品，触达刚果民主共和国数千名买家。',
-    'mfg.s1.company': '企业名称 *',
-    'mfg.s1.city': '城市 *',
-    'mfg.s1.specialty': '主营类目 *',
-    'mfg.s1.phone': 'WhatsApp号码 *',
-    'mfg.s1.btn': '创建账户 →',
-    'mfg.s1.login': '已有账户？',
-    'mfg.s1.loginlink': '通过WhatsApp登录',
-    // Tracking
-    'track.title': '📦 订单追踪',
-    'track.placeholder': '订单号（例：SCM-2026-001）',
-    'track.btn': '查询',
-    // Chat
-    'chat.title': 'SinoCongo 助手',
-    'chat.sub': '由 Claude 驱动 · 在线',
-    'chat.placeholder': '请输入您的问题...',
-  }
-};
-
-function t(key){ return (i18n[siteLang] && i18n[siteLang][key]) || (i18n.fr[key]) || key; }
-
-function setSiteLang(lang){
-  siteLang = lang;
-  // Update lang toggle buttons
-  ['fr','zh'].forEach(l=>{
-    const b1 = document.getElementById('lang-btn-'+l);
-    const b2 = document.getElementById('mob-lang-'+l);
-    if(b1) b1.classList.toggle('active', l===lang);
-    if(b2) b2.classList.toggle('active', l===lang);
-  });
-  applyI18n();
-  renderProducts();
-  renderReviews();
-  // Sync chatbot language (FR ↔ ZH from site-wide toggle)
-  if(lang==='zh' || lang==='fr'){ chatLang = lang; setLang(lang); }
-  // Update chat placeholder
-  const ci = document.getElementById('chat-input');
-  if(ci) ci.placeholder = t('chat.placeholder');
-  // Update nav search placeholder
-  const ns = document.getElementById('nav-search');
-  if(ns) ns.placeholder = lang==='zh' ? '搜索商品...' : 'Rechercher un produit...';
-  const ms = document.getElementById('mobile-search');
-  if(ms) ms.placeholder = lang==='zh' ? '搜索商品...' : 'Rechercher un produit...';
-  // Update html lang attr
-  document.documentElement.lang = lang==='zh'?'zh':'fr';
-}
-
-function applyI18n(){
-  const lang = siteLang;
-  // data-i18n elements
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const key = el.getAttribute('data-i18n');
-    const val = t(key);
-    if(val) el.innerHTML = val;
-  });
-
-  // Hero section
-  const heroPill = document.querySelector('.hero-pill');
-  if(heroPill) heroPill.innerHTML = t('hero.pill');
-  const heroH1 = document.querySelector('.hero h1');
-  if(heroH1) heroH1.innerHTML = t('hero.title');
-  const heroSub = document.querySelector('.hero-sub');
-  if(heroSub) heroSub.textContent = t('hero.sub');
-  const heroCta1 = document.querySelector('.hero-actions .btn-gold');
-  if(heroCta1) heroCta1.textContent = t('hero.cta1');
-  const heroCta2 = document.querySelector('.hero-actions .btn-ghost');
-  if(heroCta2) heroCta2.textContent = t('hero.cta2');
-
-  // Stats bar
-  const statLabels = document.querySelectorAll('.stat-l');
-  const statKeys = ['stat.products','stat.cats','stat.delivery','stat.quality'];
-  statLabels.forEach((el,i)=>{ if(statKeys[i]) el.textContent = t(statKeys[i]); });
-
-  // Catalogue tags
-  const catTag = document.querySelector('.cat-section .s-tag');
-  if(catTag) catTag.textContent = t('cat.tag');
-  const catTitle = document.querySelector('.cat-section .s-title');
-  if(catTitle) catTitle.innerHTML = t('cat.title');
-  const catTabs = document.querySelectorAll('.cat-tab');
-  const catTabKeys = ['cat.tab.elec','cat.tab.vet','cat.tab.mais','cat.tab.const'];
-  catTabs.forEach((el,i)=>{ if(catTabKeys[i]) el.innerHTML = t(catTabKeys[i]); });
-
-  // Sort
-  const sortSel = document.querySelector('.prod-sort');
-  if(sortSel){
-    const opts = sortSel.querySelectorAll('option');
-    const sortKeys = ['prod.sort.default','prod.sort.asc','prod.sort.desc','prod.sort.new'];
-    opts.forEach((o,i)=>{ if(sortKeys[i]) o.textContent = t(sortKeys[i]); });
-  }
-
-  // How section
-  const howTag = document.querySelector('.how-section .s-tag');
-  if(howTag) howTag.textContent = t('how.tag');
-  const howTitle = document.querySelector('.how-section .s-title');
-  if(howTitle) howTitle.innerHTML = t('how.title');
-  const stepTitles = document.querySelectorAll('.step-t');
-  const stepDescs = document.querySelectorAll('.step-d');
-  const stepTKeys = ['how.s1.t','how.s2.t','how.s3.t','how.s4.t'];
-  const stepDKeys = ['how.s1.d','how.s2.d','how.s3.d','how.s4.d'];
-  stepTitles.forEach((el,i)=>{ if(stepTKeys[i]) el.textContent = t(stepTKeys[i]); });
-  stepDescs.forEach((el,i)=>{ if(stepDKeys[i]) el.textContent = t(stepDKeys[i]); });
-
-  // Reviews
-  const revTag = document.querySelector('.reviews-section .s-tag');
-  if(revTag) revTag.textContent = t('rev.tag');
-  const revTitle = document.querySelector('.reviews-section .s-title');
-  if(revTitle) revTitle.innerHTML = t('rev.title');
-  const revCount = document.querySelector('.rating-count');
-  if(revCount) revCount.textContent = t('rev.count');
-
-  // Order section
-  const orderTag = document.querySelector('.order-section .s-tag');
-  if(orderTag) orderTag.textContent = t('order.tag');
-  const orderTitle = document.querySelector('.order-section .s-title');
-  if(orderTitle) orderTitle.innerHTML = t('order.title');
-  const orderH3 = document.querySelector('.order-left h3');
-  if(orderH3) orderH3.textContent = t('order.h3');
-  const orderPs = document.querySelectorAll('.order-left > p');
-  if(orderPs[0]) orderPs[0].textContent = t('order.p1');
-  if(orderPs[1]) orderPs[1].innerHTML = t('order.p2');
-  const formHead = document.querySelector('.form-head');
-  if(formHead) formHead.textContent = t('order.form.title');
-  // Form labels
-  const formLabels = document.querySelectorAll('.form-box .fg label');
-  const formLabelKeys = ['order.form.fname','order.form.lname','order.form.phone','order.form.email','order.form.city','order.form.cat','order.form.desc','order.form.qty','order.form.budget'];
-  formLabels.forEach((el,i)=>{ if(formLabelKeys[i]) el.textContent = t(formLabelKeys[i]); });
-  const formSubmit = document.querySelector('.form-submit');
-  if(formSubmit) formSubmit.textContent = t('order.form.submit');
-  const formNote = document.querySelector('.form-note');
-  if(formNote) formNote.textContent = t('order.form.note');
-  const formWa = document.querySelector('.form-wa-alt span:last-child');
-  if(formWa) formWa.textContent = t('order.form.wa');
-
-  // Footer
-  const footCopy = document.querySelector('footer > div > p');
-  if(footCopy) footCopy.textContent = t('footer.copy');
-  const footLinks = document.querySelectorAll('.foot-links a');
-  const footLinkKeys = ['footer.catalogue','footer.reviews','footer.tracking','footer.contact'];
-  footLinks.forEach((el,i)=>{ if(footLinkKeys[i]) el.textContent = t(footLinkKeys[i]); });
-
-  // Cart drawer
-  const cartHeadTitle = document.querySelector('.cart-head-title');
-  if(cartHeadTitle) cartHeadTitle.textContent = t('cart.title');
-  const cartTotalLabel = document.querySelector('.cart-total-label');
-  if(cartTotalLabel) cartTotalLabel.textContent = t('cart.total');
-  const cartCheckout = document.querySelector('.cart-checkout-btn');
-  if(cartCheckout) cartCheckout.textContent = t('cart.pay');
-  const cartPdf = document.querySelector('.cart-pdf-btn');
-  if(cartPdf) cartPdf.textContent = t('cart.pdf');
-  const cartNote = document.querySelector('.cart-note');
-  if(cartNote) cartNote.textContent = t('cart.note');
-
-  // Auth modal
-  const authTitle = document.querySelector('#auth-overlay .modal-title');
-  if(authTitle) authTitle.textContent = t('auth.title');
-  const authS1Title = document.querySelector('#auth-s1 .auth-title');
-  if(authS1Title) authS1Title.textContent = t('auth.s1.title');
-  const authS1Sub = document.querySelector('#auth-s1 .auth-sub');
-  if(authS1Sub) authS1Sub.textContent = t('auth.s1.sub');
-  const authPhone = document.getElementById('auth-phone');
-  if(authPhone) authPhone.placeholder = t('auth.s1.placeholder');
-  const authWaBtn = document.querySelector('#auth-s1 .auth-wa-btn');
-  if(authWaBtn){ const span = authWaBtn.querySelector('svg'); authWaBtn.childNodes[authWaBtn.childNodes.length-1].textContent = ' '+t('auth.s1.btn'); }
-  const authS2Title = document.querySelector('#auth-s2 .auth-title');
-  if(authS2Title) authS2Title.textContent = t('auth.s2.title');
-  const authVerify = document.querySelector('#auth-s2 .auth-btn');
-  if(authVerify) authVerify.textContent = t('auth.s2.verify');
-  const authS3Title = document.querySelector('#auth-s3 .auth-title');
-  if(authS3Title) authS3Title.textContent = t('auth.s3.title');
-  const logoutBtn = document.querySelector('#auth-s3 .auth-btn');
-  if(logoutBtn) logoutBtn.textContent = t('auth.logout');
-
-  // Tracking modal
-  const trackTitle = document.querySelector('#track-overlay .modal-title');
-  if(trackTitle) trackTitle.textContent = t('track.title');
-  const trackInput = document.getElementById('track-input');
-  if(trackInput) trackInput.placeholder = t('track.placeholder');
-  const trackBtn = document.querySelector('.track-btn');
-  if(trackBtn) trackBtn.textContent = t('track.btn');
-
-  // Manufacturer portal
-  const mfgTitle = document.querySelector('.mfg-title');
-  if(mfgTitle) mfgTitle.textContent = t('mfg.title');
-  const mfgS1Title = document.querySelector('#mfg-s1 .mfg-screen-title');
-  if(mfgS1Title) mfgS1Title.textContent = t('mfg.s1.title');
-  const mfgS1Sub = document.querySelector('#mfg-s1 .mfg-screen-sub');
-  if(mfgS1Sub) mfgS1Sub.textContent = t('mfg.s1.sub');
-  const mfgLabels = document.querySelectorAll('.mfg-form label');
-  const mfgLabelKeys = ['mfg.s1.company','mfg.s1.city','mfg.s1.specialty','mfg.s1.phone'];
-  mfgLabels.forEach((el,i)=>{ if(mfgLabelKeys[i]) el.textContent = t(mfgLabelKeys[i]); });
-  const mfgSubmit = document.querySelector('#mfg-s1 .mfg-submit-btn');
-  if(mfgSubmit) mfgSubmit.textContent = t('mfg.s1.btn');
-  const mfgLoginLink = document.querySelector('#mfg-s1 .mfg-link');
-  if(mfgLoginLink) mfgLoginLink.innerHTML = t('mfg.s1.login') + ' <span onclick="showMfgScreen(2)">' + t('mfg.s1.loginlink') + '</span>';
-  const mfgS2Title = document.querySelector('#mfg-s2 .mfg-screen-title');
-  if(mfgS2Title) mfgS2Title.textContent = t('auth.s2.title');
-
-  // Chat
-  const chatHeadTitle = document.querySelector('.chat-head-title');
-  if(chatHeadTitle) chatHeadTitle.textContent = t('chat.title');
-  const chatHeadSub = document.querySelector('.chat-head-sub');
-  if(chatHeadSub) chatHeadSub.textContent = t('chat.sub');
-  const chatInputEl = document.getElementById('chat-input');
-  if(chatInputEl) chatInputEl.placeholder = t('chat.placeholder');
-
-  // Load-more button
-  const loadMore = document.querySelector('.btn-load');
-  if(loadMore) loadMore.textContent = t('prod.loadmore');
-
-  // Category description bar (update for current active cat)
-  const catDescEl = document.getElementById('cat-desc-text');
-  if(catDescEl && catMeta[currentCat]){
-    catDescEl.innerHTML = catMeta[currentCat].desc[siteLang] || catMeta[currentCat].desc.fr;
-  }
-}
-
-// Run i18n on page load (default FR, nothing changes but primes the system)
-applyI18n();
 </script>
 </body>
 </html>
