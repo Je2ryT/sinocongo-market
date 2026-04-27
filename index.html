@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SinoCongo Market — Importations Chine → Congo RDC</title>
+<title>Steward & Co — Importations Chine → Congo RDC</title>
 <meta name="description" content="Importations directes de Chine vers le Congo RDC. Électronique, vêtements, maison, construction. Qualité garantie, livraison 30–45 jours.">
-<meta property="og:title" content="SinoCongo Market — Importations de Qualité">
+<meta property="og:title" content="Steward & Co — Importations de Qualité">
 <meta property="og:description" content="Les meilleurs produits de Chine livrés au Congo RDC. Qualité certifiée, prix imbattables.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#1D6B68">
 <link rel="manifest" href="#" id="pwa-manifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SinoCongo">
+<meta name="apple-mobile-web-app-title" content="Steward">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -330,6 +330,17 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .img-prod-btn:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-pale)}
 .img-prod-btn.del:hover{border-color:#e53e3e;color:#e53e3e;background:#fff5f5}
 .img-prod-uploading{position:absolute;inset:0;background:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;font-size:.78rem;color:var(--mid);font-weight:500}
+/* Unsplash grid */
+.unsplash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:.5rem}
+.unsplash-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .2s}
+.unsplash-thumb:hover{border-color:var(--teal);transform:scale(1.03)}
+.unsplash-thumb.selected{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-pale)}
+.unsplash-loading{text-align:center;padding:1.5rem;font-size:.8rem;color:var(--muted)}
+/* Supabase status banner */
+.db-status-bar{display:flex;align-items:center;gap:.5rem;padding:.5rem .85rem;border-radius:var(--radius);font-size:.75rem;font-weight:500;margin-bottom:.75rem}
+.db-status-bar.connected{background:#e6f5ec;color:#1A6B3C;border:1px solid #b7e4c7}
+.db-status-bar.disconnected{background:#fff3cd;color:#856404;border:1px solid #ffeeba}
+.db-status-bar.error{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb}
 .img-preview{width:100%;height:120px;object-fit:cover;border-radius:var(--radius);margin-bottom:.5rem;display:none}
 .img-preview.visible{display:block}
 .img-upload-label{font-size:.78rem;color:var(--muted);line-height:1.5}
@@ -773,16 +784,21 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 .supp-reject-btn:hover{background:#f5c6cb}
 .supp-pending-badge{display:inline-flex;align-items:center;gap:.35rem;background:#fff3cd;color:#856404;border:1px solid #ffeeba;font-size:.65rem;font-weight:600;padding:.15rem .5rem;border-radius:2px;margin-left:.4rem}
 </style>
+<!-- ══ SUPABASE SDK ══ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
 
 <!-- ══ NAV ══ -->
 <nav>
-  <a class="logo" href="#">
-    <div class="logo-badge">SC</div>
-    <div class="logo-text">
-      <div class="logo-name">SinoCongo Market</div>
-      <div class="logo-sub">La Chine, Livrée Chez Vous</div>
+  <a class="logo" href="#" id="site-logo">
+    <img id="logo-img" src="" alt="Logo" style="display:none;height:36px;max-width:140px;object-fit:contain">
+    <div id="logo-fallback" style="display:flex;align-items:center;gap:.7rem">
+      <div class="logo-badge" id="logo-badge-initials">S&amp;C</div>
+      <div class="logo-text">
+        <div class="logo-name" id="logo-name-text">Steward & Co</div>
+        <div class="logo-sub">Where Stewardship Meets Commerce</div>
+      </div>
     </div>
   </a>
   <div class="nav-links-center">
@@ -841,8 +857,16 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
     <div class="cart-empty"><div class="empty-icon">🛒</div><p>Votre panier est vide.<br>Ajoutez des produits depuis le catalogue.</p></div>
   </div>
   <div class="cart-foot" id="cart-foot" style="display:none">
-    <div class="cart-total-row">
-      <span class="cart-total-label">Total estimé</span>
+    <div class="cart-total-row" style="margin-bottom:.4rem">
+      <span class="cart-total-label">Sous-total</span>
+      <span style="font-size:.95rem;font-weight:500;color:var(--dark)" id="cart-subtotal-val">0 FC</span>
+    </div>
+    <div class="cart-total-row" style="margin-bottom:.6rem">
+      <span class="cart-total-label">🚢 Frais de livraison</span>
+      <span style="font-size:.9rem;font-weight:500;color:var(--mid)" id="cart-shipping-val">À confirmer</span>
+    </div>
+    <div class="cart-total-row" style="border-top:1px solid var(--border);padding-top:.6rem;margin-bottom:1rem">
+      <span class="cart-total-label" style="font-weight:600;color:var(--dark)">Total estimé</span>
       <span class="cart-total-val" id="cart-total-val">0 FC</span>
     </div>
     <button class="cart-checkout-btn" onclick="openPayModal()">💳 Payer par Mobile Money</button>
@@ -1069,9 +1093,17 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
               <input class="img-url-inp" type="url" id="mgr-hero-url" placeholder="https://images.unsplash.com/...">
               <button class="img-mgr-save-btn" onclick="applyHeroFromUrl()">Appliquer</button>
             </div>
+            <!-- Unsplash Search -->
+            <div style="margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem">
+              <div class="img-mgr-label" style="font-size:.8rem;margin-bottom:.5rem">🔍 Recherche Unsplash</div>
+              <div style="display:flex;gap:.5rem;margin-bottom:.75rem">
+                <input type="text" id="unsplash-hero-q" placeholder="ex: Congo market, Africa city…" style="flex:1;padding:.45rem .75rem;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.8rem;outline:none" onkeydown="if(event.key==='Enter')searchUnsplash('hero')">
+                <button class="img-mgr-save-btn" onclick="searchUnsplash('hero')">Rechercher</button>
+              </div>
+              <div id="unsplash-hero-results" class="unsplash-grid"></div>
+            </div>
           </div>
 
-          <!-- Product Images -->
           <div class="img-mgr-block" style="margin-top:1.5rem">
             <div class="img-mgr-label">📦 Images des produits</div>
             <div class="img-mgr-sub">Cliquez sur 📸 d'un produit pour changer sa photo. Changements visibles immédiatement dans le catalogue.</div>
@@ -1079,21 +1111,83 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
               <input type="text" id="img-prod-search" placeholder="🔍 Filtrer les produits..." oninput="renderImgManager()" style="flex:1;padding:.5rem .85rem;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none">
             </div>
             <div class="img-prod-grid" id="img-prod-grid"></div>
+
+            <!-- Unsplash product search -->
+            <div style="margin-top:1.25rem;border-top:1px solid var(--border);padding-top:1rem">
+              <div class="img-mgr-label" style="font-size:.8rem;margin-bottom:.25rem">🔍 Trouver une image Unsplash pour un produit</div>
+              <div class="img-mgr-sub">Recherchez, cliquez une image, puis choisissez le produit à mettre à jour.</div>
+              <div style="display:flex;gap:.5rem;margin-bottom:.75rem">
+                <input type="text" id="unsplash-prod-q" placeholder="ex: smartphone, dress, solar panel…" style="flex:1;padding:.45rem .75rem;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.8rem;outline:none" onkeydown="if(event.key==='Enter')searchUnsplash('prod')">
+                <button class="img-mgr-save-btn" onclick="searchUnsplash('prod')">Rechercher</button>
+              </div>
+              <div id="unsplash-prod-results" class="unsplash-grid"></div>
+              <div id="unsplash-prod-picker" style="display:none;margin-top:.75rem;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:.85rem">
+                <div style="font-size:.8rem;font-weight:600;margin-bottom:.5rem">Appliquer à quel produit ?</div>
+                <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">
+                  <select id="unsplash-prod-select" style="flex:1;padding:.4rem .6rem;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.8rem;outline:none"></select>
+                  <button class="img-mgr-save-btn" onclick="applyUnsplashToProd()">✅ Appliquer</button>
+                  <button class="img-mgr-reset-btn" onclick="document.getElementById('unsplash-prod-picker').style.display='none'">Annuler</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- Config -->
         <div class="admin-section" id="admin-config">
           <div class="admin-section-title">Configuration</div>
+          <div id="db-status-banner" class="db-status-bar disconnected">⚠️ Supabase non connecté — données en mémoire locale uniquement</div>
           <div class="admin-form">
             <div class="fg"><label>Numéro WhatsApp</label><input type="text" id="cfg-wa" placeholder="243XXXXXXXXX"></div>
             <div class="fg"><label>Taux FC/USD</label><input type="number" id="cfg-rate" placeholder="2800"></div>
             <div class="fg"><label>ID Formspree</label><input type="text" id="cfg-form" placeholder="xpzgvkjr"></div>
+            <!-- SHIPPING FEE -->
+            <div style="border-top:1px solid var(--border);margin:.75rem 0;padding-top:.75rem">
+              <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">🚢 Frais de livraison</div>
+              <div class="fg">
+                <label>Frais de livraison (en FC)</label>
+                <input type="number" id="cfg-shipping" placeholder="ex: 15000" min="0">
+                <div style="font-size:.7rem;color:var(--muted);margin-top:.3rem">Entrez 0 pour afficher "À confirmer" dans le panier. Ce montant s'ajoute au sous-total produits.</div>
+              </div>
+              <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem">
+                <button class="apl-btn" onclick="applyShippingPreset(5000)">5 000 FC</button>
+                <button class="apl-btn" onclick="applyShippingPreset(10000)">10 000 FC</button>
+                <button class="apl-btn" onclick="applyShippingPreset(15000)">15 000 FC</button>
+                <button class="apl-btn" onclick="applyShippingPreset(25000)">25 000 FC</button>
+                <button class="apl-btn" onclick="applyShippingPreset(0)">À confirmer</button>
+              </div>
+            </div>
+            <!-- LOGO UPLOAD -->
+            <div style="border-top:1px solid var(--border);margin:.75rem 0;padding-top:.75rem">
+              <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">🏷️ Logo de l'entreprise</div>
+              <div style="font-size:.75rem;color:var(--muted);margin-bottom:.6rem">Remplace le badge texte dans la barre de navigation. PNG transparent recommandé.</div>
+              <div class="img-drop-zone" style="min-height:80px" onclick="document.getElementById('logo-file-inp').click()">
+                <input type="file" id="logo-file-inp" accept="image/*" style="display:none" onchange="handleLogoUpload(this)">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:.3rem;padding:1rem;text-align:center">
+                  <div id="logo-admin-preview-wrap">
+                    <img id="logo-admin-preview" src="" style="display:none;max-height:48px;max-width:160px;object-fit:contain;border-radius:4px">
+                    <div id="logo-admin-placeholder" style="font-size:1.3rem">🏷️</div>
+                  </div>
+                  <div style="font-size:.78rem;color:var(--mid)"><strong style="color:var(--teal)">Cliquez pour choisir votre logo</strong><br>PNG, SVG, JPG · max 2 Mo</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:.5rem;margin-top:.5rem">
+                <button class="img-mgr-save-btn" id="logo-save-btn" style="display:none" onclick="applyLogoFromAdmin()">💾 Appliquer ce logo</button>
+                <button class="img-mgr-reset-btn" onclick="resetLogo()">↩️ Retirer le logo</button>
+              </div>
+            </div>
+            <div style="border-top:1px solid var(--border);margin:.75rem 0;padding-top:.75rem">
+              <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">🗄️ Supabase — Base de données</div>
+              <div class="fg"><label>URL du projet *</label><input type="text" id="cfg-sb-url" placeholder="https://xxxx.supabase.co"></div>
+              <div class="fg"><label>Clé publique (anon key) *</label><input type="text" id="cfg-sb-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..."></div>
+              <div id="sb-status" style="font-size:.72rem;color:var(--muted);margin-bottom:.5rem;line-height:1.5"></div>
+              <button class="apl-btn" style="margin-bottom:.5rem" onclick="testSupabase()">🔌 Tester la connexion</button>
+            </div>
             <div style="border-top:1px solid var(--border);margin:.75rem 0;padding-top:.75rem">
               <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">🖼️ Image de fond — Hero</div>
               <div class="fg"><label>URL de l'image (JPG, PNG, Unsplash…)</label><input type="url" id="cfg-hero-img" placeholder="https://images.unsplash.com/photo-..."></div>
               <div id="hero-img-preview-wrap" style="display:none;margin-bottom:.75rem"><img id="hero-img-preview" style="width:100%;height:120px;object-fit:cover;border-radius:8px;border:1px solid var(--border)" alt=""></div>
-              <div style="font-size:.7rem;color:var(--muted);margin-bottom:.5rem">Astuce : sur unsplash.com, cliquez sur une photo → Share → Copy image address</div>
+              <div style="font-size:.7rem;color:var(--muted);margin-bottom:.5rem">Astuce : utilisez l'onglet 🖼️ Images pour chercher et appliquer des photos Unsplash.</div>
             </div>
             <div style="border-top:1px solid var(--border);margin:.75rem 0;padding-top:.75rem">
               <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">☁️ Cloudinary — Stockage images</div>
@@ -1101,7 +1195,12 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
               <div class="fg"><label>Upload Preset *</label><input type="text" id="cfg-cld-preset" placeholder="ex: sinocongo_products"></div>
               <div id="cld-status" style="font-size:.72rem;color:var(--muted);margin-bottom:.5rem;line-height:1.5"></div>
             </div>
-            <button class="admin-submit" onclick="saveConfig()">Enregistrer</button>
+            <div style="border-top:1px solid var(--border);margin:.75rem 0;padding-top:.75rem">
+              <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">📸 Unsplash — Banque d'images</div>
+              <div class="fg"><label>Clé API Unsplash (Access Key) *</label><input type="text" id="cfg-unsplash-key" placeholder="Client-ID xxxxxxxxxxxxxxx"></div>
+              <div style="font-size:.7rem;color:var(--muted);margin-bottom:.5rem">Obtenez une clé gratuite sur <a href="https://unsplash.com/developers" target="_blank" style="color:var(--teal)">unsplash.com/developers</a> → New Application.</div>
+            </div>
+            <button class="admin-submit" onclick="saveConfig()">Enregistrer la configuration</button>
           </div>
         </div>
       </div>
@@ -1175,7 +1274,7 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
       <!-- Screen 1: Register -->
       <div class="mfg-screen active" id="mfg-s1">
         <div class="mfg-avatar">🏭</div>
-        <div class="mfg-screen-title">Rejoignez SinoCongo Market</div>
+        <div class="mfg-screen-title">Rejoignez Steward & Co</div>
         <div class="mfg-screen-sub">Vous êtes fabricant ou fournisseur ? Publiez vos produits et atteignez des milliers d'acheteurs en République Démocratique du Congo.</div>
         <div class="mfg-form">
           <div class="fg"><label>Nom de l'entreprise *</label><input type="text" id="mfg-company" placeholder="Ex : Eleko Electronics SARL"></div>
@@ -1307,7 +1406,7 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 
 <!-- ══ POURQUOI SINOCONGO ══ -->
 <section class="pourquoi-section">
-  <h2 class="pourquoi-title">Pourquoi SinoCongo ?</h2>
+  <h2 class="pourquoi-title">Pourquoi Steward ?</h2>
   <div class="pourquoi-grid">
     <div class="pourquoi-item">
       <div class="pourquoi-icon-box">
@@ -1472,13 +1571,13 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 <footer>
   <div>
     <div class="foot-logo">
-      <div class="foot-logo-badge">SC</div>
+      <div class="foot-logo-badge">S&amp;C</div>
       <div>
-        <div class="foot-logo-name">SinoCongo Market</div>
-        <div class="foot-logo-sub">La Chine, Livrée Chez Vous</div>
+        <div class="foot-logo-name">Steward & Co</div>
+        <div class="foot-logo-sub">Where Stewardship Meets Commerce</div>
       </div>
     </div>
-    <p>© 2026 SinoCongo Market · Kinshasa, RDC</p>
+    <p>© 2026 Steward & Co · Kinshasa, RDC</p>
   </div>
   <div class="foot-links">
     <a href="#catalogue">Catalogue</a>
@@ -1499,15 +1598,255 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 <div class="toast" id="toast"></div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ══ CONFIG ══
-let WA_NUMBER = '243XXXXXXXXX';
-let CLOUDINARY_NAME = localStorage.getItem('cld_name') || '';
-let CLOUDINARY_PRESET = localStorage.getItem('cld_preset') || '';
-// Restore WA from storage if saved
-try{ const s=localStorage.getItem('wa_number'); if(s) WA_NUMBER=s; }catch(e){}
-let FORMSPREE_ID = 'YOUR_FORM_ID';
-let RATE = 2800;
-let devise = 'FC';
+// ══════════════════════════════════════════════
+// ══ SERVICE LAYER — Supabase · Cloudinary · Unsplash · Formspree ══
+// ══════════════════════════════════════════════
+
+// ── Config (loaded from localStorage, synced with Supabase once connected) ──
+let SUPABASE_URL      = localStorage.getItem('sb_url')      || '';
+let SUPABASE_KEY      = localStorage.getItem('sb_key')      || '';
+let CLOUDINARY_NAME   = localStorage.getItem('cld_name')    || '';
+let CLOUDINARY_PRESET = localStorage.getItem('cld_preset')  || '';
+let UNSPLASH_KEY      = localStorage.getItem('unsplash_key')|| '';
+let WA_NUMBER         = '243XXXXXXXXX';
+let FORMSPREE_ID      = 'YOUR_FORM_ID';
+let RATE              = 2800;
+let devise            = 'FC';
+let SHIPPING_FC       = 0; // Frais de livraison en FC (0 = non défini / à confirmer)
+try{ const s=localStorage.getItem('shipping_fc'); if(s) SHIPPING_FC=parseInt(s)||0; }catch(e){}
+
+try{ const s=localStorage.getItem('wa_number');    if(s) WA_NUMBER=s;       }catch(e){}
+try{ const s=localStorage.getItem('formspree_id'); if(s) FORMSPREE_ID=s;    }catch(e){}
+try{ const s=localStorage.getItem('rate');         if(s) RATE=parseInt(s)||2800; }catch(e){}
+
+// ── Supabase client (lazy-initialized) ──
+let _sb = null;
+function getSB(){
+  if(_sb) return _sb;
+  if(!SUPABASE_URL||!SUPABASE_KEY) return null;
+  try{ _sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY); return _sb; }
+  catch(e){ console.error('Supabase init:',e); return null; }
+}
+
+function updateDBStatusBanner(connected){
+  const el=document.getElementById('db-status-banner');
+  if(!el) return;
+  if(connected){ el.className='db-status-bar connected'; el.textContent='✅ Supabase connecté — données persistantes activées'; }
+  else          { el.className='db-status-bar disconnected'; el.textContent='⚠️ Supabase non connecté — données en mémoire locale uniquement'; }
+}
+
+async function testSupabase(){
+  const url=document.getElementById('cfg-sb-url')?.value.trim();
+  const key=document.getElementById('cfg-sb-key')?.value.trim();
+  const el =document.getElementById('sb-status');
+  if(!url||!key){ if(el) el.textContent='⚠️ Entrez l\'URL et la clé.'; return; }
+  if(el) el.textContent='⏳ Connexion…';
+  try{
+    const client=supabase.createClient(url,key);
+    const {error}=await client.from('products').select('id').limit(1);
+    if(error&&error.code!=='PGRST116'){ if(el) el.innerHTML=`❌ ${error.message}<br><small>Créez les tables d'abord (voir guide).</small>`; return; }
+    if(el) el.innerHTML='✅ Connecté ! Tables détectées.';
+    SUPABASE_URL=url; SUPABASE_KEY=key; _sb=client;
+    localStorage.setItem('sb_url',url); localStorage.setItem('sb_key',key);
+    updateDBStatusBanner(true);
+  }catch(e){ if(el) el.textContent='❌ '+e.message; }
+}
+
+// ── Supabase: products ──
+async function loadProductsFromDB(){
+  const sb=getSB(); if(!sb) return false;
+  try{
+    const {data,error}=await sb.from('products').select('*').order('created_at',{ascending:false});
+    if(error) throw error;
+    if(data&&data.length>0){
+      allProducts=data.map(p=>({
+        id:p.id, cat:p.category, icon:p.icon||'📦', badge:p.badge||'',
+        bClass:p.badge==='Nouveau'?'badge-new':p.badge==='Promo'?'badge-promo':'badge-hot',
+        name:p.name, desc:p.description, priceFC:p.price_fc,
+        isNew:p.is_new||false, img:p.image_url||null, supplier:p.supplier||null
+      }));
+      renderProducts(); renderAdminProducts(); return true;
+    }
+    return false;
+  }catch(e){ console.warn('loadProductsFromDB:',e); return false; }
+}
+async function saveProductToDB(prod){
+  const sb=getSB(); if(!sb) return null;
+  try{
+    const {data,error}=await sb.from('products').insert([{
+      category:prod.cat, icon:prod.icon, badge:prod.badge,
+      name:prod.name, description:prod.desc, price_fc:prod.priceFC,
+      is_new:prod.isNew, image_url:prod.img||null, supplier:prod.supplier||null
+    }]).select().single();
+    if(error) throw error; return data;
+  }catch(e){ console.warn('saveProductToDB:',e); return null; }
+}
+async function updateProductImgInDB(prodId,url){
+  const sb=getSB(); if(!sb||!prodId) return;
+  try{ await sb.from('products').update({image_url:url}).eq('id',prodId); }catch(e){}
+}
+async function deleteProductFromDB(prodId){
+  const sb=getSB(); if(!sb||!prodId) return;
+  try{ await sb.from('products').delete().eq('id',prodId); }catch(e){}
+}
+
+// ── Supabase: orders ──
+async function saveOrderToDB(order){
+  const sb=getSB(); if(!sb) return null;
+  try{
+    const {data,error}=await sb.from('orders').insert([{
+      order_id:order.id, items:order.name, client_name:order.client,
+      city:order.ville, status:order.status, order_date:order.date,
+      total_fc:order.totalFC||0, phone:order.phone||null
+    }]).select().single();
+    if(error) throw error; return data;
+  }catch(e){ console.warn('saveOrderToDB:',e); return null; }
+}
+async function loadOrdersFromDB(){
+  const sb=getSB(); if(!sb) return false;
+  try{
+    const {data,error}=await sb.from('orders').select('*').order('created_at',{ascending:false});
+    if(error) throw error;
+    if(data&&data.length>0){
+      adminOrders=data.map(o=>({
+        id:o.order_id, name:o.items, client:o.client_name,
+        ville:o.city, status:o.status, date:o.order_date,
+        totalFC:o.total_fc, dbId:o.id
+      }));
+      return true;
+    }
+    return false;
+  }catch(e){ console.warn('loadOrdersFromDB:',e); return false; }
+}
+async function updateOrderStatusInDB(dbId,status){
+  const sb=getSB(); if(!sb||!dbId) return;
+  try{ await sb.from('orders').update({status}).eq('id',dbId); }catch(e){}
+}
+
+// ── Supabase: config (shared across all sessions) ──
+async function saveConfigToDB(cfg){
+  const sb=getSB(); if(!sb) return;
+  try{ await sb.from('config').upsert([{key:'main',value:JSON.stringify(cfg)}],{onConflict:'key'}); }catch(e){}
+}
+async function loadConfigFromDB(){
+  const sb=getSB(); if(!sb) return false;
+  try{
+    const {data,error}=await sb.from('config').select('value').eq('key','main').single();
+    if(error) throw error;
+    const cfg=JSON.parse(data.value||'{}');
+    if(cfg.wa)        { WA_NUMBER=cfg.wa;          localStorage.setItem('wa_number',cfg.wa); }
+    if(cfg.rate)      { RATE=cfg.rate;              localStorage.setItem('rate',String(cfg.rate)); }
+    if(cfg.formspree) { FORMSPREE_ID=cfg.formspree; localStorage.setItem('formspree_id',cfg.formspree); }
+    if(cfg.cldName)   { CLOUDINARY_NAME=cfg.cldName;       localStorage.setItem('cld_name',cfg.cldName); }
+    if(cfg.cldPreset) { CLOUDINARY_PRESET=cfg.cldPreset;   localStorage.setItem('cld_preset',cfg.cldPreset); }
+    if(cfg.unsplash)  { UNSPLASH_KEY=cfg.unsplash;         localStorage.setItem('unsplash_key',cfg.unsplash); }
+    if(cfg.heroImg)   { localStorage.setItem('hero_img',cfg.heroImg); }
+    if(cfg.shippingFc!==undefined){ SHIPPING_FC=cfg.shippingFc; localStorage.setItem('shipping_fc',String(cfg.shippingFc)); }
+    if(cfg.logoUrl)   { localStorage.setItem('site_logo',cfg.logoUrl); }
+    return true;
+  }catch(e){ console.warn('loadConfigFromDB:',e); return false; }
+}
+
+// ══ SHIPPING FEE HELPERS ══
+function applyShippingPreset(val){
+  const inp=document.getElementById('cfg-shipping');
+  if(inp) inp.value=val||'';
+}
+function applyShippingFee(val){
+  SHIPPING_FC=parseInt(val)||0;
+  try{ localStorage.setItem('shipping_fc',String(SHIPPING_FC)); }catch(e){}
+  renderCart();
+  renderProducts(); // refresh any price displays
+}
+
+// ══ LOGO UPLOAD ══
+let _pendingLogoUrl=null;
+async function handleLogoUpload(input){
+  if(!input.files||!input.files[0]) return;
+  const file=input.files[0];
+  if(file.size>2*1024*1024){ showToast('⚠️ Logo trop lourd (max 2 Mo).'); return; }
+  const localUrl=URL.createObjectURL(file);
+  _showAdminLogo(localUrl);
+  // Try Cloudinary first
+  const result=await uploadToCloudinary(file);
+  const finalUrl=result?result.url:localUrl;
+  _pendingLogoUrl=finalUrl;
+  _showAdminLogo(finalUrl);
+  document.getElementById('logo-save-btn').style.display='';
+}
+function _showAdminLogo(url){
+  const img=document.getElementById('logo-admin-preview');
+  const ph=document.getElementById('logo-admin-placeholder');
+  if(url){ img.src=url; img.style.display='block'; ph.style.display='none'; }
+  else { img.style.display='none'; ph.style.display='block'; }
+}
+function applyLogoFromAdmin(){
+  if(!_pendingLogoUrl){ showToast('⚠️ Aucun logo en attente.'); return; }
+  try{ localStorage.setItem('site_logo',_pendingLogoUrl); }catch(e){}
+  applyLogo(_pendingLogoUrl);
+  showToast('✅ Logo appliqué !');
+  document.getElementById('logo-save-btn').style.display='none';
+}
+function resetLogo(){
+  try{ localStorage.removeItem('site_logo'); }catch(e){}
+  applyLogo(null);
+  _pendingLogoUrl=null;
+  _showAdminLogo(null);
+  document.getElementById('logo-save-btn').style.display='none';
+  showToast('↩️ Logo retiré.');
+}
+function applyLogo(url){
+  const img=document.getElementById('logo-img');
+  const fallback=document.getElementById('logo-fallback');
+  if(url&&img&&fallback){ img.src=url; img.style.display='block'; fallback.style.display='none'; }
+  else if(img&&fallback){ img.style.display='none'; fallback.style.display='flex'; }
+}
+let _unsplashSelectedUrl=null;
+async function searchUnsplash(target){
+  const q=document.getElementById(target==='hero'?'unsplash-hero-q':'unsplash-prod-q')?.value.trim();
+  const el=document.getElementById(target==='hero'?'unsplash-hero-results':'unsplash-prod-results');
+  if(!q||!el) return;
+  if(!UNSPLASH_KEY){ el.innerHTML='<div class="unsplash-loading">⚠️ Configurez votre clé Unsplash dans ⚙️ Config.</div>'; return; }
+  el.innerHTML='<div class="unsplash-loading">⏳ Recherche…</div>';
+  try{
+    const res=await fetch(`https://api.unsplash.com/search/photos?query=${encodeURIComponent(q)}&per_page=12&orientation=landscape`,
+      {headers:{'Authorization':`Client-ID ${UNSPLASH_KEY}`}});
+    const data=await res.json();
+    if(!data.results?.length){ el.innerHTML='<div class="unsplash-loading">Aucun résultat pour "'+q+'"</div>'; return; }
+    el.innerHTML=data.results.map(p=>
+      `<img class="unsplash-thumb" src="${p.urls.small}" data-full="${p.urls.regular}"
+        title="${p.alt_description||p.user.name}"
+        onclick="selectUnsplashImg(this,'${encodeURIComponent(p.urls.regular)}','${target}')">`
+    ).join('');
+  }catch(e){ el.innerHTML='<div class="unsplash-loading">❌ '+e.message+'</div>'; }
+}
+function selectUnsplashImg(el,encodedUrl,target){
+  const url=decodeURIComponent(encodedUrl);
+  el.closest('.unsplash-grid').querySelectorAll('.unsplash-thumb').forEach(t=>t.classList.remove('selected'));
+  el.classList.add('selected');
+  _unsplashSelectedUrl=url;
+  if(target==='hero'){
+    _heroFilePending=url;
+    _showHeroPreview(url,'✅ Prêt — cliquez Appliquer');
+    document.getElementById('hero-save-btn').style.display='';
+  } else {
+    const picker=document.getElementById('unsplash-prod-picker');
+    const sel=document.getElementById('unsplash-prod-select');
+    sel.innerHTML=allProducts.map((p,i)=>`<option value="${i}">${p.name}</option>`).join('');
+    picker.style.display='block';
+    picker.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+}
+async function applyUnsplashToProd(){
+  const idx=parseInt(document.getElementById('unsplash-prod-select')?.value);
+  if(isNaN(idx)||!_unsplashSelectedUrl){ showToast('⚠️ Sélectionnez une image et un produit.'); return; }
+  allProducts[idx].img=_unsplashSelectedUrl;
+  if(allProducts[idx].id) await updateProductImgInDB(allProducts[idx].id,_unsplashSelectedUrl);
+  renderProducts(); renderImgManager(); renderAdminProducts();
+  document.getElementById('unsplash-prod-picker').style.display='none';
+  _unsplashSelectedUrl=null;
+  showToast('✅ Image Unsplash appliquée !');
+}
 
 // ══ PRODUCTS DATA ══
 let allProducts = [
@@ -1596,7 +1935,7 @@ let adminOrders = [
 
 // ══ REVIEWS DATA ══
 const reviews = [
-  {stars:5,text:'Commande reçue en 38 jours, exactement comme promis. Les smartphones sont de très bonne qualité. Je recommande vivement SinoCongo Market !',name:'Jean-Pierre M.',city:'Kinshasa',initials:'JM'},
+  {stars:5,text:'Commande reçue en 38 jours, exactement comme promis. Les smartphones sont de très bonne qualité. Je recommande vivement Steward & Co !',name:'Jean-Pierre M.',city:'Kinshasa',initials:'JM'},
   {stars:5,text:'J\'ai commandé 5 sets de cuisine pour mon restaurant. Qualité impeccable, prix imbattables. Le suivi WhatsApp est excellent.',name:'Marie K.',city:'Lubumbashi',initials:'MK'},
   {stars:5,text:'Très professionnel. J\'ai reçu mon devis en moins de 24h, et la livraison était bien emballée. Aucun problème à la douane.',name:'Alexis B.',city:'Goma',initials:'AB'},
   {stars:4,text:'Bonne expérience globale. Délai légèrement plus long que prévu (45 jours) mais la qualité des vêtements justifie l\'attente.',name:'Cécile N.',city:'Bukavu',initials:'CN'},
@@ -1799,7 +2138,11 @@ function renderCart(){
         <div class="ci-price">${formatPrice(c.priceFC*c.qty)}</div>
       </div>
     </div>`).join('');
-  document.getElementById('cart-total-val').textContent=formatPrice(cartTotal());
+  document.getElementById('cart-subtotal-val').textContent=formatPrice(cartTotal());
+  const shippingEl=document.getElementById('cart-shipping-val');
+  if(SHIPPING_FC>0){ shippingEl.textContent=formatPrice(SHIPPING_FC); shippingEl.style.color='var(--dark)'; }
+  else { shippingEl.textContent='À confirmer'; shippingEl.style.color='var(--muted)'; }
+  document.getElementById('cart-total-val').textContent=formatPrice(cartTotal()+(SHIPPING_FC||0));
   foot.style.display='block'; updateFormCartSummary();
 }
 function toggleCart(){
@@ -1812,7 +2155,8 @@ function updateFormCartSummary(){
   box.classList.add('visible');
   box.innerHTML=`<div class="csb-title">🛒 Articles dans votre panier</div>`+
     cart.map(c=>`<div class="csb-item"><span>${c.icon} ${c.name} × ${c.qty}</span><span>${formatPrice(c.priceFC*c.qty)}</span></div>`).join('')+
-    `<div class="csb-total"><span>Total estimé</span><span>${formatPrice(cartTotal())}</span></div>`;
+    (SHIPPING_FC>0 ? `<div class="csb-item" style="color:var(--mid)"><span>🚢 Frais de livraison</span><span>${formatPrice(SHIPPING_FC)}</span></div>` : `<div class="csb-item" style="color:var(--muted);font-size:.75rem"><span>🚢 Frais de livraison</span><span>À confirmer</span></div>`) +
+    `<div class="csb-total"><span>Total estimé</span><span>${formatPrice(cartTotal()+(SHIPPING_FC||0))}</span></div>`;
   document.getElementById('f-panier').value=cart.map(c=>`${c.name} × ${c.qty} = ${formatPrice(c.priceFC*c.qty)}`).join('; ');
 }
 
@@ -1824,7 +2168,8 @@ function checkoutForm(){
 }
 function checkoutWhatsApp(){
   const lines=cart.map(c=>`• ${c.name} × ${c.qty} = ${formatPrice(c.priceFC*c.qty)}`).join('\n');
-  const msg=`Bonjour SinoCongo Market 👋\n\nJe souhaite commander :\n${lines}\n\nTotal : ${formatPrice(cartTotal())}\n\nMerci de confirmer.`;
+  const shippingLine = SHIPPING_FC>0 ? `\n🚢 Frais de livraison : ${formatPrice(SHIPPING_FC)}` : '\n🚢 Frais de livraison : À confirmer';
+  const msg=`Bonjour Steward & Co 👋\n\nJe souhaite commander :\n${lines}\n\nSous-total : ${formatPrice(cartTotal())}${shippingLine}\nTotal : ${formatPrice(cartTotal()+(SHIPPING_FC||0))}\n\nMerci de confirmer.`;
   window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(msg),'_blank');
   toggleCart();
 }
@@ -1836,14 +2181,42 @@ function orderProduct(name){
 }
 
 // ══ FORM ══
-function handleFormSubmit(e){
+async function handleFormSubmit(e){
+  e.preventDefault();
   if(FORMSPREE_ID==='YOUR_FORM_ID'){
-    e.preventDefault();
-    showToast('⚠️ Configurez votre ID Formspree pour activer les emails.');
+    showToast('⚠️ Configurez votre ID Formspree dans ⚙️ Config.');
     return false;
   }
-  showToast('✅ Envoi en cours...');
-  return true;
+  const form = e.target;
+  const data = new FormData(form);
+  showToast('⏳ Envoi en cours…');
+  try{
+    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`,{
+      method:'POST', body:data, headers:{'Accept':'application/json'}
+    });
+    if(res.ok){
+      // Also log the inquiry to Supabase
+      const orderId='SCM-'+new Date().getFullYear()+'-'+Math.random().toString(36).substr(2,4).toUpperCase();
+      const inquiry={
+        id:orderId,
+        name:data.get('message')||data.get('_subject')||'Demande de devis',
+        client:data.get('prenom')||data.get('name')||'Visiteur',
+        ville:data.get('ville')||'—',
+        status:'Reçue',
+        date:new Date().toLocaleDateString('fr-FR'),
+        totalFC:0, phone:data.get('tel')||null
+      };
+      adminOrders.unshift(inquiry);
+      saveOrderToDB(inquiry).then(row=>{ if(row) inquiry.dbId=row.id; });
+      form.reset();
+      showToast('✅ Demande envoyée ! Nous vous contactons sous 24–48h.');
+    } else {
+      showToast('❌ Erreur d\'envoi. Vérifiez votre ID Formspree.');
+    }
+  }catch(err){
+    showToast('❌ '+err.message);
+  }
+  return false;
 }
 
 // ══ WHATSAPP ══
@@ -1851,13 +2224,13 @@ function buildWAMessage(){
   const prenom=document.getElementById('f-prenom').value||'';
   const msg=document.getElementById('f-msg').value||'';
   const ville=document.getElementById('f-ville').value||'';
-  let t=`Bonjour SinoCongo Market 👋\n\n`;
+  let t=`Bonjour Steward & Co 👋\n\n`;
   if(prenom) t+=`Nom : ${prenom}\n`;
   if(ville) t+=`Ville : ${ville}\n`;
   t+=`\n${msg||'Je souhaite un devis.'}`;
   return t;
 }
-function openWAFloat(){window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent('Bonjour SinoCongo Market 👋\nJe souhaite obtenir un devis sur vos produits.'),'_blank');return false;}
+function openWAFloat(){window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent('Bonjour Steward & Co 👋\nJe souhaite obtenir un devis sur vos produits.'),'_blank');return false;}
 function openWAForm(){window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(buildWAMessage()),'_blank');return false;}
 
 // ══ PDF QUOTE GENERATOR ══
@@ -1917,25 +2290,33 @@ function generatePDF(){
     </tr></thead>
     <tbody>${rows}</tbody>
     <tfoot><tr class="total-row">
-      <td colspan="3">Total général</td>
+      <td colspan="3">Sous-total produits</td>
       <td style="text-align:right">${formatPrice(cartTotal())}</td>
+    </tr>
+    <tr style="background:#f9f9f9">
+      <td colspan="3" style="padding:8px 12px;font-size:.85rem;color:#666">🚢 Frais de livraison & dédouanement</td>
+      <td style="padding:8px 12px;text-align:right;font-size:.85rem;color:#666">${SHIPPING_FC>0?formatPrice(SHIPPING_FC):'À confirmer'}</td>
+    </tr>
+    <tr class="total-row">
+      <td colspan="3">Total général</td>
+      <td style="text-align:right">${formatPrice(cartTotal()+(SHIPPING_FC||0))}</td>
     </tr></tfoot>
   </table>
   <div class="conditions">
     <h4>Conditions & Informations</h4>
     <p>• Ce devis est établi à titre indicatif. Les prix peuvent varier selon les conditions du marché et le taux de change en vigueur à la date de confirmation.</p>
-    <p>• Les frais de livraison et de dédouanement sont inclus dans les prix indiqués.</p>
+    <p>• Les frais de livraison et de dédouanement sont indiqués séparément dans ce devis. S'ils apparaissent comme "À confirmer", un devis précis vous sera communiqué après confirmation de votre commande.</p>
     <p>• Paiement : 50% à la commande, solde à la livraison.</p>
     <p>• Pour confirmer votre commande, contactez-nous via WhatsApp ou le formulaire en ligne.</p>
   </div>
-  <div class="footer">SinoCongo Market · Kinshasa, RDC · sinocongo-market.com</div>
+  <div class="footer">Steward & Co · Kinshasa, RDC · sinocongo-market.com</div>
   
 <!-- ══ PWA INSTALL BANNER ══ -->
 <div class="pwa-banner" id="pwa-banner">
   <div class="pwa-banner-left">
     <div class="pwa-banner-icon">🛍️</div>
     <div class="pwa-banner-text">
-      <div class="pwa-banner-title">Installer SinoCongo Market</div>
+      <div class="pwa-banner-title">Installer Steward & Co</div>
       <div class="pwa-banner-sub">Accès rapide · Fonctionne hors-ligne · Notifications</div>
     </div>
   </div>
@@ -2062,6 +2443,8 @@ function renderAdminProducts(){
 }
 function deleteProduct(i){
   if(confirm('Supprimer ce produit ?')){
+    const prod=allProducts[i];
+    if(prod?.id) deleteProductFromDB(prod.id);
     allProducts.splice(i,1);
     renderProducts(); renderAdminProducts();
     showToast('🗑️ Produit supprimé.');
@@ -2070,6 +2453,7 @@ function deleteProduct(i){
 // renderAdminOrders consolidated below in Phase 3+ section
 function setOrderStatus(i,status){
   adminOrders[i].status=status;
+  if(adminOrders[i].dbId) updateOrderStatusInDB(adminOrders[i].dbId,status);
   renderAdminOrders();
   showToast('✅ Statut mis à jour : '+status);
 }
@@ -2085,8 +2469,11 @@ function addProduct(){
   if(!name||!price||!desc){showToast('⚠️ Remplissez tous les champs obligatoires.');return;}
   const bClass=badge==='Nouveau'?'badge-new':badge==='Promo'?'badge-promo':'badge-hot';
   const imgData = window._pendingImg || null;
-  allProducts.push({cat,icon,badge,bClass,name,desc,priceFC:price,isNew,img:imgData});
+  const newProd = {cat,icon,badge,bClass,name,desc,priceFC:price,isNew,img:imgData};
+  allProducts.push(newProd);
   window._pendingImg = null;
+  // Persist to Supabase
+  saveProductToDB(newProd).then(row=>{ if(row) newProd.id=row.id; });
   renderProducts(); renderAdminProducts();
   ['ap-name','ap-icon','ap-price','ap-unit','ap-desc'].forEach(id=>document.getElementById(id).value='');
   const prev = document.getElementById('ap-img-preview');
@@ -2106,42 +2493,88 @@ function applyHeroImage(){
   if(inp) inp.value=localStorage.getItem('hero_img')||'';
 }
 function saveConfig(){
-  const wa=document.getElementById('cfg-wa').value.trim();
-  const rate=parseInt(document.getElementById('cfg-rate').value);
-  const form=document.getElementById('cfg-form').value.trim();
-  const cldName=document.getElementById('cfg-cld-name').value.trim();
-  const cldPreset=document.getElementById('cfg-cld-preset').value.trim();
-  const heroImg=document.getElementById('cfg-hero-img').value.trim();
-  if(wa) WA_NUMBER=wa;
-  if(rate>0){RATE=rate;renderProducts();renderCart();}
-  if(form) FORMSPREE_ID=form;
-  if(cldName) CLOUDINARY_NAME=cldName;
-  if(cldPreset) CLOUDINARY_PRESET=cldPreset;
-  try{
-    if(cldName) localStorage.setItem('cld_name',cldName);
-    if(cldPreset) localStorage.setItem('cld_preset',cldPreset);
-    if(wa) localStorage.setItem('wa_number',wa);
-    localStorage.setItem('hero_img', heroImg);
-  }catch(e){}
+  const wa       = document.getElementById('cfg-wa').value.trim();
+  const rate     = parseInt(document.getElementById('cfg-rate').value);
+  const form     = document.getElementById('cfg-form').value.trim();
+  const cldName  = document.getElementById('cfg-cld-name').value.trim();
+  const cldPreset= document.getElementById('cfg-cld-preset').value.trim();
+  const heroImg  = document.getElementById('cfg-hero-img').value.trim();
+  const sbUrl    = document.getElementById('cfg-sb-url').value.trim();
+  const sbKey    = document.getElementById('cfg-sb-key').value.trim();
+  const unsplash = document.getElementById('cfg-unsplash-key').value.trim();
+
+  const shipping= parseInt(document.getElementById('cfg-shipping')?.value)||0;
+  applyShippingFee(shipping);
+
+  if(wa)       { WA_NUMBER=wa;       localStorage.setItem('wa_number',wa); }
+  if(rate>0)   { RATE=rate;          localStorage.setItem('rate',String(rate)); renderProducts(); renderCart(); }
+  if(form)     { FORMSPREE_ID=form;  localStorage.setItem('formspree_id',form); }
+  if(cldName)  { CLOUDINARY_NAME=cldName;       localStorage.setItem('cld_name',cldName); }
+  if(cldPreset){ CLOUDINARY_PRESET=cldPreset;   localStorage.setItem('cld_preset',cldPreset); }
+  if(unsplash) { UNSPLASH_KEY=unsplash;         localStorage.setItem('unsplash_key',unsplash); }
+  if(sbUrl)    { SUPABASE_URL=sbUrl;  localStorage.setItem('sb_url',sbUrl); _sb=null; }
+  if(sbKey)    { SUPABASE_KEY=sbKey;  localStorage.setItem('sb_key',sbKey); _sb=null; }
+  try{ if(heroImg!==undefined) localStorage.setItem('hero_img',heroImg); }catch(e){}
+
   applyHeroImage();
+
+  // Save to Supabase so all sessions share config
+  const cfg={wa,rate,formspree:form,cldName,cldPreset,heroImg,unsplash,shippingFc:shipping,logoUrl:localStorage.getItem('site_logo')||''};
+  saveConfigToDB(cfg);
+
   const status=document.getElementById('cld-status');
-  if(status) status.innerHTML = CLOUDINARY_NAME && CLOUDINARY_PRESET
-    ? '✅ Cloudinary configuré — les uploads utiliseront votre compte'
+  if(status) status.innerHTML = CLOUDINARY_NAME&&CLOUDINARY_PRESET
+    ? '✅ Cloudinary configuré — uploads activés'
     : '⚠️ Entrez Cloud Name + Upload Preset pour activer';
+
+  // Update Supabase banner
+  if(sbUrl&&sbKey) updateDBStatusBanner(!!getSB());
+
   showToast('✅ Configuration enregistrée !');
 }
 
 // live preview of hero image URL while typing
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded', async ()=>{
+  // Hero image URL live preview in config
   const inp=document.getElementById('cfg-hero-img');
-  if(!inp) return;
-  inp.addEventListener('input',()=>{
+  if(inp) inp.addEventListener('input',()=>{
     const url=inp.value.trim();
     const wrap=document.getElementById('hero-img-preview-wrap');
     const img=document.getElementById('hero-img-preview');
     if(url){wrap.style.display='block';img.src=url;}
     else{wrap.style.display='none';}
   });
+
+  // Pre-fill config inputs from localStorage
+  const fill=(id,val)=>{ const el=document.getElementById(id); if(el&&val) el.value=val; };
+  fill('cfg-shipping',  String(SHIPPING_FC||''));
+  fill('cfg-sb-url',    SUPABASE_URL);
+  fill('cfg-sb-key',    SUPABASE_KEY);
+  fill('cfg-cld-name',  CLOUDINARY_NAME);
+  fill('cfg-cld-preset',CLOUDINARY_PRESET);
+  fill('cfg-unsplash-key',UNSPLASH_KEY);
+  fill('cfg-wa',        localStorage.getItem('wa_number')||'');
+  fill('cfg-rate',      localStorage.getItem('rate')||'');
+  fill('cfg-form',      localStorage.getItem('formspree_id')||'');
+  fill('cfg-hero-img',  localStorage.getItem('hero_img')||'');
+
+  // Bootstrap Supabase if keys exist
+  if(SUPABASE_URL&&SUPABASE_KEY){
+    const sb=getSB();
+    if(sb){
+      updateDBStatusBanner(true);
+      // Load remote config first (so all keys are up to date)
+      await loadConfigFromDB();
+      // Then load products & orders from DB (overrides demo data)
+      await loadProductsFromDB();
+      await loadOrdersFromDB();
+    }
+  }
+
+  applyHeroImage();
+  // Apply saved logo if any
+  const savedLogo=localStorage.getItem('site_logo');
+  if(savedLogo) applyLogo(savedLogo);
 });
 
 // ══ SEARCH ══
@@ -2249,7 +2682,7 @@ function sendWACode(){
   showAuthScreen(2);
   document.querySelector('#auth-code-inputs input').focus();
   // Open WA with the code pre-filled (production path)
-  const msg = `Votre code de connexion SinoCongo Market : *${authOTP}*
+  const msg = `Votre code de connexion Steward & Co : *${authOTP}*
 
 Valable 10 minutes. Ne partagez pas ce code.`;
   window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(msg),'_blank');
@@ -2272,7 +2705,7 @@ function verifyCode(){
   if(entered.length<6){showToast('⚠️ Entrez les 6 chiffres.');return;}
   if(entered === authOTP || entered === '123456'){
     currentUser = {
-      name: 'Client SinoCongo',
+      name: 'Client Steward',
       phone: authPhoneTemp,
       initials: authPhoneTemp.slice(-2).toUpperCase(),
       orders: [{id:'SCM-2026-001',name:'Smartphones × 10',status:'Expédiée',date:'12 Jan 2026'}]
@@ -2317,7 +2750,8 @@ function openPayModal(){
   if(cart.length===0){showToast('⚠️ Votre panier est vide.');return;}
   toggleCart();
   document.getElementById('pay-prod-name').textContent = cart.length===1 ? cart[0].name : cart.length+' articles';
-  document.getElementById('pay-prod-total').innerHTML = formatPrice(cartTotal())+' <span>total estimé</span>';
+  const shippingTxt = SHIPPING_FC>0 ? ` + ${formatPrice(SHIPPING_FC)} livraison` : ' + livraison à confirmer';
+  document.getElementById('pay-prod-total').innerHTML = formatPrice(cartTotal()+(SHIPPING_FC||0))+' <span>total estimé</span><br><small style="font-size:.7rem;color:var(--muted)">Sous-total : '+formatPrice(cartTotal())+shippingTxt+'</small>';
   selectedPayMethod = null;
   document.querySelectorAll('.pay-method-btn').forEach(b=>b.classList.remove('selected'));
   document.getElementById('pay-confirm-btn').disabled = true;
@@ -2359,8 +2793,10 @@ function processPayment(){
       <div style="font-size:.85rem;color:var(--muted);line-height:1.6">Votre commande a été enregistrée.<br>Vous recevrez une confirmation sur WhatsApp.</div>
       <div class="pay-ref">Référence : <strong>${ref}</strong> · Commande : <strong>${orderId}</strong></div>
       <button onclick="closeModal('pay-overlay');cart=[];updateCartBadge();renderCart();" style="margin-top:1.25rem;padding:.7rem 1.5rem;background:var(--dark);color:var(--gold);border:none;border-radius:var(--radius);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500">Fermer ✕</button>`;
-    // Add to admin orders
-    adminOrders.unshift({id:orderId,name:cart.map(c=>c.name+' × '+c.qty).join(', '),client:currentUser?currentUser.name:'Client',ville:'—',status:'Reçue',date:new Date().toLocaleDateString('fr-FR')});
+    // Add to admin orders + persist to Supabase
+    const newOrder={id:orderId,name:cart.map(c=>c.name+' × '+c.qty).join(', '),client:currentUser?currentUser.name:'Client',ville:'—',status:'Reçue',date:new Date().toLocaleDateString('fr-FR'),totalFC:cartTotal(),phone:currentUser?.phone||null};
+    adminOrders.unshift(newOrder);
+    saveOrderToDB(newOrder).then(row=>{ if(row) newOrder.dbId=row.id; });
     cart=[];updateCartBadge();renderCart();
   }, 4500);
   // NOTE: In production, integrate Flutterwave like:
@@ -2391,7 +2827,7 @@ function updateNotifOrder(){
 
 Nous vous contacterons sous 48h avec un devis définitif.
 
-_SinoCongo Market_`,
+_Steward & Co_`,
     expediee: `Bonjour ${o.client} 👋
 
 🚢 Bonne nouvelle ! Votre commande *${o.id}* a été expédiée depuis la Chine.
@@ -2401,7 +2837,7 @@ _SinoCongo Market_`,
 
 Nous vous informerons à l'arrivée en RDC.
 
-_SinoCongo Market_`,
+_Steward & Co_`,
     livraison: `Bonjour ${o.client} 👋
 
 📦 Votre commande *${o.id}* arrive bientôt !
@@ -2410,7 +2846,7 @@ Elle est actuellement en transit final vers ${o.ville}. Préparez-vous à la ré
 
 Contactez-nous pour confirmer votre adresse.
 
-_SinoCongo Market_`,
+_Steward & Co_`,
     devis: `Bonjour ${o.client} 👋
 
 📋 Votre devis pour la commande *${o.id}* est prêt !
@@ -2419,7 +2855,7 @@ _SinoCongo Market_`,
 
 Merci de confirmer votre accord pour lancer la commande.
 
-_SinoCongo Market_`,
+_Steward & Co_`,
   };
   ['confirmation','expediee','livraison','devis'].forEach(type=>{
     const el = document.getElementById('ntpl-'+type+'-body');
@@ -2628,6 +3064,22 @@ function switchAdmin(section, btn){
   if(section==='fournisseurs') renderAdminSuppliers();
   if(section==='categories')  renderAdminCategories();
   if(section==='ajouter')     renderAdminCategories();
+  if(section==='config'){
+    fill('cfg-shipping',  String(SHIPPING_FC||''));
+    fill('cfg-sb-url',     SUPABASE_URL);
+    fill('cfg-sb-key',     SUPABASE_KEY);
+    fill('cfg-cld-name',   CLOUDINARY_NAME);
+    fill('cfg-cld-preset', CLOUDINARY_PRESET);
+    fill('cfg-unsplash-key',UNSPLASH_KEY);
+    fill('cfg-wa',         localStorage.getItem('wa_number')||'');
+    fill('cfg-rate',       localStorage.getItem('rate')||'');
+    fill('cfg-form',       localStorage.getItem('formspree_id')||'');
+    fill('cfg-hero-img',   localStorage.getItem('hero_img')||'');
+    const sbOk=!!(SUPABASE_URL&&SUPABASE_KEY);
+    updateDBStatusBanner(sbOk);
+    const cldStatus=document.getElementById('cld-status');
+    if(cldStatus) cldStatus.innerHTML=CLOUDINARY_NAME&&CLOUDINARY_PRESET?'✅ Cloudinary configuré':'⚠️ Non configuré';
+  }
   if(section==='images')     { renderImgManager(); _showHeroPreview(null); document.getElementById('hero-save-btn').style.display='none'; _heroFilePending=null; }
 }
 
@@ -2719,7 +3171,7 @@ function registerSW(){
 // Inject manifest dynamically
 function injectManifest(){
   const manifest={
-    name:'SinoCongo Market',short_name:'SinoCongo',
+    name:'Steward & Co',short_name:'Steward',
     description:'Importations Chine → Congo RDC',
     start_url:'/',display:'standalone',
     background_color:'#181818',theme_color:'#1D6B68',
@@ -2739,14 +3191,14 @@ let chatHistory = [];
 let chatOpen = false;
 
 const chatGreetings = {
-  fr: 'Bonjour ! 👋 Je suis l\'assistant IA de SinoCongo Market. Je peux vous aider à trouver un produit, calculer un devis, ou répondre à vos questions. Comment puis-je vous aider ?',
-  ln: 'Mbote ! 👋 Ngai nazali assistant ya SinoCongo Market. Nakoki kosalisa yo kozua biloko, kolanda prix, to kozongisa mituna na yo. Ndenge nini nakoki kosalisa yo ?'
+  fr: 'Bonjour ! 👋 Je suis l\'assistant IA de Steward & Co. Je peux vous aider à trouver un produit, calculer un devis, ou répondre à vos questions. Comment puis-je vous aider ?',
+  ln: 'Mbote ! 👋 Ngai nazali assistant ya Steward & Co. Nakoki kosalisa yo kozua biloko, kolanda prix, to kozongisa mituna na yo. Ndenge nini nakoki kosalisa yo ?'
 };
 const chatSuggestions = {
   fr: ['💰 Calculer un devis','📦 Trouver un produit','🚢 Délai de livraison','💳 Comment payer ?','📍 Livraison en RDC'],
   ln: ['💰 Kobanda devis','📦 Kozua eloko','🚢 Tango ya livraison','💳 Ndenge ya kolipa ?','📍 Livraison na RDC']
 };
-const chatSystemPrompt = `Tu es l'assistant IA de SinoCongo Market, une boutique e-commerce qui importe des produits de Chine vers la République Démocratique du Congo.
+const chatSystemPrompt = `Tu es l'assistant IA de Steward & Co, une boutique e-commerce qui importe des produits de Chine vers la République Démocratique du Congo.
 
 CATALOGUE DISPONIBLE:
 - Électronique: Smartphone Android 4G (85 000 FC / ~30 USD), Smartphone 5G 128Go (145 000 FC / ~52 USD), Tablette Android 10" (95 000 FC / ~34 USD), Écouteurs Bluetooth (18 000 FC), Batterie 20 000mAh (22 000 FC), Caméra WiFi (35 000 FC), Moniteur LED 24" (120 000 FC), Multiprise USB (12 000 FC)
@@ -2922,6 +3374,7 @@ async function uploadProductImg(input,idx){
   const result=await uploadToCloudinary(file);
   if(!result) return;
   allProducts[idx].img=result.url;
+  if(allProducts[idx].id) await updateProductImgInDB(allProducts[idx].id,result.url);
   renderProducts(); renderAdminProducts();
   showToast(result.local?'⚠️ Photo enregistrée localement (temporaire)':'✅ Photo uploadée sur Cloudinary !');
 }
@@ -2956,7 +3409,7 @@ function mfgRegister(){
   document.getElementById('mfg-code-sub').textContent = `Code envoyé au ${phone}. (Démo : ${mfgOTP})`;
   showMfgScreen(2);
   setTimeout(()=>document.querySelector('#mfg-code-inputs input').focus(), 100);
-  const msg = `Votre code de vérification SinoCongo Market Fabricants : *${mfgOTP}*\n\nValable 10 minutes. Ne partagez pas ce code.`;
+  const msg = `Votre code de vérification Steward & Co Fabricants : *${mfgOTP}*\n\nValable 10 minutes. Ne partagez pas ce code.`;
   window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(msg),'_blank');
   showToast('📲 Code envoyé sur WhatsApp');
 }
