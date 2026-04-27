@@ -1946,7 +1946,7 @@ const reviews = [
   {stars:5,text:'Très professionnel. J\'ai reçu mon devis en moins de 24h, et la livraison était bien emballée. Aucun problème à la douane.',name:'Alexis B.',city:'Goma',initials:'AB'},
   {stars:4,text:'Bonne expérience globale. Délai légèrement plus long que prévu (45 jours) mais la qualité des vêtements justifie l\'attente.',name:'Cécile N.',city:'Bukavu',initials:'CN'},
   {stars:5,text:'Le panneau solaire 300W fonctionne parfaitement. Installation facile avec les câbles inclus. Prix 40% moins cher qu\'en local.',name:'David M.',city:'Kinshasa',initials:'DM'},
-  {stars:5,text:'Troisième commande avec SinoCongo. Toujours aussi fiable. Le formulaire de commande est très pratique.',name:'Sophie L.',city:'Kisangani',initials:'SL'},
+  {stars:5,text:'Troisième commande avec Steward & Co. Toujours aussi fiable. Le formulaire de commande est très pratique.',name:'Sophie L.',city:'Kisangani',initials:'SL'},
 ];
 
 // ══ STATE ══
@@ -1985,13 +1985,13 @@ function formatPrice(priceFC) {
 }
 
 // ══ CATEGORIES (dynamic, persisted) ══
-let categories = JSON.parse(localStorage.getItem('sinocongo_cats') || 'null') || [
+let categories = JSON.parse(localStorage.getItem('stewardco_cats') || 'null') || [
   {id:'electronique', label:'Électronique', icon:'📱'},
   {id:'vetements',    label:'Vêtements',    icon:'👕'},
   {id:'maison',       label:'Maison',       icon:'🏠'},
   {id:'construction', label:'Construction', icon:'🔧'},
 ];
-function saveCategories(){ localStorage.setItem('sinocongo_cats', JSON.stringify(categories)); }
+function saveCategories(){ localStorage.setItem('stewardco_cats', JSON.stringify(categories)); }
 function getCatLabel(id){ const c=categories.find(c=>c.id===id); return c?c.label:id; }
 function renderCatPills(){
   const container=document.getElementById('cat-pills-container');
@@ -2274,7 +2274,7 @@ function generatePDF(){
     <div>
       <div class="logo">Sino<span>Congo</span> Market</div>
       <div class="ref">Kinshasa, République Démocratique du Congo</div>
-      <div class="ref">contact@sinocongo-market.com · +243 XXX XXX XXX</div>
+      <div class="ref">contact@stewardco.com · +243 XXX XXX XXX</div>
     </div>
     <div style="text-align:right">
       <div style="font-size:1.1rem;font-weight:700;color:#1a1a1a">DEVIS COMMERCIAL</div>
@@ -2315,7 +2315,7 @@ function generatePDF(){
     <p>• Paiement : 50% à la commande, solde à la livraison.</p>
     <p>• Pour confirmer votre commande, contactez-nous via WhatsApp ou le formulaire en ligne.</p>
   </div>
-  <div class="footer">Steward & Co · Kinshasa, RDC · sinocongo-market.com</div>
+  <div class="footer">Steward & Co · Kinshasa, RDC · stewardco.com</div>
   
 <!-- ══ PWA INSTALL BANNER ══ -->
 <div class="pwa-banner" id="pwa-banner">
@@ -2343,7 +2343,7 @@ function generatePDF(){
     <div class="chat-head-left">
       <div class="chat-avatar">AI</div>
       <div>
-        <div class="chat-head-title">Assistant SinoCongo</div>
+        <div class="chat-head-title">Assistant Steward & Co</div>
         <div class="chat-head-sub">Propulsé par Claude · En ligne</div>
       </div>
     </div>
@@ -2367,7 +2367,7 @@ function generatePDF(){
   const blob=new Blob([html],{type:'text/html'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=url; a.download='devis-sinocongo-'+ref+'.html';
+  a.href=url; a.download='devis-stewardco-'+ref+'.html';
   a.click(); URL.revokeObjectURL(url);
   showToast('📄 Devis '+ref+' téléchargé !');
 }
