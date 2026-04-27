@@ -6,7 +6,7 @@
 <title>Steward & Co — Importations Chine → Congo RDC</title>
 <meta name="description" content="Importations directes de Chine vers le Congo RDC. Électronique, vêtements, maison, construction. Qualité garantie, livraison 30–45 jours.">
 <meta property="og:title" content="Steward & Co — Importations de Qualité">
-<meta property="og:description" content="Les meilleurs produits de Chine livrés au Congo RDC. Qualité certifiée, prix imbattables.">
+<meta property="og:description" content="Where Stewardship Meets Commerce. Importations directes de Chine vers le Congo RDC. Qualité certifiée, prix imbattables.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#1D6B68">
 <link rel="manifest" href="#" id="pwa-manifest">
@@ -796,13 +796,13 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 <!-- ══ NAV ══ -->
 <nav>
   <a class="logo" href="#" id="site-logo">
-    <img id="logo-img" src="" alt="Logo" style="display:none;height:36px;max-width:140px;object-fit:contain">
     <div id="logo-fallback" style="display:flex;align-items:center;gap:.7rem">
       <div class="logo-badge" id="logo-badge-initials">S&amp;C</div>
-      <div class="logo-text">
-        <div class="logo-name" id="logo-name-text">Steward & Co</div>
-        <div class="logo-sub">Where Stewardship Meets Commerce</div>
-      </div>
+    </div>
+    <img id="logo-img" src="" alt="Steward & Co" style="display:none;height:36px;max-width:140px;object-fit:contain">
+    <div class="logo-text" id="logo-text-block">
+      <div class="logo-name" id="logo-name-text">Steward & Co</div>
+      <div class="logo-sub" id="logo-tagline">Where Stewardship Meets Commerce</div>
     </div>
   </a>
   <div class="nav-links-center">
@@ -1377,8 +1377,8 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
   <div class="hero-bg"></div>
   <div class="hero-text">
     <div class="hero-pill">🇨🇳 Fabricants Chinois &nbsp;→&nbsp; 🇨🇩 Congo RDC</div>
-    <h1>Les meilleurs produits de <em>Chine</em>,<br>livrés au <em>Congo</em></h1>
-    <p class="hero-sub">Accédez directement aux fabricants. Qualité certifiée, prix imbattables, livraison fiable partout en République Démocratique du Congo.</p>
+    <h1>Where <em>Stewardship</em><br>Meets <em>Commerce</em></h1>
+    <p class="hero-sub">Accédez directement aux fabricants chinois. Qualité certifiée, prix imbattables, livraison fiable partout en République Démocratique du Congo.</p>
     <div class="hero-actions">
       <a href="#catalogue" class="btn-gold">Voir le catalogue</a>
       <a href="#commander" class="btn-ghost">Devis gratuit</a>
@@ -1808,10 +1808,20 @@ function resetLogo(){
   showToast('↩️ Logo retiré.');
 }
 function applyLogo(url){
-  const img=document.getElementById('logo-img');
-  const fallback=document.getElementById('logo-fallback');
-  if(url&&img&&fallback){ img.src=url; img.style.display='block'; fallback.style.display='none'; }
-  else if(img&&fallback){ img.style.display='none'; fallback.style.display='flex'; }
+  const img      = document.getElementById('logo-img');
+  const fallback = document.getElementById('logo-fallback'); // S&C badge
+  const nameText = document.getElementById('logo-name-text');
+  if(url && img && fallback){
+    img.src = url;
+    img.style.display = 'block';
+    fallback.style.display = 'none';      // hide S&C badge
+    if(nameText) nameText.style.display = 'none'; // hide "Steward & Co" text (logo replaces it)
+    // tagline stays visible — logo-text block remains
+  } else if(img && fallback){
+    img.style.display = 'none';
+    fallback.style.display = 'flex';      // show S&C badge
+    if(nameText) nameText.style.display = ''; // show name text
+  }
 }
 let _unsplashSelectedUrl=null;
 async function searchUnsplash(target){
