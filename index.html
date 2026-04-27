@@ -295,6 +295,41 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .img-upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);margin-bottom:.75rem}
 .img-upload-zone:hover{border-color:var(--teal);background:var(--teal-pale)}
 .img-upload-zone input[type=file]{display:none}
+
+/* ── IMAGE MANAGER ── */
+.img-mgr-block{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+.img-mgr-label{font-size:.9rem;font-weight:700;color:var(--dark);margin-bottom:.25rem}
+.img-mgr-sub{font-size:.75rem;color:var(--muted);margin-bottom:.9rem;line-height:1.5}
+.img-drop-zone{border:2px dashed var(--border);border-radius:10px;background:#fff;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;min-height:140px;display:flex;align-items:center;justify-content:center}
+.img-drop-zone:hover,.img-drop-zone.drag-over{border-color:var(--teal);background:var(--teal-pale)}
+.img-drop-inner{display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:1.5rem;text-align:center;pointer-events:none}
+.img-drop-icon{font-size:2rem}
+.img-drop-text{font-size:.82rem;color:var(--mid);line-height:1.5}
+.img-drop-text strong{color:var(--teal)}
+.img-drop-hint{font-size:.7rem;color:var(--muted)}
+.img-drop-preview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.img-drop-badge{position:absolute;bottom:.5rem;right:.5rem;background:rgba(0,0,0,.55);color:#fff;font-size:.68rem;padding:.2rem .55rem;border-radius:20px;backdrop-filter:blur(4px)}
+.img-url-row{display:flex;align-items:center;gap:.5rem;margin-top:.6rem;flex-wrap:wrap}
+.img-url-inp{flex:1;min-width:150px;padding:.4rem .75rem;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.78rem;outline:none;transition:border-color .2s}
+.img-url-inp:focus{border-color:var(--teal)}
+.img-mgr-save-btn{padding:.4rem .9rem;background:var(--teal);color:#fff;border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .2s}
+.img-mgr-save-btn:hover{background:var(--teal-l)}
+.img-mgr-reset-btn{padding:.4rem .9rem;background:var(--bg);color:var(--muted);border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer;white-space:nowrap;transition:all .2s}
+.img-mgr-reset-btn:hover{border-color:var(--mid);color:var(--dark)}
+/* Product image grid */
+.img-prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.75rem}
+.img-prod-card{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff;transition:box-shadow .2s;position:relative}
+.img-prod-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.img-prod-thumb{width:100%;height:90px;object-fit:cover;display:block;background:var(--bg)}
+.img-prod-thumb-emoji{width:100%;height:90px;display:flex;align-items:center;justify-content:center;font-size:2rem;background:var(--gold-pale)}
+.img-prod-info{padding:.45rem .6rem .5rem}
+.img-prod-name{font-size:.72rem;font-weight:600;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.img-prod-cat{font-size:.65rem;color:var(--muted);margin-top:.1rem}
+.img-prod-actions{display:flex;gap:.3rem;padding:.4rem .5rem;border-top:1px solid var(--border);background:var(--bg)}
+.img-prod-btn{flex:1;padding:.3rem;background:none;border:1px solid var(--border);border-radius:4px;font-size:.7rem;cursor:pointer;color:var(--mid);font-family:'DM Sans',sans-serif;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:.2rem}
+.img-prod-btn:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-pale)}
+.img-prod-btn.del:hover{border-color:#e53e3e;color:#e53e3e;background:#fff5f5}
+.img-prod-uploading{position:absolute;inset:0;background:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;font-size:.78rem;color:var(--mid);font-weight:500}
 .img-preview{width:100%;height:120px;object-fit:cover;border-radius:var(--radius);margin-bottom:.5rem;display:none}
 .img-preview.visible{display:block}
 .img-upload-label{font-size:.78rem;color:var(--muted);line-height:1.5}
@@ -395,6 +430,22 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── RESPONSIVE ── */
+/* ── Hamburger button (hidden on desktop) ── */
+.nav-hamburger{display:none;background:none;border:none;cursor:pointer;padding:.4rem;flex-direction:column;gap:5px;flex-shrink:0}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--dark);border-radius:2px;transition:all .25s}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+/* Mobile nav drawer */
+.mob-nav{display:none;position:fixed;inset:64px 0 0 0;background:#fff;z-index:299;overflow-y:auto;flex-direction:column;padding:1.5rem;gap:1rem;border-top:1px solid var(--border)}
+.mob-nav.open{display:flex}
+.mob-nav-link{font-size:1rem;font-weight:500;color:var(--dark);text-decoration:none;padding:.7rem 0;border-bottom:1px solid var(--border);background:none;border-left:none;border-right:none;border-top:none;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;width:100%}
+.mob-nav-link:last-child{border-bottom:none}
+.mob-nav-row{display:flex;gap:.75rem;padding:.5rem 0}
+.mob-search-wrap{position:relative;width:100%}
+.mob-search-wrap input{width:100%;padding:.6rem 1rem .6rem 2.2rem;background:#f5f4f2;border:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:.9rem;border-radius:var(--radius);outline:none}
+.mob-search-icon{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);opacity:.5;pointer-events:none}
+
 @media(max-width:1200px){
   .prod-grid{grid-template-columns:repeat(3,1fr)}
 }
@@ -411,27 +462,108 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
   .cat-section{padding:2.5rem 1.5rem 1rem}
   .prod-section{padding:1rem 1.5rem 3rem}
 }
-@media(max-width:700px){
-  .section{padding:3rem 1.5rem}
-  .prod-grid{grid-template-columns:repeat(2,1fr)}
-  .steps{grid-template-columns:repeat(2,1fr)}.steps::before{display:none}
-  .form-row2{grid-template-columns:1fr}
-  .stats-bar{flex-wrap:wrap}.stat-item{min-width:50%}
-  footer{padding:2rem 1.5rem}
-  .hero-text{padding:3rem 1.5rem}
-  .nav-center{display:none}
+/* ── Tablet ── */
+@media(max-width:768px){
+  /* Nav: show only cart + hamburger on mobile */
+  nav{padding:0 1rem;height:56px;gap:.5rem}
+  .nav-links-center,.nav-center{display:none}
+  .nav-right .devise-toggle,.nav-right .user-nav-btn,.nav-right .nav-btn{display:none}
+  .nav-hamburger{display:flex}
+  /* Show only cart in nav-right on mobile */
+  .cart-btn{padding:.3rem .6rem;font-size:.8rem}
   .cart-label{display:none}
-  .reviews-grid{grid-template-columns:1fr}
-  .admin-sidebar{width:130px}
-  .admin-grid2{grid-template-columns:1fr}
+  /* Hero */
+  .hero{min-height:70vh;grid-template-columns:1fr}
+  .hero-visual{display:none}
+  .hero-text{padding:3rem 1.25rem 3rem 1.25rem}
+  .hero h1{font-size:clamp(1.9rem,6vw,2.8rem)}
+  .hero-sub{font-size:.92rem;max-width:100%}
+  .hero-actions{gap:.6rem}
+  .btn-gold,.btn-ghost{padding:.7rem 1.2rem;font-size:.85rem}
+  /* Sections */
+  .section{padding:3rem 1.25rem}
+  /* Stats bar */
+  .stats-bar{flex-wrap:wrap}.stat-item{min-width:50%;border-right:none;border-bottom:1px solid rgba(26,26,26,.1)}
+  /* Pourquoi grid */
   .pourquoi-grid{grid-template-columns:repeat(2,1fr);gap:1.25rem}
-  .pourquoi-section{padding:3rem 1.5rem}
+  .pourquoi-section{padding:3rem 1.25rem}
+  /* Steps */
+  .steps{grid-template-columns:repeat(2,1fr);gap:1.25rem}.steps::before{display:none}
+  /* Products */
+  .prod-grid{grid-template-columns:repeat(2,1fr);gap:.85rem}
+  .cat-section{padding:2rem 1.25rem 1rem}
+  .prod-section{padding:1rem 1.25rem 3rem}
+  .catalogue-toolbar{flex-wrap:wrap;gap:.6rem}
+  .cat-search-wrap{max-width:100%;width:100%;order:-1}
+  .cat-pills{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:.25rem;scrollbar-width:none}
+  .cat-pills::-webkit-scrollbar{display:none}
   .catalogue-h1{font-size:1.8rem}
-  .catalogue-toolbar{flex-wrap:wrap}
+  /* Order / form */
+  .order-wrap{grid-template-columns:1fr;gap:2rem}
+  .form-row2{grid-template-columns:1fr}
+  /* Reviews */
+  .reviews-grid{grid-template-columns:1fr}
+  .reviews-summary{gap:1rem}
+  /* Footer */
+  footer{padding:2.5rem 1.25rem}
+  /* Admin modal */
+  .admin-body{flex-direction:column}
+  .admin-sidebar{width:100%;border-right:none;border-bottom:1px solid var(--border);padding:.5rem 0;display:flex;flex-wrap:wrap;gap:.25rem}
+  .admin-menu-item{flex:1;min-width:80px;border-left:none;border-bottom:2px solid transparent;justify-content:center;text-align:center;font-size:.72rem;padding:.5rem .4rem}
+  .admin-menu-item.active{border-left:none;border-bottom-color:var(--teal)}
+  .admin-grid2{grid-template-columns:1fr}
+  .admin-content{padding:1rem}
+  /* Modals full screen on mobile */
+  .modal{max-width:100%;border-radius:0;max-height:100vh;height:100%}
+  .modal-overlay{align-items:flex-end}
+  .modal-overlay .modal{border-radius:14px 14px 0 0;max-height:92vh}
+  /* Cart drawer */
+  .cart-drawer{width:100vw}
+  /* WA float */
+  .wa-float{bottom:1.25rem;right:1rem}
+  .wa-btn{width:48px;height:48px}
+  /* Chat */
+  .chat-window{right:.5rem;left:.5rem;width:auto}
+  /* Track search */
+  .track-search{flex-direction:column}
 }
+/* ── Phone ── */
 @media(max-width:480px){
-  .prod-grid{grid-template-columns:1fr}
-  .pourquoi-grid{grid-template-columns:repeat(2,1fr)}
+  nav{padding:0 .75rem;height:52px}
+  .logo-text .logo-sub{display:none}
+  /* Products: single column on very small screens */
+  .prod-grid{grid-template-columns:1fr;gap:.75rem}
+  .prod-card{border-radius:10px}
+  /* Hero */
+  .hero{min-height:60vh}
+  .hero-text{padding:2rem .75rem 2rem .75rem}
+  .hero h1{font-size:clamp(1.6rem,8vw,2.2rem)}
+  .hero-pill{font-size:.65rem;padding:.25rem .65rem}
+  /* Sections */
+  .section{padding:2.5rem .75rem}
+  .pourquoi-grid{grid-template-columns:1fr 1fr;gap:1rem}
+  .pourquoi-section{padding:2.5rem .75rem}
+  .steps{grid-template-columns:1fr 1fr;gap:1rem}
+  /* Catalogue */
+  .cat-section{padding:1.5rem .75rem .75rem}
+  .prod-section{padding:.75rem .75rem 2.5rem}
+  .catalogue-h1{font-size:1.5rem}
+  .prod-toolbar{flex-direction:column;align-items:flex-start}
+  /* Stats */
+  .stat-item{min-width:50%}
+  /* Footer */
+  footer{padding:2rem .75rem}
+  /* Admin */
+  .admin-modal{max-width:100%;border-radius:0}
+  .admin-overlay{padding:0}
+  /* Mfg modal */
+  .mfg-modal{border-radius:0;max-height:100dvh}
+  .mfg-overlay{padding:0}
+  /* Auth modal */
+  .modal-overlay .modal{max-height:95dvh}
+  /* Buttons */
+  .btn-gold,.btn-ghost{width:100%;text-align:center;justify-content:center}
+  .hero-actions{flex-direction:column;gap:.5rem}
 }
 
 /* ══ PHASE 3 — COMPTES CLIENTS / PAIEMENT / NOTIFS / DASHBOARD ══ */
@@ -582,9 +714,9 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 .chat-send-btn:hover{background:var(--gold);color:var(--dark)}
 
 
-@media(max-width:700px){
-  .chat-window{right:.75rem;left:.75rem;width:auto;bottom:8rem}
-  .chat-fab{bottom:5rem;right:1.5rem}
+@media(max-width:768px){
+  .chat-window{right:.5rem;left:.5rem;width:auto;bottom:8rem}
+  .chat-fab{bottom:5rem;right:1rem}
   .pwa-banner{flex-direction:column;align-items:flex-start}
   .pwa-banner-actions{width:100%;justify-content:flex-end}
 }
@@ -674,7 +806,29 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
     <button class="nav-btn" style="background:#f5f4f2;border:1px solid var(--border);color:var(--mid)" onclick="openMfgPortal()">🏭 Vendre</button>
     <button class="nav-btn" onclick="document.getElementById('commander').scrollIntoView({behavior:'smooth'})">Commander</button>
   </div>
+  <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- ══ MOBILE NAV DRAWER ══ -->
+<div class="mob-nav" id="mob-nav">
+  <div class="mob-search-wrap">
+    <span class="mob-search-icon">🔍</span>
+    <input type="text" placeholder="Rechercher un produit..." oninput="handleSearch(this.value)" style="width:100%;padding:.6rem 1rem .6rem 2.2rem;background:#f5f4f2;border:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:.9rem;border-radius:var(--radius);outline:none">
+  </div>
+  <button class="mob-nav-link" onclick="window.scrollTo({top:0,behavior:'smooth'});toggleMobNav()">🏠 Accueil</button>
+  <a class="mob-nav-link" href="#catalogue" onclick="toggleMobNav()">📦 Catalogue</a>
+  <button class="mob-nav-link" onclick="openAuthModal();toggleMobNav()">👤 Connexion / Mon compte</button>
+  <button class="mob-nav-link" onclick="openMfgPortal();toggleMobNav()">🏭 Portail Vendeur</button>
+  <button class="mob-nav-link" onclick="document.getElementById('commander').scrollIntoView({behavior:'smooth'});toggleMobNav()">🛒 Commander</button>
+  <div class="mob-nav-row">
+    <div class="devise-toggle" style="flex:1">
+      <button class="devise-btn active" onclick="setDevise('FC')" style="flex:1">FC (Francs)</button>
+      <button class="devise-btn" onclick="setDevise('USD')" style="flex:1">USD ($)</button>
+    </div>
+  </div>
+</div>
 
 <!-- ══ CART DRAWER ══ -->
 <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
@@ -746,6 +900,7 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
         <div class="admin-menu-item" onclick="switchAdmin('clients',this)">👥 Clients</div>
         <div class="admin-menu-item" onclick="switchAdmin('categories',this)">🏷️ Catégories</div>
         <div class="admin-menu-item" onclick="switchAdmin('fournisseurs',this)" id="admin-menu-fournisseurs">🏭 Fournisseurs</div>
+        <div class="admin-menu-item" onclick="switchAdmin('images',this)">🖼️ Images</div>
         <div class="admin-menu-item" onclick="switchAdmin('config',this)">⚙️ Config</div>
       </div>
       <div class="admin-content">
@@ -885,6 +1040,46 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
           <div class="admin-section-title">Soumissions Fabricants</div>
           <div style="font-size:.78rem;color:var(--muted);margin-bottom:1.25rem;line-height:1.6">Produits soumis par les fabricants via le portail. Approuvez pour les publier dans le catalogue, ou rejetez avec un motif.</div>
           <div id="admin-suppliers-list"></div>
+        </div>
+
+        <!-- Images Manager -->
+        <div class="admin-section" id="admin-images">
+          <div class="admin-section-title">🖼️ Gestionnaire d'images</div>
+
+          <!-- Hero Background -->
+          <div class="img-mgr-block">
+            <div class="img-mgr-label">🏠 Image de fond — Hero</div>
+            <div class="img-mgr-sub">Glissez une image ou cliquez pour choisir. Visible sur la page d'accueil.</div>
+            <div class="img-drop-zone" id="hero-drop-zone" onclick="document.getElementById('hero-file-inp').click()" ondragover="imgDropOver(event)" ondragleave="imgDropLeave(event)" ondrop="imgDropHero(event)">
+              <input type="file" id="hero-file-inp" accept="image/*" style="display:none" onchange="handleHeroFileSelect(this)">
+              <div class="img-drop-inner" id="hero-drop-inner">
+                <div class="img-drop-icon">🌅</div>
+                <div class="img-drop-text">Glissez une photo ici<br><strong>ou cliquez pour parcourir</strong></div>
+                <div class="img-drop-hint">JPG · PNG · WEBP · max 5 Mo</div>
+              </div>
+              <img class="img-drop-preview" id="hero-drop-preview" alt="" style="display:none">
+              <div class="img-drop-badge" id="hero-drop-badge" style="display:none"></div>
+            </div>
+            <div style="display:flex;gap:.5rem;margin-top:.6rem;flex-wrap:wrap">
+              <button class="img-mgr-save-btn" id="hero-save-btn" onclick="saveHeroFromManager()" style="display:none">💾 Appliquer cette image</button>
+              <button class="img-mgr-reset-btn" onclick="resetHeroImage()">↩️ Restaurer l'image par défaut</button>
+            </div>
+            <div class="img-url-row">
+              <span style="font-size:.75rem;color:var(--muted)">Ou entrez une URL :</span>
+              <input class="img-url-inp" type="url" id="mgr-hero-url" placeholder="https://images.unsplash.com/...">
+              <button class="img-mgr-save-btn" onclick="applyHeroFromUrl()">Appliquer</button>
+            </div>
+          </div>
+
+          <!-- Product Images -->
+          <div class="img-mgr-block" style="margin-top:1.5rem">
+            <div class="img-mgr-label">📦 Images des produits</div>
+            <div class="img-mgr-sub">Cliquez sur 📸 d'un produit pour changer sa photo. Changements visibles immédiatement dans le catalogue.</div>
+            <div style="display:flex;align-items:center;gap:.6rem;margin:.75rem 0">
+              <input type="text" id="img-prod-search" placeholder="🔍 Filtrer les produits..." oninput="renderImgManager()" style="flex:1;padding:.5rem .85rem;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none">
+            </div>
+            <div class="img-prod-grid" id="img-prod-grid"></div>
+          </div>
         </div>
 
         <!-- Config -->
@@ -1413,6 +1608,23 @@ const reviews = [
 let currentCat = 'all';
 let currentSort = 'default';
 let cart = [];
+
+// ══ MOBILE NAV ══
+function toggleMobNav(){
+  const nav=document.getElementById('mob-nav');
+  const btn=document.getElementById('nav-hamburger');
+  const open=nav.classList.toggle('open');
+  btn.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+// Close mobile nav on resize to desktop
+window.addEventListener('resize',()=>{
+  if(window.innerWidth>768){
+    document.getElementById('mob-nav').classList.remove('open');
+    document.getElementById('nav-hamburger').classList.remove('open');
+    document.body.style.overflow='';
+  }
+});
 
 // ══ DEVISE ══
 function setDevise(d) {
@@ -2278,6 +2490,129 @@ function renderAdminClients(){
 
 // ── CONSOLIDATED switchAdmin — single definition, handles all tabs ──
 // Replaces the original + all phase overrides
+// ══ IMAGE MANAGER ══
+let _heroFilePending = null;
+
+function renderImgManager(){
+  const q = (document.getElementById('img-prod-search')?.value||'').toLowerCase();
+  const grid = document.getElementById('img-prod-grid');
+  if(!grid) return;
+  const list = q ? allProducts.filter(p=>p.name.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q)) : allProducts;
+  grid.innerHTML = list.map((p,i)=>{
+    const realIdx = allProducts.indexOf(p);
+    const thumb = p.img
+      ? `<img class="img-prod-thumb" src="${p.img}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+      : '';
+    const emoji = `<div class="img-prod-thumb-emoji" style="${p.img?'display:none':''}">${p.icon||'📦'}</div>`;
+    return `<div class="img-prod-card" id="ipc-${realIdx}">
+      ${thumb}${emoji}
+      <div class="img-prod-info">
+        <div class="img-prod-name" title="${p.name}">${p.name}</div>
+        <div class="img-prod-cat">${p.cat}</div>
+      </div>
+      <div class="img-prod-actions">
+        <label class="img-prod-btn" title="Changer la photo">
+          📸 Photo
+          <input type="file" accept="image/*" style="display:none" onchange="handleProdImgSelect(this,${realIdx})">
+        </label>
+        ${p.img ? `<button class="img-prod-btn del" title="Supprimer la photo" onclick="removeProdImg(${realIdx})">🗑️</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function handleProdImgSelect(input, idx){
+  if(!input.files||!input.files[0]) return;
+  const file = input.files[0];
+  if(file.size > 5*1024*1024){ showToast('⚠️ Image trop lourde (max 5 Mo).'); return; }
+  const card = document.getElementById('ipc-'+idx);
+  // Show spinner overlay
+  const spin = document.createElement('div');
+  spin.className = 'img-prod-uploading';
+  spin.textContent = '⏳ Upload…';
+  if(card) card.appendChild(spin);
+  const result = await uploadToCloudinary(file);
+  if(card && card.contains(spin)) card.removeChild(spin);
+  if(!result){ showToast('❌ Échec de l\'upload.'); return; }
+  allProducts[idx].img = result.url;
+  renderProducts();
+  renderImgManager();
+  renderAdminProducts();
+  showToast(result.local ? '⚠️ Photo enregistrée localement (temporaire)' : '✅ Photo mise à jour !');
+}
+
+function removeProdImg(idx){
+  if(!confirm('Supprimer la photo de ce produit ?')) return;
+  allProducts[idx].img = null;
+  renderProducts();
+  renderImgManager();
+  renderAdminProducts();
+  showToast('🗑️ Photo supprimée.');
+}
+
+// ── Hero drag-and-drop ──
+function imgDropOver(e){ e.preventDefault(); document.getElementById('hero-drop-zone').classList.add('drag-over'); }
+function imgDropLeave(e){ document.getElementById('hero-drop-zone').classList.remove('drag-over'); }
+async function imgDropHero(e){
+  e.preventDefault();
+  document.getElementById('hero-drop-zone').classList.remove('drag-over');
+  const file = e.dataTransfer?.files?.[0];
+  if(file) await processHeroFile(file);
+}
+async function handleHeroFileSelect(input){
+  if(!input.files||!input.files[0]) return;
+  await processHeroFile(input.files[0]);
+}
+async function processHeroFile(file){
+  if(!file.type.startsWith('image/')){ showToast('⚠️ Fichier non reconnu comme image.'); return; }
+  if(file.size > 5*1024*1024){ showToast('⚠️ Image trop lourde (max 5 Mo).'); return; }
+  // Show local preview immediately
+  const localUrl = URL.createObjectURL(file);
+  _showHeroPreview(localUrl, '⏳ Upload en cours…');
+  document.getElementById('hero-save-btn').style.display = 'none';
+  const result = await uploadToCloudinary(file);
+  if(!result){ _showHeroPreview(null); showToast('❌ Échec de l\'upload.'); return; }
+  _heroFilePending = result.url;
+  _showHeroPreview(result.url, result.local ? '⚠️ Temporaire (configurez Cloudinary)' : '✅ Prêt — cliquez Appliquer');
+  document.getElementById('hero-save-btn').style.display = '';
+}
+function _showHeroPreview(url, badge){
+  const prev = document.getElementById('hero-drop-preview');
+  const inner = document.getElementById('hero-drop-inner');
+  const bdg = document.getElementById('hero-drop-badge');
+  if(url){
+    prev.src = url; prev.style.display = 'block';
+    inner.style.display = 'none';
+    bdg.textContent = badge||''; bdg.style.display = badge ? 'block':'none';
+  } else {
+    prev.style.display = 'none'; inner.style.display = 'flex'; bdg.style.display = 'none';
+  }
+}
+function saveHeroFromManager(){
+  if(!_heroFilePending){ showToast('⚠️ Aucune image en attente.'); return; }
+  try{ localStorage.setItem('hero_img', _heroFilePending); }catch(e){}
+  applyHeroImage();
+  showToast('✅ Image de fond appliquée !');
+  _heroFilePending = null;
+  document.getElementById('hero-save-btn').style.display = 'none';
+}
+function applyHeroFromUrl(){
+  const url = document.getElementById('mgr-hero-url')?.value.trim();
+  if(!url){ showToast('⚠️ Entrez une URL valide.'); return; }
+  _heroFilePending = url;
+  _showHeroPreview(url, '✅ Prêt — cliquez Appliquer');
+  document.getElementById('hero-save-btn').style.display = '';
+}
+function resetHeroImage(){
+  if(!confirm('Restaurer l\'image par défaut ?')) return;
+  try{ localStorage.removeItem('hero_img'); }catch(e){}
+  _heroFilePending = null;
+  _showHeroPreview(null);
+  document.getElementById('hero-save-btn').style.display = 'none';
+  applyHeroImage();
+  showToast('↩️ Image par défaut restaurée.');
+}
+
 function switchAdmin(section, btn){
   document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.admin-menu-item').forEach(b=>b.classList.remove('active'));
@@ -2293,6 +2628,7 @@ function switchAdmin(section, btn){
   if(section==='fournisseurs') renderAdminSuppliers();
   if(section==='categories')  renderAdminCategories();
   if(section==='ajouter')     renderAdminCategories();
+  if(section==='images')     { renderImgManager(); _showHeroPreview(null); document.getElementById('hero-save-btn').style.display='none'; _heroFilePending=null; }
 }
 
 // ── CONSOLIDATED renderAdminOrders — with notify buttons built in ──
