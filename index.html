@@ -1644,7 +1644,11 @@ async function testSupabase(){
   try{
     const client=supabase.createClient(url,key);
     const {error}=await client.from('products').select('id').limit(1);
-    if(error&&error.code!=='PGRST116'){ if(el) el.innerHTML=`❌ ${error.message}<br><small>Créez les tables d'abord (voir guide).</small>`; return; }
+    // PGRST116 = no rows returned (empty table) — that's fine, table exists
+    if(error && error.code!=='PGRST116'){
+      if(el) el.innerHTML='❌ '+error.message+'<br><small>Vérifiez votre URL et clé, ou relancez le script SQL.</small>';
+      return;
+    }
     if(el) el.innerHTML='✅ Connecté ! Tables détectées.';
     SUPABASE_URL=url; SUPABASE_KEY=key; _sb=client;
     localStorage.setItem('sb_url',url); localStorage.setItem('sb_key',key);
@@ -1658,16 +1662,17 @@ async function loadProductsFromDB(){
   try{
     const {data,error}=await sb.from('products').select('*').order('created_at',{ascending:false});
     if(error) throw error;
-    if(data&&data.length>0){
+    if(data && data.length>0){
       allProducts=data.map(p=>({
         id:p.id, cat:p.category, icon:p.icon||'📦', badge:p.badge||'',
         bClass:p.badge==='Nouveau'?'badge-new':p.badge==='Promo'?'badge-promo':'badge-hot',
         name:p.name, desc:p.description, priceFC:p.price_fc,
         isNew:p.is_new||false, img:p.image_url||null, supplier:p.supplier||null
       }));
-      renderProducts(); renderAdminProducts(); return true;
+      renderProducts(); renderAdminProducts();
     }
-    return false;
+    // empty table = keep demo data, no error
+    return true;
   }catch(e){ console.warn('loadProductsFromDB:',e); return false; }
 }
 async function saveProductToDB(prod){
@@ -1707,15 +1712,15 @@ async function loadOrdersFromDB(){
   try{
     const {data,error}=await sb.from('orders').select('*').order('created_at',{ascending:false});
     if(error) throw error;
-    if(data&&data.length>0){
+    if(data && data.length>0){
       adminOrders=data.map(o=>({
         id:o.order_id, name:o.items, client:o.client_name,
         ville:o.city, status:o.status, date:o.order_date,
         totalFC:o.total_fc, dbId:o.id
       }));
-      return true;
     }
-    return false;
+    // empty table = keep demo orders, no error
+    return true;
   }catch(e){ console.warn('loadOrdersFromDB:',e); return false; }
 }
 async function updateOrderStatusInDB(dbId,status){
@@ -1731,15 +1736,16 @@ async function saveConfigToDB(cfg){
 async function loadConfigFromDB(){
   const sb=getSB(); if(!sb) return false;
   try{
-    const {data,error}=await sb.from('config').select('value').eq('key','main').single();
+    const {data,error}=await sb.from('config').select('value').eq('key','main').maybeSingle();
     if(error) throw error;
+    if(!data) return true; // no config row yet — that's fine, use localStorage defaults
     const cfg=JSON.parse(data.value||'{}');
     if(cfg.wa)        { WA_NUMBER=cfg.wa;          localStorage.setItem('wa_number',cfg.wa); }
     if(cfg.rate)      { RATE=cfg.rate;              localStorage.setItem('rate',String(cfg.rate)); }
     if(cfg.formspree) { FORMSPREE_ID=cfg.formspree; localStorage.setItem('formspree_id',cfg.formspree); }
-    if(cfg.cldName)   { CLOUDINARY_NAME=cfg.cldName;       localStorage.setItem('cld_name',cfg.cldName); }
-    if(cfg.cldPreset) { CLOUDINARY_PRESET=cfg.cldPreset;   localStorage.setItem('cld_preset',cfg.cldPreset); }
-    if(cfg.unsplash)  { UNSPLASH_KEY=cfg.unsplash;         localStorage.setItem('unsplash_key',cfg.unsplash); }
+    if(cfg.cldName)   { CLOUDINARY_NAME=cfg.cldName;     localStorage.setItem('cld_name',cfg.cldName); }
+    if(cfg.cldPreset) { CLOUDINARY_PRESET=cfg.cldPreset; localStorage.setItem('cld_preset',cfg.cldPreset); }
+    if(cfg.unsplash)  { UNSPLASH_KEY=cfg.unsplash;       localStorage.setItem('unsplash_key',cfg.unsplash); }
     if(cfg.heroImg)   { localStorage.setItem('hero_img',cfg.heroImg); }
     if(cfg.shippingFc!==undefined){ SHIPPING_FC=cfg.shippingFc; localStorage.setItem('shipping_fc',String(cfg.shippingFc)); }
     if(cfg.logoUrl)   { localStorage.setItem('site_logo',cfg.logoUrl); }
