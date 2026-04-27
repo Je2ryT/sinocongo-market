@@ -222,7 +222,11 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 
 /* ── HERO ── */
 .hero{background:var(--dark);background-size:cover;background-position:center;min-height:86vh;display:grid;grid-template-columns:1fr 420px;align-items:center;position:relative;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:rgba(0,0,0,.58);pointer-events:none}
+.hero-bg{position:absolute;inset:0;background:rgba(0,0,0,.52);pointer-events:none;z-index:1}
+.hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity 1.8s ease-in-out;z-index:0}
+.hero-slide-a{opacity:1}
+.hero-slide-b{opacity:0}
+.hero-text{position:relative;z-index:2}
 .hero-text{padding:5rem 4rem 5rem 5rem;position:relative;z-index:2}
 .hero-pill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(29,107,104,.18);border:1px solid rgba(29,107,104,.4);color:var(--teal-pale);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;padding:.3rem .85rem;border-radius:20px;margin-bottom:2rem;animation:up .7s ease both}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:900;line-height:1.07;color:#fff;animation:up .7s .12s ease both}
@@ -1367,7 +1371,9 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 </div>
 
 <!-- ══ HERO ══ -->
-<section class="hero">
+<section class="hero" id="hero-section">
+  <div class="hero-slide hero-slide-a" id="hero-slide-a"></div>
+  <div class="hero-slide hero-slide-b" id="hero-slide-b"></div>
   <div class="hero-bg"></div>
   <div class="hero-text">
     <div class="hero-pill">🇨🇳 Fabricants Chinois &nbsp;→&nbsp; 🇨🇩 Congo RDC</div>
@@ -2488,16 +2494,69 @@ function addProduct(){
   showToast('✅ "'+name+'" ajouté au catalogue !');
   switchAdmin('produits',document.querySelectorAll('.admin-menu-item')[0]);
 }
-const DEFAULT_HERO_IMG='https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1920&q=80';
+// ══ HERO SLIDESHOW ══
+const DEFAULT_HERO_SLIDES = [
+  'https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&w=1920&q=80', // Africa market
+  'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1920&q=80', // cargo shipping
+  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1920&q=80', // electronics
+  'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1920&q=80', // commerce
+  'https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=1920&q=80', // fabric/textiles
+];
+
+let _heroSlideIndex = 0;
+let _heroSlideTimer = null;
+let _heroActiveSlot = 'a'; // which div is currently visible
+
 function applyHeroImage(){
-  const url=localStorage.getItem('hero_img')||DEFAULT_HERO_IMG;
-  const hero=document.querySelector('.hero');
-  if(!hero) return;
-  hero.style.backgroundImage=`url('${url}')`;
-  // pre-fill admin input (show custom URL only, not the default)
-  const inp=document.getElementById('cfg-hero-img');
-  if(inp) inp.value=localStorage.getItem('hero_img')||'';
+  // If admin set a single custom image, use it as the only slide
+  const custom = localStorage.getItem('hero_img');
+  const slides = custom ? [custom] : _getHeroSlides();
+
+  const slotA = document.getElementById('hero-slide-a');
+  const slotB = document.getElementById('hero-slide-b');
+  if(!slotA || !slotB) return;
+
+  // Load first image immediately
+  _heroSlideIndex = 0;
+  slotA.style.backgroundImage = `url('${slides[0]}')`;
+  slotA.style.opacity = '1';
+  slotB.style.opacity = '0';
+  _heroActiveSlot = 'a';
+
+  // Pre-fill admin config input
+  const inp = document.getElementById('cfg-hero-img');
+  if(inp) inp.value = custom || '';
+
+  // Stop any existing timer
+  if(_heroSlideTimer) clearInterval(_heroSlideTimer);
+  if(slides.length < 2) return; // single image — no slideshow needed
+
+  // Start crossfade cycle
+  _heroSlideTimer = setInterval(()=>{
+    _heroSlideIndex = (_heroSlideIndex + 1) % slides.length;
+    const nextUrl = slides[_heroSlideIndex];
+    if(_heroActiveSlot === 'a'){
+      slotB.style.backgroundImage = `url('${nextUrl}')`;
+      slotB.style.opacity = '1';
+      slotA.style.opacity = '0';
+      _heroActiveSlot = 'b';
+    } else {
+      slotA.style.backgroundImage = `url('${nextUrl}')`;
+      slotA.style.opacity = '1';
+      slotB.style.opacity = '0';
+      _heroActiveSlot = 'a';
+    }
+  }, 7000); // change every 7 seconds
 }
+
+function _getHeroSlides(){
+  try{
+    const saved = localStorage.getItem('hero_slides');
+    if(saved){ const arr=JSON.parse(saved); if(arr&&arr.length>0) return arr; }
+  }catch(e){}
+  return DEFAULT_HERO_SLIDES;
+}
+
 function saveConfig(){
   const wa       = document.getElementById('cfg-wa').value.trim();
   const rate     = parseInt(document.getElementById('cfg-rate').value);
@@ -3030,6 +3089,13 @@ function _showHeroPreview(url, badge){
     prev.style.display = 'none'; inner.style.display = 'flex'; bdg.style.display = 'none';
   }
 }
+function applyHeroFromUrl(){
+  const url = document.getElementById('mgr-hero-url')?.value.trim();
+  if(!url){ showToast('⚠️ Entrez une URL valide.'); return; }
+  _heroFilePending = url;
+  _showHeroPreview(url, '✅ Prêt — cliquez Appliquer');
+  document.getElementById('hero-save-btn').style.display = '';
+}
 function saveHeroFromManager(){
   if(!_heroFilePending){ showToast('⚠️ Aucune image en attente.'); return; }
   try{ localStorage.setItem('hero_img', _heroFilePending); }catch(e){}
@@ -3038,21 +3104,14 @@ function saveHeroFromManager(){
   _heroFilePending = null;
   document.getElementById('hero-save-btn').style.display = 'none';
 }
-function applyHeroFromUrl(){
-  const url = document.getElementById('mgr-hero-url')?.value.trim();
-  if(!url){ showToast('⚠️ Entrez une URL valide.'); return; }
-  _heroFilePending = url;
-  _showHeroPreview(url, '✅ Prêt — cliquez Appliquer');
-  document.getElementById('hero-save-btn').style.display = '';
-}
 function resetHeroImage(){
-  if(!confirm('Restaurer l\'image par défaut ?')) return;
+  if(!confirm('Restaurer le diaporama par défaut ?')) return;
   try{ localStorage.removeItem('hero_img'); }catch(e){}
   _heroFilePending = null;
   _showHeroPreview(null);
   document.getElementById('hero-save-btn').style.display = 'none';
   applyHeroImage();
-  showToast('↩️ Image par défaut restaurée.');
+  showToast('↩️ Diaporama restauré.');
 }
 
 function switchAdmin(section, btn){
