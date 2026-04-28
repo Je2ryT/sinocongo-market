@@ -1230,7 +1230,10 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
               <div id="cld-status" style="font-size:.72rem;color:var(--muted);margin-bottom:.5rem;line-height:1.5"></div>
             </div>
             <div style="border-top:1px solid var(--border);margin:.75rem 0;padding-top:.75rem">
-              <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">📸 Unsplash — Banque d'images</div>
+              <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">📲 WhatsApp OTP (CallMeBot)</div>
+              <div class="fg"><label>Clé API CallMeBot</label><input type="text" id="cfg-callmebot" placeholder="123456"></div>
+              <div style="font-size:.7rem;color:var(--muted);margin-bottom:.5rem">Inscription gratuite sur <a href="https://www.callmebot.com/blog/free-whatsapp-message-api/" target="_blank" style="color:var(--teal)">callmebot.com</a> → obtenez votre clé en 1 minute via WhatsApp.</div>
+            </div>
               <div class="fg"><label>Clé API Unsplash (Access Key) *</label><input type="text" id="cfg-unsplash-key" placeholder="Client-ID xxxxxxxxxxxxxxx"></div>
               <div style="font-size:.7rem;color:var(--muted);margin-bottom:.5rem">Obtenez une clé gratuite sur <a href="https://unsplash.com/developers" target="_blank" style="color:var(--teal)">unsplash.com/developers</a> → New Application.</div>
             </div>
@@ -2737,6 +2740,9 @@ function saveConfig(){
   const shipping= parseInt(document.getElementById('cfg-shipping')?.value)||0;
   applyShippingFee(shipping);
 
+  const callmebot= document.getElementById('cfg-callmebot')?.value.trim();
+  if(callmebot) { localStorage.setItem('callmebot_key',callmebot); }
+
   if(wa)       { WA_NUMBER=wa;       localStorage.setItem('wa_number',wa); }
   if(rate>0)   { RATE=rate;          localStorage.setItem('rate',String(rate)); renderProducts(); renderCart(); }
   if(form)     { FORMSPREE_ID=form;  localStorage.setItem('formspree_id',form); }
@@ -2910,23 +2916,59 @@ function showAuthScreen(n){
     document.getElementById('astep-'+i).classList.toggle('done',i<=n);
   }
 }
-function sendWACode(){
-  const phone = document.getElementById('auth-phone').value.trim();
-  if(!phone||phone.length<8){showToast('⚠️ Entrez un numéro valide.');return;}
+// ══ WHATSAPP AUTH ══
+function normalizePhone(phone){
+  let p = phone.replace(/[\s\-().]/g,'');
+  if(p.startsWith('0')) p = '243'+p.slice(1);
+  if(!p.startsWith('+')) p = '+'+p;
+  return p;
+}
+
+async function sendWACode(){
+  const rawPhone = document.getElementById('auth-phone').value.trim();
+  if(!rawPhone||rawPhone.length<8){ showToast('\u26a0\ufe0f Entrez un num\u00e9ro valide.'); return; }
+  const phone = normalizePhone(rawPhone);
   authPhoneTemp = phone;
   authOTP = String(Math.floor(100000+Math.random()*900000));
-  // In production: call Twilio/Africa's Talking API here
-  // For demo: show the code in a toast
-  document.getElementById('auth-code-sub').textContent = `Code envoyé au ${phone}. (Demo : ${authOTP})`;
+
+  // Save OTP to Supabase with 10-min expiry
+  const sb = getSB();
+  if(sb){
+    try{
+      await sb.from('otp_codes').upsert([{
+        phone: phone,
+        code: authOTP,
+        expires_at: new Date(Date.now()+10*60*1000).toISOString()
+      }],{onConflict:'phone'});
+    }catch(e){ console.warn('OTP save:',e); }
+  }
+
+  // Try CallMeBot (free WA API — user registers once at callmebot.com)
+  const CALLMEBOT_KEY = localStorage.getItem('callmebot_key')||'';
+  if(CALLMEBOT_KEY){
+    const msg = encodeURIComponent('Votre code Steward & Co : *'+authOTP+'*\nValable 10 minutes.');
+    const phoneClean = phone.replace('+','');
+    try{
+      await fetch('https://api.callmebot.com/whatsapp.php?phone='+phoneClean+'&text='+msg+'&apikey='+CALLMEBOT_KEY);
+      document.getElementById('auth-code-sub').textContent = 'Code envoy\u00e9 sur WhatsApp au '+phone+'.';
+      showAuthScreen(2);
+      document.querySelector('#auth-code-inputs input').focus();
+      showToast('\ud83d\udcf2 Code envoy\u00e9 sur WhatsApp !');
+      return;
+    }catch(e){ console.warn('CallMeBot:',e); }
+  }
+
+  // Fallback: show code directly + WhatsApp self-send link
+  const waMsg = 'Mon code Steward & Co : *'+authOTP+'* (10 min)';
+  document.getElementById('auth-code-sub').innerHTML =
+    'Code pour <strong>'+phone+'</strong> :<br>'+
+    '<div style="font-size:1.5rem;font-weight:800;letter-spacing:.25em;margin:.6rem 0;color:var(--teal)">'+authOTP+'</div>'+
+    '<a href="https://wa.me/?text='+encodeURIComponent(waMsg)+'" target="_blank" style="font-size:.75rem;color:var(--teal)">\ud83d\udcf2 Envoyer via WhatsApp \u2192</a>';
   showAuthScreen(2);
   document.querySelector('#auth-code-inputs input').focus();
-  // Open WA with the code pre-filled (production path)
-  const msg = `Votre code de connexion Steward & Co : *${authOTP}*
-
-Valable 10 minutes. Ne partagez pas ce code.`;
-  window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(msg),'_blank');
-  showToast('📲 Code envoyé sur WhatsApp');
+  showToast('\ud83d\udcf2 Entrez le code affich\u00e9 ci-dessus');
 }
+
 function codeNext(input, idx){
   input.value = input.value.replace(/[^0-9]/g,'');
   const inputs = document.querySelectorAll('#auth-code-inputs input');
@@ -2938,32 +2980,60 @@ function codePrev(e, input){
   const idx = Array.from(inputs).indexOf(input);
   if(e.key==='Backspace' && !input.value && idx>0) inputs[idx-1].focus();
 }
-function verifyCode(){
+
+async function verifyCode(){
   const inputs = document.querySelectorAll('#auth-code-inputs input');
   const entered = Array.from(inputs).map(i=>i.value).join('');
-  if(entered.length<6){showToast('⚠️ Entrez les 6 chiffres.');return;}
-  if(entered === authOTP || entered === '123456'){
-    currentUser = {
-      name: 'Client Steward',
-      phone: authPhoneTemp,
-      initials: authPhoneTemp.slice(-2).toUpperCase(),
-      orders: [{id:'SCM-2026-001',name:'Smartphones × 10',status:'Expédiée',date:'12 Jan 2026'}]
-    };
-    updateUserNav();
-    document.getElementById('auth-profile-row').innerHTML = `
-      <div class="auth-profile-avatar">${currentUser.initials}</div>
-      <div><div class="auth-profile-name">${currentUser.name}</div><div class="auth-profile-phone">${currentUser.phone}</div></div>`;
-    document.getElementById('auth-orders-list').innerHTML = currentUser.orders.length
-      ? currentUser.orders.map(o=>`<div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.7rem 1rem;font-size:.82rem;margin-bottom:.5rem"><div style="font-weight:500">${o.name}</div><div style="color:var(--muted);font-size:.72rem">${o.id} · ${o.status} · ${o.date}</div></div>`).join('')
-      : '<div style="font-size:.82rem;color:var(--muted);text-align:center;padding:.5rem">Aucune commande pour l\'instant.</div>';
-    showAuthScreen(3);
-    showToast('✅ Connecté avec succès !');
-    inputs.forEach(i=>i.value='');
-  } else {
-    showToast('❌ Code incorrect. Réessayez.');
-    inputs.forEach(i=>i.value='');
-    inputs[0].focus();
+  if(entered.length<6){ showToast('\u26a0\ufe0f Entrez les 6 chiffres.'); return; }
+
+  const sb = getSB();
+  if(sb){
+    try{
+      const {data,error} = await sb.from('otp_codes').select('code,expires_at').eq('phone',authPhoneTemp).maybeSingle();
+      if(!error && data){
+        if(new Date(data.expires_at) < new Date()){ showToast('\u23f0 Code expir\u00e9. Recommencez.'); showAuthScreen(1); return; }
+        if(data.code !== entered){ showToast('\u274c Code incorrect.'); inputs.forEach(i=>i.value=''); inputs[0].focus(); return; }
+        await sb.from('otp_codes').delete().eq('phone',authPhoneTemp);
+        await loginUser(authPhoneTemp, sb);
+        return;
+      }
+    }catch(e){ console.warn('verifyCode:',e); }
   }
+
+  // Fallback: local OTP check
+  if(entered === authOTP){
+    await loginUser(authPhoneTemp, null);
+  } else {
+    showToast('\u274c Code incorrect.');
+    inputs.forEach(i=>i.value=''); inputs[0].focus();
+  }
+}
+
+async function loginUser(phone, sb){
+  let userData = { name:'', phone, initials:phone.slice(-2).toUpperCase(), orders:[] };
+  if(sb){
+    try{
+      const {data:user} = await sb.from('users').select('*').eq('phone',phone).maybeSingle();
+      if(user){ userData.name = user.name||''; }
+      else { await sb.from('users').insert([{phone, name:'', created_at:new Date().toISOString()}]); }
+      const {data:orders} = await sb.from('orders').select('*').eq('phone',phone).order('created_at',{ascending:false});
+      if(orders) userData.orders = orders.map(o=>({id:o.order_id,name:o.items,status:o.status,date:o.order_date}));
+    }catch(e){ console.warn('loginUser:',e); }
+  }
+  currentUser = userData;
+  try{ localStorage.setItem('current_user',JSON.stringify({phone,name:userData.name})); }catch(e){}
+  updateUserNav();
+  const displayName = userData.name||phone;
+  document.getElementById('auth-profile-row').innerHTML =
+    '<div class="auth-profile-avatar">'+userData.initials+'</div>'+
+    '<div><div class="auth-profile-name">'+displayName+'</div><div class="auth-profile-phone">'+phone+'</div></div>';
+  document.getElementById('auth-orders-list').innerHTML = userData.orders.length
+    ? userData.orders.map(o=>'<div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.7rem 1rem;font-size:.82rem;margin-bottom:.5rem"><div style="font-weight:500">'+o.name+'</div><div style="color:var(--muted);font-size:.72rem">'+o.id+' \u00b7 '+o.status+' \u00b7 '+o.date+'</div></div>').join('')
+    : '<div style="font-size:.82rem;color:var(--muted);text-align:center;padding:.5rem">Aucune commande pour l\'instant.</div>';
+  showAuthScreen(3);
+  showToast('\u2705 Connect\u00e9 avec succ\u00e8s !');
+  const allInputs = document.querySelectorAll('#auth-code-inputs input');
+  allInputs.forEach(i=>i.value='');
 }
 function logout(){
   currentUser = null;
@@ -3304,6 +3374,7 @@ function switchAdmin(section, btn){
   if(section==='categories')  renderAdminCategories();
   if(section==='ajouter')     renderAdminCategories();
   if(section==='config'){
+    fill('cfg-callmebot', localStorage.getItem('callmebot_key')||'');
     fill('cfg-shipping',  String(SHIPPING_FC||''));
     fill('cfg-sb-url',     SUPABASE_URL);
     fill('cfg-sb-key',     SUPABASE_KEY);
