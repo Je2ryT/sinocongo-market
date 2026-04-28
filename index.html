@@ -1229,11 +1229,7 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
               <div class="fg"><label>Upload Preset *</label><input type="text" id="cfg-cld-preset" placeholder="ex: sinocongo_products"></div>
               <div id="cld-status" style="font-size:.72rem;color:var(--muted);margin-bottom:.5rem;line-height:1.5"></div>
             </div>
-            <div style="border-top:1px solid var(--border);margin:.75rem 0;padding-top:.75rem">
-              <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">📲 WhatsApp OTP (CallMeBot)</div>
-              <div class="fg"><label>Clé API CallMeBot</label><input type="text" id="cfg-callmebot" placeholder="123456"></div>
-              <div style="font-size:.7rem;color:var(--muted);margin-bottom:.5rem">Inscription gratuite sur <a href="https://www.callmebot.com/blog/free-whatsapp-message-api/" target="_blank" style="color:var(--teal)">callmebot.com</a> → obtenez votre clé en 1 minute via WhatsApp.</div>
-            </div>
+
               <div class="fg"><label>Clé API Unsplash (Access Key) *</label><input type="text" id="cfg-unsplash-key" placeholder="Client-ID xxxxxxxxxxxxxxx"></div>
               <div style="font-size:.7rem;color:var(--muted);margin-bottom:.5rem">Obtenez une clé gratuite sur <a href="https://unsplash.com/developers" target="_blank" style="color:var(--teal)">unsplash.com/developers</a> → New Application.</div>
             </div>
@@ -2740,9 +2736,6 @@ function saveConfig(){
   const shipping= parseInt(document.getElementById('cfg-shipping')?.value)||0;
   applyShippingFee(shipping);
 
-  const callmebot= document.getElementById('cfg-callmebot')?.value.trim();
-  if(callmebot) { localStorage.setItem('callmebot_key',callmebot); }
-
   if(wa)       { WA_NUMBER=wa;       localStorage.setItem('wa_number',wa); }
   if(rate>0)   { RATE=rate;          localStorage.setItem('rate',String(rate)); renderProducts(); renderCart(); }
   if(form)     { FORMSPREE_ID=form;  localStorage.setItem('formspree_id',form); }
@@ -2926,7 +2919,7 @@ function normalizePhone(phone){
 
 async function sendWACode(){
   const rawPhone = document.getElementById('auth-phone').value.trim();
-  if(!rawPhone||rawPhone.length<8){ showToast('\u26a0\ufe0f Entrez un num\u00e9ro valide.'); return; }
+  if(!rawPhone||rawPhone.length<8){ showToast('⚠️ Entrez un numéro valide.'); return; }
   const phone = normalizePhone(rawPhone);
   authPhoneTemp = phone;
   authOTP = String(Math.floor(100000+Math.random()*900000));
@@ -2936,37 +2929,27 @@ async function sendWACode(){
   if(sb){
     try{
       await sb.from('otp_codes').upsert([{
-        phone: phone,
-        code: authOTP,
+        phone, code: authOTP,
         expires_at: new Date(Date.now()+10*60*1000).toISOString()
       }],{onConflict:'phone'});
     }catch(e){ console.warn('OTP save:',e); }
   }
 
-  // Try CallMeBot (free WA API — user registers once at callmebot.com)
-  const CALLMEBOT_KEY = localStorage.getItem('callmebot_key')||'';
-  if(CALLMEBOT_KEY){
-    const msg = encodeURIComponent('Votre code Steward & Co : *'+authOTP+'*\nValable 10 minutes.');
-    const phoneClean = phone.replace('+','');
-    try{
-      await fetch('https://api.callmebot.com/whatsapp.php?phone='+phoneClean+'&text='+msg+'&apikey='+CALLMEBOT_KEY);
-      document.getElementById('auth-code-sub').textContent = 'Code envoy\u00e9 sur WhatsApp au '+phone+'.';
-      showAuthScreen(2);
-      document.querySelector('#auth-code-inputs input').focus();
-      showToast('\ud83d\udcf2 Code envoy\u00e9 sur WhatsApp !');
-      return;
-    }catch(e){ console.warn('CallMeBot:',e); }
-  }
-
-  // Fallback: show code directly + WhatsApp self-send link
-  const waMsg = 'Mon code Steward & Co : *'+authOTP+'* (10 min)';
+  // Show code clearly on screen
   document.getElementById('auth-code-sub').innerHTML =
-    'Code pour <strong>'+phone+'</strong> :<br>'+
-    '<div style="font-size:1.5rem;font-weight:800;letter-spacing:.25em;margin:.6rem 0;color:var(--teal)">'+authOTP+'</div>'+
-    '<a href="https://wa.me/?text='+encodeURIComponent(waMsg)+'" target="_blank" style="font-size:.75rem;color:var(--teal)">\ud83d\udcf2 Envoyer via WhatsApp \u2192</a>';
+    'Votre code de vérification pour <strong>'+phone+'</strong> :<br>'+
+    '<div style="display:inline-flex;gap:.35rem;margin:.75rem 0">'+
+      authOTP.split('').map(d=>
+        '<span style="width:2.2rem;height:2.8rem;background:var(--teal-pale);border:2px solid var(--teal);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;color:var(--teal)">'+d+'</span>'
+      ).join('')+
+    '</div><br>'+
+    '<span style="font-size:.72rem;color:var(--muted)">Entrez ce code dans les cases ci-dessous. Valable 10 minutes.</span>';
+
   showAuthScreen(2);
-  document.querySelector('#auth-code-inputs input').focus();
-  showToast('\ud83d\udcf2 Entrez le code affich\u00e9 ci-dessus');
+  // Auto-fill the code inputs for convenience
+  const inputs = document.querySelectorAll('#auth-code-inputs input');
+  authOTP.split('').forEach((d,i)=>{ if(inputs[i]) inputs[i].value=d; });
+  showToast('🔐 Code généré — entrez-le ci-dessous');
 }
 
 function codeNext(input, idx){
@@ -3374,7 +3357,6 @@ function switchAdmin(section, btn){
   if(section==='categories')  renderAdminCategories();
   if(section==='ajouter')     renderAdminCategories();
   if(section==='config'){
-    fill('cfg-callmebot', localStorage.getItem('callmebot_key')||'');
     fill('cfg-shipping',  String(SHIPPING_FC||''));
     fill('cfg-sb-url',     SUPABASE_URL);
     fill('cfg-sb-key',     SUPABASE_KEY);
