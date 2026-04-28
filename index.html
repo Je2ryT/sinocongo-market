@@ -1657,11 +1657,34 @@ try{ const s=localStorage.getItem('rate');         if(s) RATE=parseInt(s)||2800;
 
 // ── Supabase client (lazy-initialized) ──
 let _sb = null;
+let _sbReady = false;
+
 function getSB(){
   if(_sb) return _sb;
   if(!SUPABASE_URL||!SUPABASE_KEY) return null;
-  try{ _sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY); return _sb; }
-  catch(e){ console.error('Supabase init:',e); return null; }
+  // Guard: Supabase SDK must be loaded
+  if(typeof supabase === 'undefined' || typeof supabase.createClient !== 'function') return null;
+  try{
+    _sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+      auth:{ persistSession:true, autoRefreshToken:true }
+    });
+    _sbReady = true;
+    return _sb;
+  }catch(e){ console.error('Supabase init:',e); return null; }
+}
+
+// Called once SDK is confirmed loaded
+function initSupabase(){
+  if(!SUPABASE_URL||!SUPABASE_KEY) return;
+  const sb = getSB();
+  if(sb){
+    updateDBStatusBanner(true);
+    // Silently load data in background
+    loadConfigFromDB().then(()=>{
+      loadProductsFromDB();
+      loadOrdersFromDB();
+    });
+  }
 }
 
 function updateDBStatusBanner(connected){
@@ -1678,16 +1701,17 @@ async function testSupabase(){
   if(!url||!key){ if(el) el.textContent='⚠️ Entrez l\'URL et la clé.'; return; }
   if(el) el.textContent='⏳ Connexion…';
   try{
-    const client=supabase.createClient(url,key);
+    const client=supabase.createClient(url, key, {auth:{persistSession:true,autoRefreshToken:true}});
     const {error}=await client.from('products').select('id').limit(1);
-    // PGRST116 = no rows returned (empty table) — that's fine, table exists
     if(error && error.code!=='PGRST116'){
       if(el) el.innerHTML='❌ '+error.message+'<br><small>Vérifiez votre URL et clé, ou relancez le script SQL.</small>';
       return;
     }
-    if(el) el.innerHTML='✅ Connecté ! Tables détectées.';
-    SUPABASE_URL=url; SUPABASE_KEY=key; _sb=client;
-    localStorage.setItem('sb_url',url); localStorage.setItem('sb_key',key);
+    // Save keys and set client
+    SUPABASE_URL=url; SUPABASE_KEY=key; _sb=client; _sbReady=true;
+    localStorage.setItem('sb_url', url);
+    localStorage.setItem('sb_key', key);
+    if(el) el.innerHTML='✅ Connecté ! Clés sauvegardées — connexion automatique à chaque visite.';
     updateDBStatusBanner(true);
   }catch(e){ if(el) el.textContent='❌ '+e.message; }
 }
@@ -2741,7 +2765,7 @@ function saveConfig(){
 }
 
 // live preview of hero image URL while typing
-document.addEventListener('DOMContentLoaded', async ()=>{
+document.addEventListener('DOMContentLoaded', ()=>{
   // Hero image URL live preview in config
   const inp=document.getElementById('cfg-hero-img');
   if(inp) inp.addEventListener('input',()=>{
@@ -2765,16 +2789,24 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   fill('cfg-form',      localStorage.getItem('formspree_id')||'');
   fill('cfg-hero-img',  localStorage.getItem('hero_img')||'');
 
-  // Bootstrap Supabase if keys exist
-  if(SUPABASE_URL&&SUPABASE_KEY){
-    const sb=getSB();
-    if(sb){
-      updateDBStatusBanner(true);
-      // Load remote config first (so all keys are up to date)
-      await loadConfigFromDB();
-      // Then load products & orders from DB (overrides demo data)
-      await loadProductsFromDB();
-      await loadOrdersFromDB();
+  // Bootstrap Supabase — wait for SDK to be available
+  if(SUPABASE_URL && SUPABASE_KEY){
+    if(typeof supabase !== 'undefined' && typeof supabase.createClient === 'function'){
+      initSupabase();
+    } else {
+      // SDK not ready yet — wait for it
+      const sdkScript = document.querySelector('script[src*="supabase"]');
+      if(sdkScript){
+        sdkScript.addEventListener('load', initSupabase);
+      } else {
+        // Fallback: poll until available
+        const poll = setInterval(()=>{
+          if(typeof supabase !== 'undefined' && typeof supabase.createClient === 'function'){
+            clearInterval(poll);
+            initSupabase();
+          }
+        }, 100);
+      }
     }
   }
 
