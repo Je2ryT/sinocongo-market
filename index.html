@@ -2752,22 +2752,18 @@ function saveConfig(){
   const ejsPublic  = (document.getElementById('cfg-ejs-public')?.value  || '').trim();
   const ejsService = (document.getElementById('cfg-ejs-service')?.value || '').trim();
   const ejsTemplate= (document.getElementById('cfg-ejs-template')?.value|| '').trim();
-  // Always save — even empty clears old bad values
-  EMAILJS_PUBLIC_KEY  = ejsPublic;
-  EMAILJS_SERVICE_ID  = ejsService;
-  EMAILJS_TEMPLATE_ID = ejsTemplate;
-  localStorage.setItem('ejs_public_key',  ejsPublic);
-  localStorage.setItem('ejs_service_id',  ejsService);
-  localStorage.setItem('ejs_template_id', ejsTemplate);
+  // Only save non-empty values — never wipe with blank
+  if(ejsPublic)  { EMAILJS_PUBLIC_KEY=ejsPublic;    localStorage.setItem('ejs_public_key',ejsPublic); }
+  if(ejsService) { EMAILJS_SERVICE_ID=ejsService;   localStorage.setItem('ejs_service_id',ejsService); }
+  if(ejsTemplate){ EMAILJS_TEMPLATE_ID=ejsTemplate; localStorage.setItem('ejs_template_id',ejsTemplate); }
   initEmailJS();
-  // Visual confirmation
   const ejsStatus = document.getElementById('ejs-status');
   if(ejsStatus){
-    if(ejsPublic && ejsService && ejsTemplate){
-      ejsStatus.innerHTML='✅ EmailJS configuré — envoi d\'emails activé';
+    if(EMAILJS_PUBLIC_KEY && EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID){
+      ejsStatus.innerHTML='\u2705 EmailJS configur\u00e9 — envoi d\'emails activ\u00e9';
       ejsStatus.style.color='var(--green)';
     } else {
-      ejsStatus.innerHTML='⚠️ Incomplet — remplissez les 3 champs';
+      ejsStatus.innerHTML='\u26a0\ufe0f Incomplet — remplissez les 3 champs';
       ejsStatus.style.color='var(--terracotta)';
     }
   }
@@ -2826,6 +2822,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
   fill('cfg-cld-name',  CLOUDINARY_NAME);
   fill('cfg-cld-preset',CLOUDINARY_PRESET);
   fill('cfg-unsplash-key',UNSPLASH_KEY);
+  fill('cfg-ejs-public',  EMAILJS_PUBLIC_KEY);
+  fill('cfg-ejs-service', EMAILJS_SERVICE_ID);
+  fill('cfg-ejs-template',EMAILJS_TEMPLATE_ID);
   fill('cfg-wa',        localStorage.getItem('wa_number')||'');
   fill('cfg-rate',      localStorage.getItem('rate')||'');
   fill('cfg-form',      localStorage.getItem('formspree_id')||'');
