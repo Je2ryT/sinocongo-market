@@ -1652,6 +1652,9 @@ let SUPABASE_KEY      = localStorage.getItem('sb_key')      || '';
 let CLOUDINARY_NAME   = localStorage.getItem('cld_name')    || '';
 let CLOUDINARY_PRESET = localStorage.getItem('cld_preset')  || '';
 let UNSPLASH_KEY      = localStorage.getItem('unsplash_key')|| '';
+let EMAILJS_PUBLIC_KEY  = localStorage.getItem('ejs_public_key')  || '';
+let EMAILJS_SERVICE_ID  = localStorage.getItem('ejs_service_id')  || '';
+let EMAILJS_TEMPLATE_ID = localStorage.getItem('ejs_template_id') || '';
 let WA_NUMBER         = '243XXXXXXXXX';
 let FORMSPREE_ID      = 'YOUR_FORM_ID';
 let RATE              = 2800;
@@ -1815,6 +1818,9 @@ async function loadConfigFromDB(){
     if(cfg.cldPreset) { CLOUDINARY_PRESET=cfg.cldPreset; localStorage.setItem('cld_preset',cfg.cldPreset); }
     if(cfg.unsplash)  { UNSPLASH_KEY=cfg.unsplash;       localStorage.setItem('unsplash_key',cfg.unsplash); }
     if(cfg.heroImg)   { localStorage.setItem('hero_img',cfg.heroImg); }
+    if(cfg.ejsPublic)   { EMAILJS_PUBLIC_KEY=cfg.ejsPublic;    localStorage.setItem('ejs_public_key',cfg.ejsPublic); }
+    if(cfg.ejsService)  { EMAILJS_SERVICE_ID=cfg.ejsService;   localStorage.setItem('ejs_service_id',cfg.ejsService); }
+    if(cfg.ejsTemplate) { EMAILJS_TEMPLATE_ID=cfg.ejsTemplate; localStorage.setItem('ejs_template_id',cfg.ejsTemplate); }
     if(cfg.shippingFc!==undefined){ SHIPPING_FC=cfg.shippingFc; localStorage.setItem('shipping_fc',String(cfg.shippingFc)); }
     if(cfg.logoUrl)   { localStorage.setItem('site_logo',cfg.logoUrl); }
     return true;
@@ -2766,7 +2772,11 @@ function saveConfig(){
   applyHeroImage();
 
   // Save to Supabase so all sessions share config
-  const cfg={wa,rate,formspree:form,cldName,cldPreset,heroImg,unsplash,shippingFc:shipping,logoUrl:localStorage.getItem('site_logo')||''};
+  const cfg={wa,rate,formspree:form,cldName,cldPreset,heroImg,unsplash,shippingFc:shipping,
+    logoUrl:localStorage.getItem('site_logo')||'',
+    ejsPublic:ejsPublic||EMAILJS_PUBLIC_KEY,
+    ejsService:ejsService||EMAILJS_SERVICE_ID,
+    ejsTemplate:ejsTemplate||EMAILJS_TEMPLATE_ID};
   saveConfigToDB(cfg);
 
   const status=document.getElementById('cld-status');
@@ -2929,11 +2939,6 @@ function showAuthScreen(n){
 // ══ EMAIL OTP AUTH ══
 let authEmailTemp = '';
 let authOTP = '';
-
-// EmailJS config — set these in ⚙️ Config
-let EMAILJS_PUBLIC_KEY  = localStorage.getItem('ejs_public_key') || '';
-let EMAILJS_SERVICE_ID  = localStorage.getItem('ejs_service_id') || '';
-let EMAILJS_TEMPLATE_ID = localStorage.getItem('ejs_template_id') || '';
 
 function initEmailJS(){
   if(EMAILJS_PUBLIC_KEY && typeof emailjs !== 'undefined'){
