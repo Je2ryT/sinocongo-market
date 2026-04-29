@@ -1236,6 +1236,7 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
               <div class="fg"><label>Public Key</label><input type="text" id="cfg-ejs-public" placeholder="user_xxxxxxxxxxxxxxx"></div>
               <div class="fg"><label>Service ID</label><input type="text" id="cfg-ejs-service" placeholder="service_xxxxxxx"></div>
               <div class="fg"><label>Template ID</label><input type="text" id="cfg-ejs-template" placeholder="template_xxxxxxx"></div>
+              <div id="ejs-status" style="font-size:.72rem;margin-bottom:.4rem"></div>
               <div style="font-size:.7rem;color:var(--muted)">Inscription gratuite sur <a href="https://www.emailjs.com" target="_blank" style="color:var(--teal)">emailjs.com</a> · 200 emails/mois gratuits.</div>
             </div>
             <div style="border-top:1px solid var(--border);margin:.75rem 0;padding-top:.75rem">
@@ -2748,13 +2749,28 @@ function saveConfig(){
   const sbKey    = document.getElementById('cfg-sb-key').value.trim();
   const unsplash = document.getElementById('cfg-unsplash-key').value.trim();
 
-  const ejsPublic  = document.getElementById('cfg-ejs-public')?.value.trim();
-  const ejsService = document.getElementById('cfg-ejs-service')?.value.trim();
-  const ejsTemplate= document.getElementById('cfg-ejs-template')?.value.trim();
-  if(ejsPublic)  { EMAILJS_PUBLIC_KEY=ejsPublic;   localStorage.setItem('ejs_public_key',ejsPublic); }
-  if(ejsService) { EMAILJS_SERVICE_ID=ejsService;  localStorage.setItem('ejs_service_id',ejsService); }
-  if(ejsTemplate){ EMAILJS_TEMPLATE_ID=ejsTemplate;localStorage.setItem('ejs_template_id',ejsTemplate); }
+  const ejsPublic  = (document.getElementById('cfg-ejs-public')?.value  || '').trim();
+  const ejsService = (document.getElementById('cfg-ejs-service')?.value || '').trim();
+  const ejsTemplate= (document.getElementById('cfg-ejs-template')?.value|| '').trim();
+  // Always save — even empty clears old bad values
+  EMAILJS_PUBLIC_KEY  = ejsPublic;
+  EMAILJS_SERVICE_ID  = ejsService;
+  EMAILJS_TEMPLATE_ID = ejsTemplate;
+  localStorage.setItem('ejs_public_key',  ejsPublic);
+  localStorage.setItem('ejs_service_id',  ejsService);
+  localStorage.setItem('ejs_template_id', ejsTemplate);
   initEmailJS();
+  // Visual confirmation
+  const ejsStatus = document.getElementById('ejs-status');
+  if(ejsStatus){
+    if(ejsPublic && ejsService && ejsTemplate){
+      ejsStatus.innerHTML='✅ EmailJS configuré — envoi d\'emails activé';
+      ejsStatus.style.color='var(--green)';
+    } else {
+      ejsStatus.innerHTML='⚠️ Incomplet — remplissez les 3 champs';
+      ejsStatus.style.color='var(--terracotta)';
+    }
+  }
 
   const shipping= parseInt(document.getElementById('cfg-shipping')?.value)||0;
   applyShippingFee(shipping);
@@ -3413,6 +3429,14 @@ function switchAdmin(section, btn){
     fill('cfg-ejs-public',  EMAILJS_PUBLIC_KEY);
     fill('cfg-ejs-service', EMAILJS_SERVICE_ID);
     fill('cfg-ejs-template',EMAILJS_TEMPLATE_ID);
+    const ejsSt=document.getElementById('ejs-status');
+    if(ejsSt){
+      if(EMAILJS_PUBLIC_KEY&&EMAILJS_SERVICE_ID&&EMAILJS_TEMPLATE_ID){
+        ejsSt.innerHTML='✅ EmailJS configuré'; ejsSt.style.color='var(--green)';
+      } else {
+        ejsSt.innerHTML='⚠️ Non configuré'; ejsSt.style.color='var(--terracotta)';
+      }
+    }
     fill('cfg-shipping',  String(SHIPPING_FC||''));
     fill('cfg-sb-url',     SUPABASE_URL);
     fill('cfg-sb-key',     SUPABASE_KEY);
