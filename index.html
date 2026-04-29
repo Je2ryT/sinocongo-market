@@ -800,6 +800,8 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 </style>
 <!-- ══ SUPABASE SDK ══ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<!-- ══ EMAILJS SDK ══ -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -1229,7 +1231,15 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
               <div class="fg"><label>Upload Preset *</label><input type="text" id="cfg-cld-preset" placeholder="ex: sinocongo_products"></div>
               <div id="cld-status" style="font-size:.72rem;color:var(--muted);margin-bottom:.5rem;line-height:1.5"></div>
             </div>
-
+            <div style="border-top:1px solid var(--border);margin:.75rem 0;padding-top:.75rem">
+              <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">✉️ EmailJS — Envoi des codes OTP</div>
+              <div class="fg"><label>Public Key</label><input type="text" id="cfg-ejs-public" placeholder="user_xxxxxxxxxxxxxxx"></div>
+              <div class="fg"><label>Service ID</label><input type="text" id="cfg-ejs-service" placeholder="service_xxxxxxx"></div>
+              <div class="fg"><label>Template ID</label><input type="text" id="cfg-ejs-template" placeholder="template_xxxxxxx"></div>
+              <div style="font-size:.7rem;color:var(--muted)">Inscription gratuite sur <a href="https://www.emailjs.com" target="_blank" style="color:var(--teal)">emailjs.com</a> · 200 emails/mois gratuits.</div>
+            </div>
+            <div style="border-top:1px solid var(--border);margin:.75rem 0;padding-top:.75rem">
+              <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">📸 Unsplash — Banque d'images</div>
               <div class="fg"><label>Clé API Unsplash (Access Key) *</label><input type="text" id="cfg-unsplash-key" placeholder="Client-ID xxxxxxxxxxxxxxx"></div>
               <div style="font-size:.7rem;color:var(--muted);margin-bottom:.5rem">Obtenez une clé gratuite sur <a href="https://unsplash.com/developers" target="_blank" style="color:var(--teal)">unsplash.com/developers</a> → New Application.</div>
             </div>
@@ -1252,34 +1262,33 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
     <div class="modal-body">
       <div class="auth-steps"><div class="auth-step-dot done" id="astep-1"></div><div class="auth-step-dot" id="astep-2"></div><div class="auth-step-dot" id="astep-3"></div></div>
 
-      <!-- Screen 1: Phone entry -->
+      <!-- Screen 1: Email entry -->
       <div class="auth-screen active" id="auth-s1">
-        <div class="auth-avatar">📱</div>
-        <div class="auth-title">Connexion via WhatsApp</div>
-        <div class="auth-sub">Entrez votre numéro WhatsApp. Nous vous envoyons un code de confirmation.</div>
-        <input class="auth-input" type="tel" id="auth-phone" placeholder="+243 8XX XXX XXX" onkeydown="if(event.key==='Enter')sendWACode()">
-        <button class="auth-wa-btn" onclick="sendWACode()">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Recevoir le code sur WhatsApp
+        <div class="auth-avatar">✉️</div>
+        <div class="auth-title">Connexion par email</div>
+        <div class="auth-sub">Entrez votre adresse email. Nous vous envoyons un code de confirmation à 6 chiffres.</div>
+        <input class="auth-input" type="email" id="auth-email" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')sendEmailCode()">
+        <button class="auth-wa-btn" onclick="sendEmailCode()" style="background:var(--teal)">
+          ✉️ &nbsp;Recevoir le code par email
         </button>
-        <div class="auth-link" onclick="openModal('auth-overlay')">Déjà un compte ? <span>Connexion</span></div>
       </div>
 
       <!-- Screen 2: Code verification -->
       <div class="auth-screen" id="auth-s2">
         <div class="auth-avatar">🔐</div>
         <div class="auth-title">Code de vérification</div>
-        <div class="auth-sub" id="auth-code-sub">Entrez le code à 6 chiffres envoyé sur votre WhatsApp.</div>
+        <div class="auth-sub" id="auth-code-sub">Entrez le code à 6 chiffres envoyé sur votre email.</div>
         <div class="auth-code-inputs" id="auth-code-inputs">
-          <input type="text" maxlength="1" oninput="codeNext(this,0)" onkeydown="codePrev(event,this)">
-          <input type="text" maxlength="1" oninput="codeNext(this,1)" onkeydown="codePrev(event,this)">
-          <input type="text" maxlength="1" oninput="codeNext(this,2)" onkeydown="codePrev(event,this)">
-          <input type="text" maxlength="1" oninput="codeNext(this,3)" onkeydown="codePrev(event,this)">
-          <input type="text" maxlength="1" oninput="codeNext(this,4)" onkeydown="codePrev(event,this)">
-          <input type="text" maxlength="1" oninput="codeNext(this,5)" onkeydown="codePrev(event,this)">
+          <input type="text" maxlength="1" inputmode="numeric" oninput="codeNext(this,0)" onkeydown="codePrev(event,this)">
+          <input type="text" maxlength="1" inputmode="numeric" oninput="codeNext(this,1)" onkeydown="codePrev(event,this)">
+          <input type="text" maxlength="1" inputmode="numeric" oninput="codeNext(this,2)" onkeydown="codePrev(event,this)">
+          <input type="text" maxlength="1" inputmode="numeric" oninput="codeNext(this,3)" onkeydown="codePrev(event,this)">
+          <input type="text" maxlength="1" inputmode="numeric" oninput="codeNext(this,4)" onkeydown="codePrev(event,this)">
+          <input type="text" maxlength="1" inputmode="numeric" oninput="codeNext(this,5)" onkeydown="codePrev(event,this)">
         </div>
-        <button class="auth-btn" onclick="verifyCode()">Vérifier</button>
-        <div class="auth-link" onclick="showAuthScreen(1)">← Changer de numéro</div>
+        <button class="auth-btn" onclick="verifyCode()">Vérifier →</button>
+        <div class="auth-link" onclick="showAuthScreen(1)">← Changer d'adresse email</div>
+        <div class="auth-link" style="margin-top:.25rem;font-size:.72rem;color:var(--muted)" onclick="resendCode()">Renvoyer le code</div>
       </div>
 
       <!-- Screen 3: Logged in -->
@@ -2733,6 +2742,14 @@ function saveConfig(){
   const sbKey    = document.getElementById('cfg-sb-key').value.trim();
   const unsplash = document.getElementById('cfg-unsplash-key').value.trim();
 
+  const ejsPublic  = document.getElementById('cfg-ejs-public')?.value.trim();
+  const ejsService = document.getElementById('cfg-ejs-service')?.value.trim();
+  const ejsTemplate= document.getElementById('cfg-ejs-template')?.value.trim();
+  if(ejsPublic)  { EMAILJS_PUBLIC_KEY=ejsPublic;   localStorage.setItem('ejs_public_key',ejsPublic); }
+  if(ejsService) { EMAILJS_SERVICE_ID=ejsService;  localStorage.setItem('ejs_service_id',ejsService); }
+  if(ejsTemplate){ EMAILJS_TEMPLATE_ID=ejsTemplate;localStorage.setItem('ejs_template_id',ejsTemplate); }
+  initEmailJS();
+
   const shipping= parseInt(document.getElementById('cfg-shipping')?.value)||0;
   applyShippingFee(shipping);
 
@@ -2813,6 +2830,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
   // Apply saved logo if any
   const savedLogo=localStorage.getItem('site_logo');
   if(savedLogo) applyLogo(savedLogo);
+  // Init EmailJS if configured
+  initEmailJS();
 });
 
 // ══ SEARCH ══
@@ -2889,8 +2908,6 @@ function showToast(msg){
 
 // ── AUTH STATE ──
 let currentUser = null;
-let authOTP = '';
-let authPhoneTemp = '';
 const mockClients = [
   {name:'Jean-Pierre Mbemba',phone:'+243 81 234 5678',city:'Kinshasa',orders:3,initials:'JM'},
   {name:'Marie Kabila',phone:'+243 99 876 5432',city:'Lubumbashi',orders:1,initials:'MK'},
@@ -2909,114 +2926,145 @@ function showAuthScreen(n){
     document.getElementById('astep-'+i).classList.toggle('done',i<=n);
   }
 }
-// ══ WHATSAPP AUTH ══
-function normalizePhone(phone){
-  let p = phone.replace(/[\s\-().]/g,'');
-  if(p.startsWith('0')) p = '243'+p.slice(1);
-  if(!p.startsWith('+')) p = '+'+p;
-  return p;
+// ══ EMAIL OTP AUTH ══
+let authEmailTemp = '';
+let authOTP = '';
+
+// EmailJS config — set these in ⚙️ Config
+let EMAILJS_PUBLIC_KEY  = localStorage.getItem('ejs_public_key') || '';
+let EMAILJS_SERVICE_ID  = localStorage.getItem('ejs_service_id') || '';
+let EMAILJS_TEMPLATE_ID = localStorage.getItem('ejs_template_id') || '';
+
+function initEmailJS(){
+  if(EMAILJS_PUBLIC_KEY && typeof emailjs !== 'undefined'){
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  }
 }
 
-async function sendWACode(){
-  const rawPhone = document.getElementById('auth-phone').value.trim();
-  if(!rawPhone||rawPhone.length<8){ showToast('⚠️ Entrez un numéro valide.'); return; }
-  const phone = normalizePhone(rawPhone);
-  authPhoneTemp = phone;
-  authOTP = String(Math.floor(100000+Math.random()*900000));
+async function sendEmailCode(){
+  const email = document.getElementById('auth-email')?.value.trim().toLowerCase();
+  if(!email || !email.includes('@')){ showToast('⚠️ Entrez une adresse email valide.'); return; }
+  authEmailTemp = email;
+  authOTP = String(Math.floor(100000 + Math.random() * 900000));
 
   // Save OTP to Supabase with 10-min expiry
   const sb = getSB();
   if(sb){
     try{
       await sb.from('otp_codes').upsert([{
-        phone, code: authOTP,
-        expires_at: new Date(Date.now()+10*60*1000).toISOString()
-      }],{onConflict:'phone'});
-    }catch(e){ console.warn('OTP save:',e); }
+        phone: email, // reusing phone column as identifier
+        code: authOTP,
+        expires_at: new Date(Date.now() + 10*60*1000).toISOString()
+      }], {onConflict:'phone'});
+    }catch(e){ console.warn('OTP save:', e); }
   }
 
-  // Show code clearly on screen
-  document.getElementById('auth-code-sub').innerHTML =
-    'Votre code de vérification pour <strong>'+phone+'</strong> :<br>'+
-    '<div style="display:inline-flex;gap:.35rem;margin:.75rem 0">'+
-      authOTP.split('').map(d=>
-        '<span style="width:2.2rem;height:2.8rem;background:var(--teal-pale);border:2px solid var(--teal);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;color:var(--teal)">'+d+'</span>'
-      ).join('')+
-    '</div><br>'+
-    '<span style="font-size:.72rem;color:var(--muted)">Entrez ce code dans les cases ci-dessous. Valable 10 minutes.</span>';
+  // Send via EmailJS
+  const ejsReady = EMAILJS_PUBLIC_KEY && EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && typeof emailjs !== 'undefined';
+  if(ejsReady){
+    try{
+      showToast('⏳ Envoi du code…');
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        to_email:  email,
+        otp_code:  authOTP,
+        site_name: 'Steward & Co',
+        expires:   '10 minutes'
+      });
+      document.getElementById('auth-code-sub').innerHTML =
+        'Code envoyé à <strong>'+email+'</strong>.<br>'+
+        '<span style="font-size:.72rem;color:var(--muted)">Vérifiez vos spams si vous ne le recevez pas.</span>';
+      showAuthScreen(2);
+      document.querySelector('#auth-code-inputs input').focus();
+      showToast('✅ Code envoyé sur '+email);
+    }catch(err){
+      console.error('EmailJS error:', err);
+      showToast('❌ Échec d\'envoi. Vérifiez votre config EmailJS dans ⚙️ Config.');
+    }
+  } else {
+    // EmailJS not configured — tell admin to set it up
+    showToast('⚠️ EmailJS non configuré. Allez dans ⚙️ Config → EmailJS.');
+    if(document.getElementById('admin-overlay')?.style.display !== 'flex'){
+      showToast('⚠️ Configurez EmailJS dans ⚙️ Config du panneau admin.');
+    }
+  }
+}
 
-  showAuthScreen(2);
-  // Auto-fill the code inputs for convenience
-  const inputs = document.querySelectorAll('#auth-code-inputs input');
-  authOTP.split('').forEach((d,i)=>{ if(inputs[i]) inputs[i].value=d; });
-  showToast('🔐 Code généré — entrez-le ci-dessous');
+async function resendCode(){
+  if(!authEmailTemp){ showAuthScreen(1); return; }
+  document.getElementById('auth-email').value = authEmailTemp;
+  await sendEmailCode();
 }
 
 function codeNext(input, idx){
   input.value = input.value.replace(/[^0-9]/g,'');
   const inputs = document.querySelectorAll('#auth-code-inputs input');
   if(input.value && idx < 5) inputs[idx+1].focus();
-  if(idx===5) verifyCode();
+  if(idx === 5) verifyCode();
 }
 function codePrev(e, input){
   const inputs = document.querySelectorAll('#auth-code-inputs input');
   const idx = Array.from(inputs).indexOf(input);
-  if(e.key==='Backspace' && !input.value && idx>0) inputs[idx-1].focus();
+  if(e.key === 'Backspace' && !input.value && idx > 0) inputs[idx-1].focus();
 }
 
 async function verifyCode(){
   const inputs = document.querySelectorAll('#auth-code-inputs input');
   const entered = Array.from(inputs).map(i=>i.value).join('');
-  if(entered.length<6){ showToast('\u26a0\ufe0f Entrez les 6 chiffres.'); return; }
+  if(entered.length < 6){ showToast('⚠️ Entrez les 6 chiffres.'); return; }
 
   const sb = getSB();
   if(sb){
     try{
-      const {data,error} = await sb.from('otp_codes').select('code,expires_at').eq('phone',authPhoneTemp).maybeSingle();
+      const {data, error} = await sb.from('otp_codes')
+        .select('code,expires_at')
+        .eq('phone', authEmailTemp)
+        .maybeSingle();
       if(!error && data){
-        if(new Date(data.expires_at) < new Date()){ showToast('\u23f0 Code expir\u00e9. Recommencez.'); showAuthScreen(1); return; }
-        if(data.code !== entered){ showToast('\u274c Code incorrect.'); inputs.forEach(i=>i.value=''); inputs[0].focus(); return; }
-        await sb.from('otp_codes').delete().eq('phone',authPhoneTemp);
-        await loginUser(authPhoneTemp, sb);
-        return;
+        if(new Date(data.expires_at) < new Date()){
+          showToast('⏰ Code expiré. Cliquez sur Renvoyer.');
+          inputs.forEach(i=>i.value=''); inputs[0].focus(); return;
+        }
+        if(data.code !== entered){
+          showToast('❌ Code incorrect.'); inputs.forEach(i=>i.value=''); inputs[0].focus(); return;
+        }
+        await sb.from('otp_codes').delete().eq('phone', authEmailTemp);
+        await loginUser(authEmailTemp, sb); return;
       }
-    }catch(e){ console.warn('verifyCode:',e); }
+    }catch(e){ console.warn('verifyCode:', e); }
   }
-
-  // Fallback: local OTP check
-  if(entered === authOTP){
-    await loginUser(authPhoneTemp, null);
-  } else {
-    showToast('\u274c Code incorrect.');
-    inputs.forEach(i=>i.value=''); inputs[0].focus();
-  }
+  // Fallback if no Supabase
+  if(entered === authOTP){ await loginUser(authEmailTemp, null); }
+  else { showToast('❌ Code incorrect.'); inputs.forEach(i=>i.value=''); inputs[0].focus(); }
 }
 
-async function loginUser(phone, sb){
-  let userData = { name:'', phone, initials:phone.slice(-2).toUpperCase(), orders:[] };
+async function loginUser(email, sb){
+  let userData = { name:'', email, initials: email.slice(0,2).toUpperCase(), orders:[] };
   if(sb){
     try{
-      const {data:user} = await sb.from('users').select('*').eq('phone',phone).maybeSingle();
-      if(user){ userData.name = user.name||''; }
-      else { await sb.from('users').insert([{phone, name:'', created_at:new Date().toISOString()}]); }
-      const {data:orders} = await sb.from('orders').select('*').eq('phone',phone).order('created_at',{ascending:false});
-      if(orders) userData.orders = orders.map(o=>({id:o.order_id,name:o.items,status:o.status,date:o.order_date}));
-    }catch(e){ console.warn('loginUser:',e); }
+      const {data:user} = await sb.from('users').select('*').eq('phone', email).maybeSingle();
+      if(user){ userData.name = user.name || ''; }
+      else { await sb.from('users').insert([{phone: email, name:'', created_at: new Date().toISOString()}]); }
+      const {data:orders} = await sb.from('orders').select('*').eq('phone', email).order('created_at',{ascending:false});
+      if(orders) userData.orders = orders.map(o=>({id:o.order_id, name:o.items, status:o.status, date:o.order_date}));
+    }catch(e){ console.warn('loginUser:', e); }
   }
   currentUser = userData;
-  try{ localStorage.setItem('current_user',JSON.stringify({phone,name:userData.name})); }catch(e){}
+  try{ localStorage.setItem('current_user', JSON.stringify({email, name:userData.name})); }catch(e){}
   updateUserNav();
-  const displayName = userData.name||phone;
+  const displayName = userData.name || email;
   document.getElementById('auth-profile-row').innerHTML =
     '<div class="auth-profile-avatar">'+userData.initials+'</div>'+
-    '<div><div class="auth-profile-name">'+displayName+'</div><div class="auth-profile-phone">'+phone+'</div></div>';
+    '<div><div class="auth-profile-name">'+displayName+'</div><div class="auth-profile-phone">'+email+'</div></div>';
   document.getElementById('auth-orders-list').innerHTML = userData.orders.length
-    ? userData.orders.map(o=>'<div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.7rem 1rem;font-size:.82rem;margin-bottom:.5rem"><div style="font-weight:500">'+o.name+'</div><div style="color:var(--muted);font-size:.72rem">'+o.id+' \u00b7 '+o.status+' \u00b7 '+o.date+'</div></div>').join('')
+    ? userData.orders.map(o=>
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.7rem 1rem;font-size:.82rem;margin-bottom:.5rem">'+
+        '<div style="font-weight:500">'+o.name+'</div>'+
+        '<div style="color:var(--muted);font-size:.72rem">'+o.id+' · '+o.status+' · '+o.date+'</div></div>'
+      ).join('')
     : '<div style="font-size:.82rem;color:var(--muted);text-align:center;padding:.5rem">Aucune commande pour l\'instant.</div>';
   showAuthScreen(3);
-  showToast('\u2705 Connect\u00e9 avec succ\u00e8s !');
-  const allInputs = document.querySelectorAll('#auth-code-inputs input');
-  allInputs.forEach(i=>i.value='');
+  showToast('✅ Connecté avec succès !');
+  document.querySelectorAll('#auth-code-inputs input').forEach(i=>i.value='');
 }
 function logout(){
   currentUser = null;
@@ -3357,6 +3405,9 @@ function switchAdmin(section, btn){
   if(section==='categories')  renderAdminCategories();
   if(section==='ajouter')     renderAdminCategories();
   if(section==='config'){
+    fill('cfg-ejs-public',  EMAILJS_PUBLIC_KEY);
+    fill('cfg-ejs-service', EMAILJS_SERVICE_ID);
+    fill('cfg-ejs-template',EMAILJS_TEMPLATE_ID);
     fill('cfg-shipping',  String(SHIPPING_FC||''));
     fill('cfg-sb-url',     SUPABASE_URL);
     fill('cfg-sb-key',     SUPABASE_KEY);
