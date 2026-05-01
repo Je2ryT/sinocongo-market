@@ -795,7 +795,8 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 .supp-approve-btn{padding:.3rem .65rem;font-size:.7rem;background:#d4edda;color:#155724;border:1px solid #b7e4c7;cursor:pointer;border-radius:2px;font-family:'DM Sans',sans-serif;transition:all .15s}
 .supp-approve-btn:hover{background:#b7e4c7}
 .supp-reject-btn{padding:.3rem .65rem;font-size:.7rem;background:#f8d7da;color:#721c24;border:1px solid #f5c6cb;cursor:pointer;border-radius:2px;font-family:'DM Sans',sans-serif;transition:all .15s}
-.supp-reject-btn:hover{background:#f5c6cb}
+.review-admin-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:1rem;margin-bottom:.65rem}
+.review-admin-card:last-child{margin-bottom:0}
 .supp-pending-badge{display:inline-flex;align-items:center;gap:.35rem;background:#fff3cd;color:#856404;border:1px solid #ffeeba;font-size:.65rem;font-weight:600;padding:.15rem .5rem;border-radius:2px;margin-left:.4rem}
 </style>
 <!-- ══ SUPABASE SDK ══ -->
@@ -909,7 +910,7 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
         <button class="track-btn" onclick="trackOrder()">Rechercher</button>
       </div>
       <div class="track-result" id="track-result"></div>
-      <div class="track-demo-hint">💡 Essayez : <strong>SCM-2026-001</strong>, <strong>SCM-2026-002</strong> ou <strong>SCM-2026-003</strong></div>
+      
     </div>
   </div>
 </div>
@@ -927,7 +928,7 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
         <input class="admin-pwd-input" type="password" id="admin-pwd" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')checkAdminPwd()">
         <br>
         <button class="admin-submit" onclick="checkAdminPwd()">Accéder</button>
-        <p style="font-size:.72rem;color:var(--muted);margin-top:.75rem">Demo : <strong>admin123</strong></p>
+        
       </div>
     </div>
     <div class="admin-body" id="admin-body" style="display:none">
@@ -940,6 +941,7 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
         <div class="admin-menu-item" onclick="switchAdmin('clients',this)">👥 Clients</div>
         <div class="admin-menu-item" onclick="switchAdmin('categories',this)">🏷️ Catégories</div>
         <div class="admin-menu-item" onclick="switchAdmin('fournisseurs',this)" id="admin-menu-fournisseurs">🏭 Fournisseurs</div>
+        <div class="admin-menu-item" onclick="switchAdmin('avis',this)">⭐ Avis</div>
         <div class="admin-menu-item" onclick="switchAdmin('images',this)">🖼️ Images</div>
         <div class="admin-menu-item" onclick="switchAdmin('config',this)">⚙️ Config</div>
       </div>
@@ -1080,6 +1082,15 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
           <div class="admin-section-title">Soumissions Fabricants</div>
           <div style="font-size:.78rem;color:var(--muted);margin-bottom:1.25rem;line-height:1.6">Produits soumis par les fabricants via le portail. Approuvez pour les publier dans le catalogue, ou rejetez avec un motif.</div>
           <div id="admin-suppliers-list"></div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="admin-section" id="admin-avis">
+          <div class="admin-section-title">⭐ Gestion des avis clients</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-bottom:1rem">Les avis soumis par les clients apparaissent ici. Approuvez-les pour les publier sur le site.</div>
+          <div id="admin-reviews-list">
+            <div style="color:var(--muted);font-size:.82rem;padding:1rem">Chargement…</div>
+          </div>
         </div>
 
         <!-- Images Manager -->
@@ -1235,7 +1246,9 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
               <div style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">✉️ EmailJS — Envoi des codes OTP</div>
               <div class="fg"><label>Public Key</label><input type="text" id="cfg-ejs-public" placeholder="user_xxxxxxxxxxxxxxx"></div>
               <div class="fg"><label>Service ID</label><input type="text" id="cfg-ejs-service" placeholder="service_xxxxxxx"></div>
-              <div class="fg"><label>Template ID</label><input type="text" id="cfg-ejs-template" placeholder="template_xxxxxxx"></div>
+              <div class="fg"><label>Template ID — Connexion OTP</label><input type="text" id="cfg-ejs-template" placeholder="template_xxxxxxx"></div>
+              <div class="fg"><label>Template ID — Notification commandes 🔔</label><input type="text" id="cfg-ejs-notif" placeholder="template_xxxxxxx"></div>
+              <div class="fg"><label>Votre email admin (pour recevoir les notifications)</label><input type="email" id="cfg-admin-email" placeholder="votre@email.com"></div>
               <div id="ejs-status" style="font-size:.72rem;margin-bottom:.4rem"></div>
               <div style="font-size:.7rem;color:var(--muted)">Inscription gratuite sur <a href="https://www.emailjs.com" target="_blank" style="color:var(--teal)">emailjs.com</a> · 200 emails/mois gratuits.</div>
             </div>
@@ -1537,6 +1550,28 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
     </div>
   </div>
   <div class="reviews-grid" id="reviews-grid"></div>
+  <!-- Submit review form -->
+  <div style="margin-top:1.5rem;text-align:center">
+    <button class="btn-ghost" style="font-size:.85rem" onclick="toggleReviewForm()">✍️ Laisser un avis</button>
+  </div>
+  <div id="review-submit-form" style="display:none;margin-top:1rem;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem;max-width:520px;margin-left:auto;margin-right:auto">
+    <div style="font-weight:600;font-size:.9rem;margin-bottom:.75rem">Votre avis</div>
+    <div style="display:flex;gap:.25rem;margin-bottom:.75rem">
+      <button class="star-pick-btn" onclick="renderStarPicker(1)" style="font-size:1.4rem;background:none;border:none;cursor:pointer;color:var(--gold)">★</button>
+      <button class="star-pick-btn" onclick="renderStarPicker(2)" style="font-size:1.4rem;background:none;border:none;cursor:pointer;color:var(--gold)">★</button>
+      <button class="star-pick-btn" onclick="renderStarPicker(3)" style="font-size:1.4rem;background:none;border:none;cursor:pointer;color:var(--gold)">★</button>
+      <button class="star-pick-btn" onclick="renderStarPicker(4)" style="font-size:1.4rem;background:none;border:none;cursor:pointer;color:var(--gold)">★</button>
+      <button class="star-pick-btn" onclick="renderStarPicker(5)" style="font-size:1.4rem;background:none;border:none;cursor:pointer;color:var(--gold)">★</button>
+    </div>
+    <input type="hidden" id="review-stars-input" value="5">
+    <textarea id="review-text-input" placeholder="Décrivez votre expérience avec Steward & Co…" rows="3" style="width:100%;padding:.65rem .85rem;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.85rem;resize:vertical;outline:none;margin-bottom:.5rem"></textarea>
+    <input type="text" id="review-city-input" placeholder="Votre ville (ex: Kinshasa)" style="width:100%;padding:.55rem .85rem;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;margin-bottom:.75rem">
+    <div style="display:flex;gap:.5rem">
+      <button class="btn-gold" style="flex:1;padding:.65rem" onclick="submitReview()">Soumettre</button>
+      <button class="btn-ghost" style="padding:.65rem 1rem" onclick="closeReviewForm()">Annuler</button>
+    </div>
+    <div style="font-size:.7rem;color:var(--muted);margin-top:.5rem;text-align:center">Votre avis sera visible après validation par notre équipe.</div>
+  </div>
 </section>
 
 <!-- ══ ORDER ══ -->
@@ -1653,9 +1688,11 @@ let SUPABASE_KEY      = localStorage.getItem('sb_key')      || '';
 let CLOUDINARY_NAME   = localStorage.getItem('cld_name')    || '';
 let CLOUDINARY_PRESET = localStorage.getItem('cld_preset')  || '';
 let UNSPLASH_KEY      = localStorage.getItem('unsplash_key')|| '';
-let EMAILJS_PUBLIC_KEY  = localStorage.getItem('ejs_public_key')  || '';
-let EMAILJS_SERVICE_ID  = localStorage.getItem('ejs_service_id')  || '';
-let EMAILJS_TEMPLATE_ID = localStorage.getItem('ejs_template_id') || '';
+let EMAILJS_PUBLIC_KEY    = localStorage.getItem('ejs_public_key')      || '';
+let EMAILJS_SERVICE_ID    = localStorage.getItem('ejs_service_id')      || '';
+let EMAILJS_TEMPLATE_ID   = localStorage.getItem('ejs_template_id')     || '';
+let EMAILJS_NOTIF_TEMPLATE= localStorage.getItem('ejs_notif_template')  || '';
+let ADMIN_EMAIL           = localStorage.getItem('admin_email')          || '';
 let WA_NUMBER         = '243XXXXXXXXX';
 let FORMSPREE_ID      = 'YOUR_FORM_ID';
 let RATE              = 2800;
@@ -1695,6 +1732,7 @@ function initSupabase(){
     loadConfigFromDB().then(()=>{
       loadProductsFromDB();
       loadOrdersFromDB();
+      loadReviewsFromDB();
     });
   }
 }
@@ -1819,9 +1857,11 @@ async function loadConfigFromDB(){
     if(cfg.cldPreset) { CLOUDINARY_PRESET=cfg.cldPreset; localStorage.setItem('cld_preset',cfg.cldPreset); }
     if(cfg.unsplash)  { UNSPLASH_KEY=cfg.unsplash;       localStorage.setItem('unsplash_key',cfg.unsplash); }
     if(cfg.heroImg)   { localStorage.setItem('hero_img',cfg.heroImg); }
-    if(cfg.ejsPublic)   { EMAILJS_PUBLIC_KEY=cfg.ejsPublic;    localStorage.setItem('ejs_public_key',cfg.ejsPublic); }
-    if(cfg.ejsService)  { EMAILJS_SERVICE_ID=cfg.ejsService;   localStorage.setItem('ejs_service_id',cfg.ejsService); }
-    if(cfg.ejsTemplate) { EMAILJS_TEMPLATE_ID=cfg.ejsTemplate; localStorage.setItem('ejs_template_id',cfg.ejsTemplate); }
+    if(cfg.ejsPublic)   { EMAILJS_PUBLIC_KEY=cfg.ejsPublic;        localStorage.setItem('ejs_public_key',cfg.ejsPublic); }
+    if(cfg.ejsService)  { EMAILJS_SERVICE_ID=cfg.ejsService;       localStorage.setItem('ejs_service_id',cfg.ejsService); }
+    if(cfg.ejsTemplate) { EMAILJS_TEMPLATE_ID=cfg.ejsTemplate;     localStorage.setItem('ejs_template_id',cfg.ejsTemplate); }
+    if(cfg.ejsNotif)    { EMAILJS_NOTIF_TEMPLATE=cfg.ejsNotif;     localStorage.setItem('ejs_notif_template',cfg.ejsNotif); }
+    if(cfg.adminEmail)  { ADMIN_EMAIL=cfg.adminEmail;               localStorage.setItem('admin_email',cfg.adminEmail); }
     if(cfg.shippingFc!==undefined){ SHIPPING_FC=cfg.shippingFc; localStorage.setItem('shipping_fc',String(cfg.shippingFc)); }
     if(cfg.logoUrl)   { localStorage.setItem('site_logo',cfg.logoUrl); }
     return true;
@@ -1982,57 +2022,11 @@ const catMeta = {
   construction:{icon:'🔧',desc:'<strong>Matériaux & Construction</strong> — Outillage pro, matériaux de base pour chantiers en RDC.'},
 };
 
-// ══ DEMO ORDERS (tracking) ══
-const demoOrders = {
-  'SCM-2026-001': {
-    name:'Smartphones Android 4G × 10', client:'Jean-Pierre M.', ville:'Kinshasa',
-    date:'12 Jan 2026', status:3,
-    steps:[
-      {label:'Commande reçue',date:'12 Jan 2026'},
-      {label:'En commande chez le fabricant',date:'15 Jan 2026'},
-      {label:'Expédiée depuis la Chine',date:'24 Jan 2026'},
-      {label:'Livrée',date:'En attente'},
-    ]
-  },
-  'SCM-2026-002': {
-    name:'Set Cuisine 12 pièces × 5', client:'Marie K.', ville:'Lubumbashi',
-    date:'3 Fév 2026', status:4,
-    steps:[
-      {label:'Commande reçue',date:'3 Fév 2026'},
-      {label:'En commande chez le fabricant',date:'5 Fév 2026'},
-      {label:'Expédiée depuis la Chine',date:'14 Fév 2026'},
-      {label:'Livrée à Lubumbashi',date:'20 Mar 2026'},
-    ]
-  },
-  'SCM-2026-003': {
-    name:'Robes Femme lot 10 × 3', client:'Céleste N.', ville:'Goma',
-    date:'1 Mar 2026', status:1,
-    steps:[
-      {label:'Commande reçue',date:'1 Mar 2026'},
-      {label:'En commande chez le fabricant',date:'En cours...'},
-      {label:'Expédiée depuis la Chine',date:'—'},
-      {label:'Livrée',date:'—'},
-    ]
-  },
-};
+// ══ ORDER TRACKING — loaded from Supabase ══
 
-// ══ ADMIN MOCK ORDERS ══
-let adminOrders = [
-  {id:'SCM-2026-004',name:'Panneau Solaire 300W × 2',client:'Paul D.',ville:'Kinshasa',status:'Reçue',date:'25 Mar 2026'},
-  {id:'SCM-2026-003',name:'Robes Femme lot 10 × 3',client:'Céleste N.',ville:'Goma',status:'Commandée',date:'1 Mar 2026'},
-  {id:'SCM-2026-002',name:'Set Cuisine × 5',client:'Marie K.',ville:'Lubumbashi',status:'Expédiée',date:'3 Fév 2026'},
-  {id:'SCM-2026-001',name:'Smartphones × 10',client:'Jean-Pierre M.',ville:'Kinshasa',status:'Livrée',date:'12 Jan 2026'},
-];
+let adminOrders = []; // loaded from Supabase
 
-// ══ REVIEWS DATA ══
-const reviews = [
-  {stars:5,text:'Commande reçue en 38 jours, exactement comme promis. Les smartphones sont de très bonne qualité. Je recommande vivement Steward & Co !',name:'Jean-Pierre M.',city:'Kinshasa',initials:'JM'},
-  {stars:5,text:'J\'ai commandé 5 sets de cuisine pour mon restaurant. Qualité impeccable, prix imbattables. Le suivi WhatsApp est excellent.',name:'Marie K.',city:'Lubumbashi',initials:'MK'},
-  {stars:5,text:'Très professionnel. J\'ai reçu mon devis en moins de 24h, et la livraison était bien emballée. Aucun problème à la douane.',name:'Alexis B.',city:'Goma',initials:'AB'},
-  {stars:4,text:'Bonne expérience globale. Délai légèrement plus long que prévu (45 jours) mais la qualité des vêtements justifie l\'attente.',name:'Cécile N.',city:'Bukavu',initials:'CN'},
-  {stars:5,text:'Le panneau solaire 300W fonctionne parfaitement. Installation facile avec les câbles inclus. Prix 40% moins cher qu\'en local.',name:'David M.',city:'Kinshasa',initials:'DM'},
-  {stars:5,text:'Troisième commande avec Steward & Co. Toujours aussi fiable. Le formulaire de commande est très pratique.',name:'Sophie L.',city:'Kisangani',initials:'SL'},
-];
+let reviews = []; // loaded from Supabase
 
 // ══ STATE ══
 let currentCat = 'all';
@@ -2299,6 +2293,7 @@ async function handleFormSubmit(e){
       };
       adminOrders.unshift(inquiry);
       saveOrderToDB(inquiry).then(row=>{ if(row) inquiry.dbId=row.id; });
+      sendOrderNotification(inquiry);
       form.reset();
       showToast('✅ Demande envoyée ! Nous vous contactons sous 24–48h.');
     } else {
@@ -2458,40 +2453,61 @@ function generatePDF(){
 }
 
 // ══ ORDER TRACKING ══
-function trackOrder(){
-  const id=document.getElementById('track-input').value.trim().toUpperCase();
-  const res=document.getElementById('track-result');
-  const order=demoOrders[id];
-  if(!order){
-    res.innerHTML=`<div class="track-not-found">❌ Aucune commande trouvée pour "<strong>${id}</strong>".<br>Vérifiez le numéro sur votre confirmation.</div>`;
-    res.classList.add('visible'); return;
+async function trackOrder(){
+  const id  = document.getElementById('track-input').value.trim().toUpperCase();
+  const res = document.getElementById('track-result');
+  if(!id){ res.innerHTML='<div class="track-not-found">⚠️ Entrez un numéro de commande.</div>'; res.classList.add('visible'); return; }
+
+  // Try Supabase first
+  const sb = getSB();
+  if(sb){
+    try{
+      const {data,error} = await sb.from('orders').select('*').eq('order_id',id).maybeSingle();
+      if(!error && data){
+        const statusMap = {'Reçue':1,'Commandée':2,'Expédiée':3,'Livrée':4};
+        const statusNum = statusMap[data.status] || 1;
+        const steps = [
+          {label:'Commande reçue',         done: statusNum>=1},
+          {label:'En commande chez le fabricant', done: statusNum>=2},
+          {label:'Expédiée depuis la Chine', done: statusNum>=3},
+          {label:'Livrée',                  done: statusNum>=4},
+        ];
+        const stepsHTML = steps.map((s,i)=>{
+          const isCurrent = (i===statusNum-1);
+          const cls = s.done ? (isCurrent?'current':'done') : '';
+          const dot = s.done ? (isCurrent?'⏳':'✅') : '○';
+          return `<div class="track-step ${cls}">
+            <div class="ts-dot">${dot}</div>
+            <div class="ts-info">
+              <div class="ts-label">${s.label}</div>
+              <div class="ts-date">${isCurrent ? data.status : (s.done ? '✓' : '—')}</div>
+            </div>
+          </div>`;
+        }).join('');
+        res.innerHTML=`
+          <div class="track-order-head">
+            <div class="track-order-id">Commande ${id}</div>
+            <div class="track-order-name">${data.items||'—'}</div>
+            <div class="track-order-date">Client : ${data.client_name||'—'} · ${data.city||'—'} · Passée le ${data.order_date||'—'}</div>
+          </div>
+          <div class="track-steps">${stepsHTML}</div>`;
+        res.classList.add('visible'); return;
+      }
+    }catch(e){ console.warn('trackOrder:', e); }
   }
-  const stepsHTML=order.steps.map((s,i)=>{
-    const isDone=i<order.status;
-    const isCurrent=i===order.status-1;
-    const cls=isDone?(isCurrent?'current':'done'):'';
-    const dot=isDone?(isCurrent?'⏳':'✅'):'○';
-    return `<div class="track-step ${cls}">
-      <div class="ts-dot">${dot}</div>
-      <div class="ts-info">
-        <div class="ts-label">${s.label}</div>
-        <div class="ts-date">${s.date}</div>
-      </div>
-    </div>`;
-  }).join('');
-  res.innerHTML=`
-    <div class="track-order-head">
-      <div class="track-order-id">Commande ${id}</div>
-      <div class="track-order-name">${order.name}</div>
-      <div class="track-order-date">Client : ${order.client} · ${order.ville} · Passée le ${order.date}</div>
-    </div>
-    <div class="track-steps">${stepsHTML}</div>`;
+
+  res.innerHTML=`<div class="track-not-found">❌ Aucune commande trouvée pour "<strong>${id}</strong>".<br>Vérifiez le numéro sur votre confirmation.</div>`;
   res.classList.add('visible');
 }
 
 // ══ REVIEWS ══
 function renderReviews(){
-  document.getElementById('reviews-grid').innerHTML=reviews.map(r=>`
+  const grid = document.getElementById('reviews-grid');
+  if(!reviews.length){
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--muted);font-size:.9rem">Aucun avis pour l\'instant. Soyez le premier à laisser un avis !</div>';
+    return;
+  }
+  grid.innerHTML = reviews.map(r=>`
     <div class="review-card">
       <div class="review-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
       <div class="review-text">"${r.text}"</div>
@@ -2502,10 +2518,127 @@ function renderReviews(){
     </div>`).join('');
 }
 
+// ── Load approved reviews from Supabase ──
+async function loadReviewsFromDB(){
+  const sb=getSB(); if(!sb) return;
+  try{
+    const {data,error}=await sb.from('reviews').select('*').eq('approved',true).order('created_at',{ascending:false});
+    if(error) throw error;
+    if(data&&data.length){
+      reviews=data.map(r=>({
+        id:r.id, stars:r.stars, text:r.text,
+        name:r.author_name, city:r.city,
+        initials:r.author_name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()
+      }));
+      renderReviews();
+    }
+  }catch(e){ console.warn('loadReviewsFromDB:',e); }
+}
+
+// ── Submit a new review (customer) ──
+async function submitReview(){
+  if(!currentUser){ showToast('⚠️ Connectez-vous pour laisser un avis.'); openAuthModal(); return; }
+  const stars = parseInt(document.getElementById('review-stars-input')?.value)||5;
+  const text  = document.getElementById('review-text-input')?.value.trim();
+  const city  = document.getElementById('review-city-input')?.value.trim()||'—';
+  if(!text||text.length<10){ showToast('⚠️ Rédigez un avis d\'au moins 10 caractères.'); return; }
+  const sb=getSB();
+  if(!sb){ showToast('❌ Impossible de soumettre — base de données non connectée.'); return; }
+  try{
+    await sb.from('reviews').insert([{
+      author_name: currentUser.name||currentUser.email||currentUser.phone||'Client',
+      email: currentUser.email||currentUser.phone||'',
+      city, stars, text,
+      approved: false, // pending admin approval
+      created_at: new Date().toISOString()
+    }]);
+    document.getElementById('review-text-input').value='';
+    document.getElementById('review-city-input').value='';
+    document.getElementById('review-stars-input').value='5';
+    renderStarPicker(5);
+    closeReviewForm();
+    showToast('✅ Avis soumis — visible après approbation. Merci !');
+  }catch(e){ showToast('❌ Erreur : '+e.message); }
+}
+
+let _reviewFormOpen=false;
+function toggleReviewForm(){
+  _reviewFormOpen=!_reviewFormOpen;
+  const f=document.getElementById('review-submit-form');
+  if(f) f.style.display=_reviewFormOpen?'block':'none';
+  if(_reviewFormOpen&&!currentUser) showToast('💡 Connectez-vous pour laisser un avis.');
+}
+function closeReviewForm(){
+  _reviewFormOpen=false;
+  const f=document.getElementById('review-submit-form');
+  if(f) f.style.display='none';
+}
+function renderStarPicker(val){
+  document.querySelectorAll('.star-pick-btn').forEach((b,i)=>{
+    b.textContent = i<val ? '★' : '☆';
+    b.style.color  = i<val ? 'var(--gold)' : 'var(--muted)';
+  });
+  const inp=document.getElementById('review-stars-input');
+  if(inp) inp.value=val;
+}
+
+// ── Admin: load pending reviews ──
+async function renderAdminReviews(){
+  const sb=getSB();
+  const el=document.getElementById('admin-reviews-list');
+  if(!el) return;
+  if(!sb){ el.innerHTML='<div style="color:var(--muted);font-size:.82rem">Connectez Supabase pour gérer les avis.</div>'; return; }
+  try{
+    const {data,error}=await sb.from('reviews').select('*').order('created_at',{ascending:false});
+    if(error) throw error;
+    if(!data||!data.length){ el.innerHTML='<div style="color:var(--muted);font-size:.82rem;padding:1rem">Aucun avis pour l\'instant.</div>'; return; }
+    el.innerHTML=data.map(r=>`
+      <div class="review-admin-card" id="rvcard-${r.id}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;flex-wrap:wrap">
+          <div>
+            <span style="font-weight:600;font-size:.85rem">${r.author_name}</span>
+            <span style="color:var(--muted);font-size:.75rem"> · ${r.city} · ${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</span>
+            <span style="font-size:.68rem;margin-left:.5rem;padding:.1rem .4rem;border-radius:4px;font-weight:600;${r.approved?'background:#e6f5ec;color:#1A6B3C':'background:#fff3cd;color:#856404'}">${r.approved?'✅ Approuvé':'⏳ En attente'}</span>
+          </div>
+          <div style="font-size:.7rem;color:var(--muted)">${new Date(r.created_at).toLocaleDateString('fr-FR')}</div>
+        </div>
+        <div style="font-size:.82rem;color:var(--mid);margin:.5rem 0 .75rem">"${r.text}"</div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          ${!r.approved?`<button class="img-mgr-save-btn" onclick="approveReview('${r.id}')">✅ Approuver</button>`:''}
+          ${r.approved?`<button class="img-mgr-reset-btn" onclick="unapproveReview('${r.id}')">↩️ Retirer</button>`:''}
+          <button class="img-mgr-reset-btn" style="border-color:#e53e3e;color:#e53e3e" onclick="deleteReview('${r.id}')">🗑️ Supprimer</button>
+        </div>
+      </div>`).join('');
+  }catch(e){ el.innerHTML='<div style="color:var(--red)">Erreur : '+e.message+'</div>'; }
+}
+
+async function approveReview(id){
+  const sb=getSB(); if(!sb) return;
+  await sb.from('reviews').update({approved:true}).eq('id',id);
+  await loadReviewsFromDB();
+  renderAdminReviews();
+  showToast('✅ Avis approuvé et publié !');
+}
+async function unapproveReview(id){
+  const sb=getSB(); if(!sb) return;
+  await sb.from('reviews').update({approved:false}).eq('id',id);
+  await loadReviewsFromDB();
+  renderAdminReviews();
+  showToast('↩️ Avis retiré du site.');
+}
+async function deleteReview(id){
+  if(!confirm('Supprimer définitivement cet avis ?')) return;
+  const sb=getSB(); if(!sb) return;
+  await sb.from('reviews').delete().eq('id',id);
+  await loadReviewsFromDB();
+  renderAdminReviews();
+  showToast('🗑️ Avis supprimé.');
+}
+
 // ══ ADMIN ══
 function checkAdminPwd(){
   const pwd=document.getElementById('admin-pwd').value;
-  if(pwd==='admin123'){
+  if(pwd==='1997'){
     document.getElementById('admin-pwd-wrap').style.display='none';
     document.getElementById('admin-body').style.display='flex';
     // Activate default tab properly through consolidated switchAdmin
@@ -2749,21 +2882,27 @@ function saveConfig(){
   const sbKey    = document.getElementById('cfg-sb-key').value.trim();
   const unsplash = document.getElementById('cfg-unsplash-key').value.trim();
 
-  const ejsPublic  = (document.getElementById('cfg-ejs-public')?.value  || '').trim();
-  const ejsService = (document.getElementById('cfg-ejs-service')?.value || '').trim();
-  const ejsTemplate= (document.getElementById('cfg-ejs-template')?.value|| '').trim();
-  // Only save non-empty values — never wipe with blank
-  if(ejsPublic)  { EMAILJS_PUBLIC_KEY=ejsPublic;    localStorage.setItem('ejs_public_key',ejsPublic); }
-  if(ejsService) { EMAILJS_SERVICE_ID=ejsService;   localStorage.setItem('ejs_service_id',ejsService); }
-  if(ejsTemplate){ EMAILJS_TEMPLATE_ID=ejsTemplate; localStorage.setItem('ejs_template_id',ejsTemplate); }
+  const ejsPublic   = (document.getElementById('cfg-ejs-public')?.value   || '').trim();
+  const ejsService  = (document.getElementById('cfg-ejs-service')?.value  || '').trim();
+  const ejsTemplate = (document.getElementById('cfg-ejs-template')?.value || '').trim();
+  const ejsNotif    = (document.getElementById('cfg-ejs-notif')?.value    || '').trim();
+  const adminEmail  = (document.getElementById('cfg-admin-email')?.value  || '').trim();
+  if(ejsPublic)   { EMAILJS_PUBLIC_KEY=ejsPublic;       localStorage.setItem('ejs_public_key',ejsPublic); }
+  if(ejsService)  { EMAILJS_SERVICE_ID=ejsService;      localStorage.setItem('ejs_service_id',ejsService); }
+  if(ejsTemplate) { EMAILJS_TEMPLATE_ID=ejsTemplate;    localStorage.setItem('ejs_template_id',ejsTemplate); }
+  if(ejsNotif)    { EMAILJS_NOTIF_TEMPLATE=ejsNotif;    localStorage.setItem('ejs_notif_template',ejsNotif); }
+  if(adminEmail)  { ADMIN_EMAIL=adminEmail;              localStorage.setItem('admin_email',adminEmail); }
   initEmailJS();
   const ejsStatus = document.getElementById('ejs-status');
   if(ejsStatus){
     if(EMAILJS_PUBLIC_KEY && EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID){
-      ejsStatus.innerHTML='\u2705 EmailJS configur\u00e9 — envoi d\'emails activ\u00e9';
-      ejsStatus.style.color='var(--green)';
+      const notifOk = EMAILJS_NOTIF_TEMPLATE && ADMIN_EMAIL;
+      ejsStatus.innerHTML = notifOk
+        ? '\u2705 EmailJS configur\u00e9 \u00b7 \ud83d\udd14 Notifications commandes activ\u00e9es'
+        : '\u2705 EmailJS configur\u00e9 \u00b7 \u26a0\ufe0f Ajoutez le template notification + email admin pour les alertes';
+      ejsStatus.style.color = notifOk ? 'var(--green)' : 'var(--teal)';
     } else {
-      ejsStatus.innerHTML='\u26a0\ufe0f Incomplet — remplissez les 3 champs';
+      ejsStatus.innerHTML='\u26a0\ufe0f Incomplet \u2014 remplissez au minimum les 3 premiers champs';
       ejsStatus.style.color='var(--terracotta)';
     }
   }
@@ -2788,7 +2927,9 @@ function saveConfig(){
     logoUrl:localStorage.getItem('site_logo')||'',
     ejsPublic:ejsPublic||EMAILJS_PUBLIC_KEY,
     ejsService:ejsService||EMAILJS_SERVICE_ID,
-    ejsTemplate:ejsTemplate||EMAILJS_TEMPLATE_ID};
+    ejsTemplate:ejsTemplate||EMAILJS_TEMPLATE_ID,
+    ejsNotif:ejsNotif||EMAILJS_NOTIF_TEMPLATE,
+    adminEmail:adminEmail||ADMIN_EMAIL};
   saveConfigToDB(cfg);
 
   const status=document.getElementById('cld-status');
@@ -2825,6 +2966,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
   fill('cfg-ejs-public',  EMAILJS_PUBLIC_KEY);
   fill('cfg-ejs-service', EMAILJS_SERVICE_ID);
   fill('cfg-ejs-template',EMAILJS_TEMPLATE_ID);
+  fill('cfg-ejs-notif',   EMAILJS_NOTIF_TEMPLATE);
+  fill('cfg-admin-email', ADMIN_EMAIL);
   fill('cfg-wa',        localStorage.getItem('wa_number')||'');
   fill('cfg-rate',      localStorage.getItem('rate')||'');
   fill('cfg-form',      localStorage.getItem('formspree_id')||'');
@@ -2933,11 +3076,7 @@ function showToast(msg){
 
 // ── AUTH STATE ──
 let currentUser = null;
-const mockClients = [
-  {name:'Jean-Pierre Mbemba',phone:'+243 81 234 5678',city:'Kinshasa',orders:3,initials:'JM'},
-  {name:'Marie Kabila',phone:'+243 99 876 5432',city:'Lubumbashi',orders:1,initials:'MK'},
-  {name:'Alexis Bongo',phone:'+243 82 111 2233',city:'Goma',orders:2,initials:'AB'},
-];
+let clients = []; // loaded from Supabase
 
 function openAuthModal(){
   if(currentUser){showAuthScreen(3);}
@@ -2959,6 +3098,25 @@ function initEmailJS(){
   if(EMAILJS_PUBLIC_KEY && typeof emailjs !== 'undefined'){
     emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
   }
+}
+
+// ── Send order notification email to admin ──
+async function sendOrderNotification(order){
+  const ready = EMAILJS_PUBLIC_KEY && EMAILJS_SERVICE_ID && EMAILJS_NOTIF_TEMPLATE && ADMIN_EMAIL && typeof emailjs !== 'undefined';
+  if(!ready) return; // silently skip if not configured
+  try{
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_NOTIF_TEMPLATE, {
+      to_email:     ADMIN_EMAIL,
+      order_id:     order.id,
+      order_items:  order.name,
+      order_client: order.client || 'Client',
+      order_city:   order.ville  || '—',
+      order_total:  order.totalFC ? formatPrice(order.totalFC) : '—',
+      order_date:   order.date,
+      order_phone:  order.phone  || '—',
+      site_name:    'Steward & Co'
+    });
+  }catch(e){ console.warn('Order notification email failed:', e); }
 }
 
 async function sendEmailCode(){
@@ -3157,6 +3315,7 @@ function processPayment(){
     const newOrder={id:orderId,name:cart.map(c=>c.name+' × '+c.qty).join(', '),client:currentUser?currentUser.name:'Client',ville:'—',status:'Reçue',date:new Date().toLocaleDateString('fr-FR'),totalFC:cartTotal(),phone:currentUser?.phone||null};
     adminOrders.unshift(newOrder);
     saveOrderToDB(newOrder).then(row=>{ if(row) newOrder.dbId=row.id; });
+    sendOrderNotification(newOrder);
     cart=[];updateCartBadge();renderCart();
   }, 4500);
   // NOTE: In production, integrate Flutterwave like:
@@ -3242,7 +3401,7 @@ function renderDashboard(){
   const totalRevenue = adminOrders.reduce((_,o)=>_+250000,0);
   document.getElementById('ds-revenue').textContent = formatPrice(totalRevenue);
   document.getElementById('ds-orders').textContent = adminOrders.length;
-  document.getElementById('ds-clients').textContent = mockClients.length;
+  document.getElementById('ds-clients').textContent = clients.length || adminOrders.map(o=>o.client).filter((v,i,a)=>a.indexOf(v)===i).length;
   document.getElementById('ds-products').textContent = allProducts.length;
   // Bar chart — monthly orders
   const months = ['Jan','Fév','Mar','Avr','Mai','Jun'];
@@ -3273,7 +3432,7 @@ function renderDashboard(){
 function renderAdminClients(){
   const el = document.getElementById('admin-clients-list');
   if(!el) return;
-  el.innerHTML = mockClients.map(c=>`
+  el.innerHTML = (clients.length ? clients : []).map(c=>`
     <div class="client-row">
       <div class="client-av">${c.initials}</div>
       <div class="client-info">
@@ -3428,6 +3587,8 @@ function switchAdmin(section, btn){
     fill('cfg-ejs-public',  EMAILJS_PUBLIC_KEY);
     fill('cfg-ejs-service', EMAILJS_SERVICE_ID);
     fill('cfg-ejs-template',EMAILJS_TEMPLATE_ID);
+    fill('cfg-ejs-notif',   EMAILJS_NOTIF_TEMPLATE);
+    fill('cfg-admin-email', ADMIN_EMAIL);
     const ejsSt=document.getElementById('ejs-status');
     if(ejsSt){
       if(EMAILJS_PUBLIC_KEY&&EMAILJS_SERVICE_ID&&EMAILJS_TEMPLATE_ID){
@@ -3451,6 +3612,7 @@ function switchAdmin(section, btn){
     const cldStatus=document.getElementById('cld-status');
     if(cldStatus) cldStatus.innerHTML=CLOUDINARY_NAME&&CLOUDINARY_PRESET?'✅ Cloudinary configuré':'⚠️ Non configuré';
   }
+  if(section==='avis')       renderAdminReviews();
   if(section==='images')     { renderImgManager(); renderSlideshowManager(); document.getElementById('hero-save-btn')?.style && (document.getElementById('hero-save-btn').style.display='none'); _heroFilePending=null; }
 }
 
@@ -3777,7 +3939,7 @@ function mfgRegister(){
   mfgDataTemp = {company, city, specialty, phone};
   mfgPhoneTemp = phone;
   mfgOTP = String(Math.floor(100000+Math.random()*900000));
-  document.getElementById('mfg-code-sub').textContent = `Code envoyé au ${phone}. (Démo : ${mfgOTP})`;
+  document.getElementById('mfg-code-sub').textContent = `Code de vérification généré pour ${phone}. Entrez-le ci-dessous.`;
   showMfgScreen(2);
   setTimeout(()=>document.querySelector('#mfg-code-inputs input').focus(), 100);
   const msg = `Votre code de vérification Steward & Co Fabricants : *${mfgOTP}*\n\nValable 10 minutes. Ne partagez pas ce code.`;
@@ -3801,7 +3963,7 @@ function mfgVerifyCode(){
   const inputs = document.querySelectorAll('#mfg-code-inputs input');
   const entered = Array.from(inputs).map(i=>i.value).join('');
   if(entered.length<6){showToast('⚠️ Entrez les 6 chiffres.');return;}
-  if(entered === mfgOTP || entered === '123456'){
+  if(entered === mfgOTP){
     currentMfg = {
       id: 'MFG-'+Date.now().toString(36).toUpperCase(),
       company: mfgDataTemp.company || 'Mon Entreprise',
