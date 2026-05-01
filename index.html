@@ -14,7 +14,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Steward">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --teal:#1D6B68;--teal-l:#2D8A87;--teal-pale:#EDF7F6;
@@ -33,7 +33,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark);ove
 nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;border-bottom:1px solid var(--border);gap:1.5rem}
 .logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;flex-shrink:0}
 .logo-badge{width:34px;height:34px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#fff;letter-spacing:.02em;flex-shrink:0}
-.logo-text .logo-name{font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:700;color:var(--dark);line-height:1.2}
+.logo-text .logo-name{font-family:'Cormorant Garant',serif;font-size:.95rem;font-weight:700;color:var(--dark);line-height:1.2}
 .logo-text .logo-sub{font-size:.58rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
 .nav-links-center{display:flex;align-items:center;gap:1.75rem;margin:0 auto}
 .nav-page-link{font-size:.88rem;font-weight:500;color:var(--mid);text-decoration:none;transition:color .2s;cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;padding:0}
@@ -75,7 +75,7 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .cart-drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);background:var(--white);z-index:501;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
 .cart-drawer.open{transform:translateX(0)}
 .cart-head{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);background:var(--dark)}
-.cart-head-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--gold)}
+.cart-head-title{font-family:'Cormorant Garant',serif;font-size:1.1rem;font-weight:700;color:var(--gold)}
 .cart-close{background:none;border:none;color:#aaa;font-size:1.4rem;cursor:pointer;line-height:1;padding:.1rem .3rem;transition:color .2s}
 .cart-close:hover{color:var(--gold)}
 .cart-items{flex:1;overflow-y:auto;padding:1rem 1.5rem}
@@ -94,12 +94,12 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .qty-val{font-size:.82rem;font-weight:500;min-width:20px;text-align:center}
 .ci-remove{background:none;border:none;color:var(--muted);font-size:.75rem;cursor:pointer;margin-left:auto;transition:color .2s;padding:.2rem}
 .ci-remove:hover{color:var(--red)}
-.ci-price{font-family:'Playfair Display',serif;font-size:.88rem;font-weight:700;color:var(--dark);margin-top:.3rem}
+.ci-price{font-family:'Cormorant Garant',serif;font-size:.88rem;font-weight:700;color:var(--dark);margin-top:.3rem}
 .cart-foot{padding:1.25rem 1.5rem;border-top:1px solid var(--border);background:var(--bg)}
 .cart-total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1rem}
 .cart-total-label{font-size:.82rem;color:var(--muted)}
-.cart-total-val{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--dark)}
-.cart-checkout-btn{width:100%;padding:.9rem;background:var(--dark);color:var(--gold);border:none;font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;text-transform:uppercase;border-radius:var(--radius)}
+.cart-total-val{font-family:'Cormorant Garant',serif;font-size:1.3rem;font-weight:700;color:var(--dark)}
+.cart-checkout-btn{width:100%;padding:.9rem;background:var(--dark);color:var(--gold);border:none;font-family:'Cormorant Garant',serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;text-transform:uppercase;border-radius:var(--radius)}
 .cart-checkout-btn:hover{background:var(--gold);color:var(--dark)}
 .cart-pdf-btn{width:100%;margin-top:.6rem;padding:.75rem;background:var(--gold-pale);color:var(--dark);border:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;border-radius:var(--radius);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.5rem}
 .cart-pdf-btn:hover{background:var(--gold);border-color:var(--gold)}
@@ -120,7 +120,7 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .modal-overlay.open{display:flex}
 .modal{background:var(--white);border-radius:4px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;display:flex;flex-direction:column}
 .modal-head{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);background:var(--dark);flex-shrink:0}
-.modal-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--gold)}
+.modal-title{font-family:'Cormorant Garant',serif;font-size:1.05rem;font-weight:700;color:var(--gold)}
 .modal-x{background:none;border:none;color:#aaa;font-size:1.3rem;cursor:pointer;transition:color .2s;line-height:1}
 .modal-x:hover{color:var(--gold)}
 .modal-body{padding:1.75rem}
@@ -135,7 +135,7 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .track-result.visible{display:block}
 .track-order-head{background:var(--gold-pale);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.25rem}
 .track-order-id{font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem}
-.track-order-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--dark)}
+.track-order-name{font-family:'Cormorant Garant',serif;font-size:1rem;font-weight:700;color:var(--dark)}
 .track-order-date{font-size:.75rem;color:var(--muted);margin-top:.2rem}
 .track-steps{display:flex;flex-direction:column;gap:0}
 .track-step{display:flex;gap:1rem;align-items:flex-start;padding:.75rem 0;position:relative}
@@ -163,7 +163,7 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .review-name{font-size:.82rem;font-weight:500;color:var(--dark)}
 .review-city{font-size:.7rem;color:var(--muted)}
 .reviews-summary{display:flex;align-items:center;gap:1.5rem;margin-bottom:2.5rem;flex-wrap:wrap}
-.rating-big{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:var(--dark);line-height:1}
+.rating-big{font-family:'Cormorant Garant',serif;font-size:3rem;font-weight:900;color:var(--dark);line-height:1}
 .rating-stars-big{color:var(--gold);font-size:1.1rem;margin-bottom:.2rem}
 .rating-count{font-size:.78rem;color:var(--muted)}
 
@@ -172,7 +172,7 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .admin-overlay.open{display:flex}
 .admin-modal{background:var(--white);border-radius:4px;width:100%;max-width:700px;max-height:92vh;display:flex;flex-direction:column}
 .admin-head{background:var(--dark);padding:1.1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold);flex-shrink:0}
-.admin-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--gold)}
+.admin-title{font-family:'Cormorant Garant',serif;font-size:1rem;font-weight:700;color:var(--gold)}
 .admin-body{display:flex;flex:1;overflow:hidden}
 .admin-sidebar{width:160px;background:var(--bg);border-right:1px solid var(--border);flex-shrink:0;padding:.75rem 0}
 .admin-menu-item{display:flex;align-items:center;gap:.6rem;padding:.65rem 1rem;font-size:.8rem;cursor:pointer;color:var(--muted);transition:all .15s;border-left:2px solid transparent}
@@ -181,7 +181,7 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .admin-content{flex:1;overflow-y:auto;padding:1.5rem}
 .admin-section{display:none}
 .admin-section.active{display:block}
-.admin-section-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:1.25rem;color:var(--dark)}
+.admin-section-title{font-family:'Cormorant Garant',serif;font-size:1.1rem;font-weight:700;margin-bottom:1.25rem;color:var(--dark)}
 .admin-form .fg{margin-bottom:.85rem}
 .admin-form label{display:block;font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);margin-bottom:.3rem;font-weight:500}
 .admin-form input,.admin-form select,.admin-form textarea{width:100%;padding:.6rem .85rem;border:1px solid var(--border);background:var(--white);font-family:'DM Sans',sans-serif;font-size:.85rem;color:var(--dark);outline:none;transition:border-color .2s;border-radius:var(--radius);-webkit-appearance:none;appearance:none}
@@ -229,7 +229,7 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .hero-text{position:relative;z-index:2}
 .hero-text{padding:5rem 4rem 5rem 5rem;position:relative;z-index:2}
 .hero-pill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(29,107,104,.18);border:1px solid rgba(29,107,104,.4);color:var(--teal-pale);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;padding:.3rem .85rem;border-radius:20px;margin-bottom:2rem;animation:up .7s ease both}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:900;line-height:1.07;color:#fff;animation:up .7s .12s ease both}
+.hero h1{font-family:'Cormorant Garant',serif;font-size:clamp(2.8rem,5vw,4.8rem);font-weight:700;line-height:1.05;color:#fff;animation:up .7s .12s ease both;letter-spacing:-.01em}
 .hero h1 em{color:var(--gold);font-style:normal}
 .hero-sub{margin-top:1.4rem;font-size:1rem;font-weight:300;color:#aaa;line-height:1.75;max-width:420px;animation:up .7s .24s ease both}
 .hero-actions{margin-top:2.2rem;display:flex;gap:.9rem;flex-wrap:wrap;animation:up .7s .36s ease both}
@@ -242,7 +242,7 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .route-header{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;text-align:center}
 .route-node{display:flex;align-items:center;gap:1rem;padding:.9rem 0}
 .route-flag{font-size:1.6rem;width:40px;text-align:center}
-.route-city{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:#fff}
+.route-city{font-family:'Cormorant Garant',serif;font-size:1rem;font-weight:700;color:#fff}
 .route-sub{font-size:.72rem;color:#888;margin-top:.1rem}
 .route-connector{display:flex;align-items:center;padding:.4rem 0 .4rem 1.1rem;gap:.75rem}
 .route-dots{display:flex;flex-direction:column;gap:4px}
@@ -250,20 +250,20 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .route-arrow-label{font-size:.68rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase}
 .route-stats{margin-top:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:.75rem;border-top:1px solid rgba(29,107,104,.15);padding-top:1.5rem}
 .rstat{text-align:center}
-.rstat-n{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--gold)}
+.rstat-n{font-family:'Cormorant Garant',serif;font-size:1.3rem;font-weight:700;color:var(--gold)}
 .rstat-l{font-size:.65rem;color:#888;letter-spacing:.08em;text-transform:uppercase;margin-top:.1rem}
 
 /* ── STATS BAR ── */
 .stats-bar{background:var(--gold);display:flex;justify-content:center}
 .stat-item{flex:1;max-width:220px;padding:1.3rem 1.5rem;text-align:center;border-right:1px solid rgba(26,26,26,.15)}
 .stat-item:last-child{border-right:none}
-.stat-n{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;color:var(--dark)}
+.stat-n{font-family:'Cormorant Garant',serif;font-size:1.8rem;font-weight:900;color:var(--dark)}
 .stat-l{font-size:.7rem;font-weight:500;color:rgba(26,26,26,.6);letter-spacing:.09em;text-transform:uppercase;margin-top:.15rem}
 
 /* ── SHARED ── */
 .section{padding:5rem}
 .s-tag{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:.6rem}
-.s-title{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,3vw,2.4rem);font-weight:700;color:var(--dark);line-height:1.2}
+.s-title{font-family:'Cormorant Garant',serif;font-size:clamp(1.7rem,3vw,2.4rem);font-weight:700;color:var(--dark);line-height:1.2}
 .s-title em{color:var(--gold);font-style:normal}
 
 /* ── CATALOGUE ── */
@@ -403,14 +403,14 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .steps{margin-top:3.5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;position:relative}
 .steps::before{content:'';position:absolute;top:27px;left:12.5%;right:12.5%;height:1px;background:rgba(29,107,104,.2)}
 .step{text-align:center;position:relative;z-index:1}
-.step-n{width:54px;height:54px;margin:0 auto 1.4rem;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--gold);background:var(--dark)}
+.step-n{width:54px;height:54px;margin:0 auto 1.4rem;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garant',serif;font-size:1.2rem;font-weight:700;color:var(--gold);background:var(--dark)}
 .step-t{color:#fff;font-weight:500;font-size:.9rem;margin-bottom:.5rem}
 .step-d{color:#888;font-size:.78rem;line-height:1.65}
 
 /* ── ORDER ── */
 .order-section{background:var(--white)}
 .order-wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:5rem;margin-top:3rem;align-items:start}
-.order-left h3{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;margin-bottom:1rem}
+.order-left h3{font-family:'Cormorant Garant',serif;font-size:1.35rem;font-weight:700;margin-bottom:1rem}
 .order-left p{font-size:.88rem;color:var(--muted);line-height:1.75;margin-bottom:1.2rem}
 .contact-items{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.8rem}
 .c-item{display:flex;align-items:center;gap:.8rem;font-size:.84rem;color:var(--mid)}
@@ -418,7 +418,7 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .trust-row{display:flex;gap:.75rem;flex-wrap:wrap}
 .trust-pill{display:flex;align-items:center;gap:.4rem;border:1px solid var(--border);padding:.4rem .85rem;font-size:.73rem;color:var(--mid);border-radius:2px}
 .form-box{background:var(--bg);border:1px solid var(--border);padding:2.5rem;border-radius:var(--radius)}
-.form-head{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:1.8rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.form-head{font-family:'Cormorant Garant',serif;font-size:1.1rem;font-weight:700;margin-bottom:1.8rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
 .cart-summary-box{background:var(--gold-pale);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;margin-bottom:1.2rem;display:none}
 .cart-summary-box.visible{display:block}
 .csb-title{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:.6rem;font-weight:500}
@@ -430,7 +430,7 @@ nav{position:sticky;top:0;z-index:300;background:#fff;height:64px;display:flex;a
 .fg input,.fg select,.fg textarea{width:100%;padding:.7rem 1rem;border:1px solid var(--border);background:var(--white);font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--dark);outline:none;transition:border-color .2s;border-radius:var(--radius);-webkit-appearance:none;appearance:none}
 .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold)}
 .fg textarea{resize:vertical;min-height:100px}
-.form-submit{width:100%;padding:.95rem;background:var(--dark);color:var(--gold);border:none;font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;text-transform:uppercase;border-radius:var(--radius);margin-top:.4rem}
+.form-submit{width:100%;padding:.95rem;background:var(--dark);color:var(--gold);border:none;font-family:'Cormorant Garant',serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;text-transform:uppercase;border-radius:var(--radius);margin-top:.4rem}
 .form-submit:hover{background:var(--gold);color:var(--dark)}
 .form-note{font-size:.73rem;color:var(--muted);text-align:center;margin-top:.7rem}
 .form-wa-alt{display:flex;align-items:center;gap:.6rem;margin-top:.9rem;padding:.8rem 1rem;background:var(--green-l);border:1px solid #b7e4c7;border-radius:var(--radius);cursor:pointer;transition:background .2s;text-decoration:none}
@@ -600,11 +600,11 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 .auth-screen{display:none}
 .auth-screen.active{display:block}
 .auth-avatar{width:56px;height:56px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 1rem}
-.auth-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;text-align:center;margin-bottom:.4rem}
+.auth-title{font-family:'Cormorant Garant',serif;font-size:1.1rem;font-weight:700;text-align:center;margin-bottom:.4rem}
 .auth-sub{font-size:.82rem;color:var(--muted);text-align:center;margin-bottom:1.5rem;line-height:1.5}
 .auth-input{width:100%;padding:.75rem 1rem;border:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:.9rem;border-radius:var(--radius);outline:none;transition:border-color .2s;text-align:center}
 .auth-input:focus{border-color:var(--gold)}
-.auth-btn{width:100%;padding:.85rem;background:var(--dark);color:var(--gold);border:none;font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;cursor:pointer;border-radius:var(--radius);transition:all .2s;margin-top:.75rem;text-transform:uppercase;letter-spacing:.07em}
+.auth-btn{width:100%;padding:.85rem;background:var(--dark);color:var(--gold);border:none;font-family:'Cormorant Garant',serif;font-size:.9rem;font-weight:700;cursor:pointer;border-radius:var(--radius);transition:all .2s;margin-top:.75rem;text-transform:uppercase;letter-spacing:.07em}
 .auth-btn:hover{background:var(--gold);color:var(--dark)}
 .auth-wa-btn{width:100%;padding:.8rem;background:#25D366;color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;cursor:pointer;border-radius:var(--radius);transition:background .2s;display:flex;align-items:center;justify-content:center;gap:.6rem;margin-top:.6rem}
 .auth-wa-btn:hover{background:#1ebe5a}
@@ -625,8 +625,8 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 /* ── PAYMENT MODAL ── */
 .pay-modal{max-width:500px}
 .pay-prod-summary{background:var(--gold-pale);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;margin-bottom:1.5rem}
-.pay-prod-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:.25rem}
-.pay-prod-total{font-size:1.4rem;font-weight:700;color:var(--dark);font-family:'Playfair Display',serif}
+.pay-prod-name{font-family:'Cormorant Garant',serif;font-size:1rem;font-weight:700;margin-bottom:.25rem}
+.pay-prod-total{font-size:1.4rem;font-weight:700;color:var(--dark);font-family:'Cormorant Garant',serif}
 .pay-prod-total span{font-size:.8rem;font-weight:400;color:var(--muted);font-family:'DM Sans',sans-serif}
 .pay-methods{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-bottom:1.25rem}
 .pay-method-btn{border:2px solid var(--border);background:var(--white);padding:.8rem .5rem;border-radius:var(--radius);cursor:pointer;text-align:center;transition:all .2s}
@@ -638,7 +638,7 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 .pay-phone-field label{display:block;font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);margin-bottom:.38rem;font-weight:500}
 .pay-phone-field input{width:100%;padding:.7rem 1rem;border:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:.9rem;border-radius:var(--radius);outline:none;transition:border-color .2s}
 .pay-phone-field input:focus{border-color:var(--gold)}
-.pay-confirm-btn{width:100%;padding:.95rem;background:var(--green);color:#fff;border:none;font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;cursor:pointer;border-radius:var(--radius);transition:all .2s;text-transform:uppercase;letter-spacing:.06em}
+.pay-confirm-btn{width:100%;padding:.95rem;background:var(--green);color:#fff;border:none;font-family:'Cormorant Garant',serif;font-size:.95rem;font-weight:700;cursor:pointer;border-radius:var(--radius);transition:all .2s;text-transform:uppercase;letter-spacing:.06em}
 .pay-confirm-btn:hover{background:#145c31}
 .pay-confirm-btn:disabled{background:#aaa;cursor:not-allowed}
 .pay-status{text-align:center;padding:1.5rem 0}
@@ -667,7 +667,7 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 /* ── DASHBOARD ── */
 .dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1.5rem}
 .dash-stat{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem}
-.dash-stat-val{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--dark)}
+.dash-stat-val{font-family:'Cormorant Garant',serif;font-size:1.5rem;font-weight:900;color:var(--dark)}
 .dash-stat-label{font-size:.68rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:.15rem}
 .dash-stat-trend{font-size:.7rem;color:var(--green);margin-top:.2rem}
 .dash-chart-wrap{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:1rem}
@@ -751,18 +751,18 @@ footer p{font-size:.78rem;color:#555;margin-top:.3rem}
 .mfg-overlay.open{display:flex}
 .mfg-modal{background:var(--white);border-radius:4px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;display:flex;flex-direction:column}
 .mfg-head{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);background:var(--dark);flex-shrink:0}
-.mfg-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--gold)}
+.mfg-title{font-family:'Cormorant Garant',serif;font-size:1.05rem;font-weight:700;color:var(--gold)}
 .mfg-body{padding:1.75rem}
 .mfg-screen{display:none}
 .mfg-screen.active{display:block}
 .mfg-avatar{font-size:2.2rem;text-align:center;margin-bottom:.75rem}
-.mfg-screen-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--dark);text-align:center;margin-bottom:.4rem}
+.mfg-screen-title{font-family:'Cormorant Garant',serif;font-size:1.1rem;font-weight:700;color:var(--dark);text-align:center;margin-bottom:.4rem}
 .mfg-screen-sub{font-size:.82rem;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
 .mfg-form .fg{margin-bottom:.85rem}
 .mfg-form label{display:block;font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);margin-bottom:.3rem;font-weight:500}
 .mfg-form input,.mfg-form select,.mfg-form textarea{width:100%;padding:.65rem 1rem;border:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--dark);border-radius:var(--radius);outline:none;transition:border-color .2s}
 .mfg-form input:focus,.mfg-form select:focus{border-color:var(--gold)}
-.mfg-submit-btn{width:100%;padding:.85rem;background:var(--dark);color:var(--gold);border:none;font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;cursor:pointer;border-radius:var(--radius);transition:all .2s;text-transform:uppercase;letter-spacing:.07em;margin-top:.5rem}
+.mfg-submit-btn{width:100%;padding:.85rem;background:var(--dark);color:var(--gold);border:none;font-family:'Cormorant Garant',serif;font-size:.9rem;font-weight:700;cursor:pointer;border-radius:var(--radius);transition:all .2s;text-transform:uppercase;letter-spacing:.07em;margin-top:.5rem}
 .mfg-submit-btn:hover{background:var(--gold);color:var(--dark)}
 .mfg-link{font-size:.78rem;color:var(--muted);text-align:center;margin-top:.75rem;cursor:pointer}
 .mfg-link span{color:var(--gold);text-decoration:underline}
@@ -3307,7 +3307,7 @@ function processPayment(){
     const orderId = 'SCM-2026-'+(Math.floor(Math.random()*900)+100);
     status.innerHTML = `
       <div class="pay-success-icon">✅</div>
-      <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:.4rem">Paiement confirmé !</div>
+      <div style="font-family:'Cormorant Garant',serif;font-size:1.1rem;font-weight:700;margin-bottom:.4rem">Paiement confirmé !</div>
       <div style="font-size:.85rem;color:var(--muted);line-height:1.6">Votre commande a été enregistrée.<br>Vous recevrez une confirmation sur WhatsApp.</div>
       <div class="pay-ref">Référence : <strong>${ref}</strong> · Commande : <strong>${orderId}</strong></div>
       <button onclick="closeModal('pay-overlay');cart=[];updateCartBadge();renderCart();" style="margin-top:1.25rem;padding:.7rem 1.5rem;background:var(--dark);color:var(--gold);border:none;border-radius:var(--radius);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500">Fermer ✕</button>`;
